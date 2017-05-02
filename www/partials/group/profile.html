@@ -2,12 +2,9 @@
     <ion-content class=" gray-back">
         <div class="list">
             <a class="item item-avatar">
-                <img ng-src="{{doctor.photoUrl}}">
-                <!-- <h2 style="display:inline-block;"> -->
-                {{doctor.name}}
-               <!--  </h2> -->
-               &nbsp;&nbsp;{{doctor.title}}
-                <!-- <div style="display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon ion-android-person"></i></div> -->
+                <img ng-src="img/avatar.png">
+                <h2 style="display:inline-block;">{{doctor.name}}</h2>
+                <div style="display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon ion-android-person"></i></div>
             </a>
         </div>
        <!--  <div class="list margin-list">
@@ -16,28 +13,22 @@
             </div>
         </div> -->
         <div class="list margin-list">
-            
-            <div class="item" ng-click="">
+            <div class="item" href="#">
+                职称
+                <span class="item-note">{{doctor.title}}</span>
+            </div>
+            <a class="item" ng-click="showQRCode()">
                 医院
                 <span class="item-note">{{doctor.workUnit}}</span>
 
 
-            </div>
-            <div class="item" ng-click="">
+            </a>
+            <a class="item" ng-click="showQRCode()">
                 科室
                 <span class="item-note">{{doctor.department}}</span>
 
-            </div>
-            <div class="item">
-                擅长 
-                <span class="item-note">{{doctor.major}}</span>
-            </div>
-            <div class="item" ng-click="">
-                简介
-                <span class="item-note">{{doctor.description}}</span>
-
-            </div>
-            <a style="width:120px;text-align:center;box-shadow: 1px 1.5px 3px #aaa;font-size:1.1em;padding:10px 16px;margin:20px auto" class="item" ng-hide='isme' ng-click="goChat()">
+            </a>
+            <a style="width:120px;text-align:center;box-shadow: 1px 1.5px 3px #aaa;font-size:1.1em;padding:10px 16px;margin:20px auto" class="item" ng-click="goChat()">
             发消息
             </a>
         </div>

@@ -1,64 +1,62 @@
 <ion-header-bar align-title="center" class="bar-positive">
-    <div class="buttons">
-        <button class="button button-icon ion-ios-arrow-left" ng-click="$ionicGoBack()">
-        </button>
+  <div class="buttons">
+    <button class="button button-icon ion-ios-arrow-left" ng-click="$ionicGoBack()">
+    </button>
+  </div>
+  <div ng-switch="type">
+    <div ng-switch-when="invite">
+      <div class="h1 title login-title"></div>
     </div>
-    <div ng-switch="type">
-        <div ng-switch-when="invite">
-            <div class="h1 title login-title" ></div>
-        </div>
-        <div ng-switch-when="about">
-            <div class="h1 title login-title" >个人设置</div>
-        </div>
-        <div ng-switch-when="user">
-            <div class="h1 title login-title" >用户须知</div>
-        </div>
-        <div ng-switch-when="userprotocol">
-            <div class="h1 title login-title" >用户协议</div>
-        </div>
-        <div ng-switch-when="private">
-            <div class="h1 title login-title" >隐私政策</div>
-        </div>
-        <div ng-switch-when="resetpassword">
-            <div class="h1 title login-title" >重置密码</div>
-        </div>
+    <div ng-switch-when="about">
+      <div class="h1 title login-title">个人设置</div>
     </div>
+    <div ng-switch-when="user">
+      <div class="h1 title login-title">用户须知</div>
+    </div>
+    <div ng-switch-when="userprotocol">
+      <div class="h1 title login-title">用户协议</div>
+    </div>
+    <div ng-switch-when="private">
+      <div class="h1 title login-title">隐私政策</div>
+    </div>
+    <div ng-switch-when="resetpassword">
+      <div class="h1 title login-title">重置密码</div>
+    </div>
+  </div>
 </ion-header-bar>
 <ion-view>
-    <ion-content>
-        <p ng-switch="type">
+  <ion-content>
+    <div ng-switch="type">
             <span ng-switch-when="about">
               个人设置文档...
             </span>
-            <span ng-switch-when="user">
+      <span ng-switch-when="user">
                用户须知文档...
             </span>
-            <span ng-switch-when="userprotocol">
+      <span ng-switch-when="userprotocol">
                用户协议文档...
             </span>
-            <span ng-switch-when="private">
+      <span ng-switch-when="private">
                隐私政策文档...
             </span>
-            <span ng-switch-when="resetpassword">
-                <div class="list list-inset">
-                    <label class="item item-input">
-                        <span class="input-label">输入旧密码</span>
-                        <input type="password" ng-model="oldPW">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label">输入新密码</span>
-                        <input type="password" ng-model="newPW">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label">确认新密码</span>
-                        <input type="password" ng-model="confirmPW">
-                    </label>
-                    <span>{{changePasswordStatus}}</span>
-                    <button class="button button-block button-positive" ng-click=resetPassword(oldPW,newPW,confirmPW)>
-                        确定
-                    </button>
-                </div>
-            </span>
-        </p>
-    </ion-content>
+      <div class="list list-inset" ng-switch-when="resetpassword">
+        <label class="item item-input" style="border:1px solid #6ac4f8;border-radius: 5px">
+          <span class="input-label">输入旧密码</span>
+          <input type="password" ng-model="oldPW">
+        </label>
+        <label class="item item-input" style="border:1px solid #6ac4f8;border-radius: 5px;margin-top: 10px">
+          <span class="input-label">输入新密码</span>
+          <input type="password" ng-model="newPW">
+        </label>
+        <label class="item item-input" style="border:1px solid #6ac4f8;border-radius: 5px;margin-top: 10px">
+          <span class="input-label">确认新密码</span>
+          <input type="password" ng-model="confirmPW">
+        </label>
+        <span>{{changePasswordStatus}}</span>
+        <button class="button button-block button-positive login_btn" ng-click=resetPassword(oldPW,newPW,confirmPW)>
+          确定
+        </button>
+      </div>
+    </div>
+  </ion-content>
 </ion-view>

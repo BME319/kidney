@@ -1,24 +1,56 @@
-<ion-view show-tabs view-title="咨询">
-<!--     <ion-nav-bar class="bar-positive">
-        <ion-nav-buttons side="left">
-            <a class="button button-icon icon ion-qr-scanner" ng-click="qrscan()"></a>
-        </ion-nav-buttons>
-        <ion-nav-buttons side="right">
-            <a class="button button-icon icon ion-android-mail" ng-click="popover.show($event)"></a>
-        </ion-nav-buttons>
-    </ion-nav-bar> -->
-    <ion-content has-bouncing="true" overflow-scroll="false">  
-        <div class="blank-h12"></div>
-        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">           
-        </ion-refresher>
-	    <div>进行中</div>
+<ion-view show-tabs>
+
+    <ion-content has-bouncing="true" overflow-scroll="false">
+      <div class="bar bar-header item-input-inset bg-6a" style="height:60px;">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios-search placeholder-icon"></i>
+          <input type="search" placeholder="搜索" ng-model="query.name">
+
+        </label>
+        <span ng-click="openPopover($event)" style="display: inline-block;width: 1rem; margin-left: 10px;"><i class="icon ion-navicon" style="font-size: 32px;vertical-align: middle;color: #fff"></i></span>
+      </div>
+      <div class="bar  item-input-inset  text-center" style="padding:0;background: #FFFFFF">
+        <div class="row">
+          <div class="col"></div>
+          <div class="col"><a ng-class="{'high-light':parms.isEnd}" class="consult-tab" style="" ng-click="showConduct()">进行中</a></div>
+          <div class="col"><a ng-class="{'high-light':!parms.isEnd}" class="consult-tab" style="" ng-click="showEnd()">已完成</a></div>
+          <div class="col"></div>
+        </div>
+      </div>
+      <div ng-if="parms.isEnd">
+        <h4 class="m-h4">正在咨询中人数</h4>
+        <div class="list bg-fa">
+         <a class="item item-avatar context-pading m-b5 br-none fc-4c" href="#">
+            <img class="avatar-icon" src="/img/avatar.png">
+            <div><span>张三</span><span style="float: right">2017-04-23</span></div>
+            <em class="m-em">病情描述:下午做了拔牙手术，现在好疼怎么办办办</em>
+          </a>
+        </div>
+      </div>
+      <div ng-if="!parms.isEnd">
+        <h4 class="m-h4">已完成咨询人数{{patients.length}}</h4>
+        <div class="list bg-fa">
+          <a class="item item-avatar context-pading m-b5 br-none fc-4c" ng-click="itemClick($event,p.patientId.userId)" ng-repeat="p in patients | filter:query.name">
+            <img class="avatar-icon" src="{{p.patientId.photoUrl|imgUrl:'doctor'}}" id="diddetail">
+            <div><span>{{p.patientId.name}}</span><span style="float: right">{{p.time|dateFormat:"YYYY-MM-DD h:m"}}</span></div>
+            <em class="m-em">{{p.topic}}</em>
+          </a>
+        </div>
+      </div>
+
+
+
+
+
+
+	 <!--   <div>进行中</div>
         <div class="card">
             <a href="#/tab/doing" class="subdued">
                 <div class="item item-text-wrap"">
 				    <i class="icon ion-calendar"></i>
 					{{riqi}}&nbsp;&nbsp;&nbsp;
                     {{doctor.a}}位  等待咨询患者
-                    <!-- 1位  等待咨询患者 -->
+                    &lt;!&ndash; 1位  等待咨询患者 &ndash;&gt;
 					<i class="icon ion-chevron-right mine-msg-right"></i>
                 </div>
             </a>
@@ -33,6 +65,6 @@
 					<i class="icon ion-chevron-right mine-msg-right"></i>
                 </div>
             </a>
-        </div>
+        </div>-->
     </ion-content>
 </ion-view>

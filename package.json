@@ -17,9 +17,6 @@
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
     "cordova-plugin-console",
-    "cordova-plugin-file",
-    "cordova-plugin-camera",
-    "cordova-plugin-file-transfer",
     "cordova-plugin-statusbar",
     "cordova-plugin-device",
     "cordova-plugin-splashscreen",

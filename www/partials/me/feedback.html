@@ -1,30 +1,46 @@
 <ion-view view-title="我的评价">
 
-<!--       <ion-nav-buttons side="left">
-            <a class="button button-icon icon ion-chevron-left" href="#/tab/me"></a>
-      </ion-nav-buttons> -->
-      <ion-nav-bar class="bar-positive nav-title-slide-ios7" align-title="center">
-          <ion-nav-back-button class="button-clear">
-            <i class="ion-chevron-left"></i>
-        </ion-nav-back-button>
-        </ion-nav-bar>
-    <ion-content>
-        <ion-item>
-            <span class="msg">我的评分</span>
-            <p class="myinfo-msg-right" style="color:red;">{{doctor.score}}</p>
-        </ion-item>
-        <ion-item>
-        <span class="input-label" style="margin-left:10px;color:#0066FF;"><i class="icon ion-ios-star" style="margin-right:5px;font-size:20px" ></i>我的评价</span>
-        </ion-item>
-        <div class="list">
-			<a class="item item-thumbnail-left" ng-repeat="fb in feedbacks">
-				<img ng-src="fb.photoUrl">
-                <h2>{{fb.patientId.name}}</h2>
-                <p class="friend-detail-p">评分：{{fb.totalScore}}</p>
-                <p class="friend-detail-p">{{fb.content}}</p>
-				<p class="friend-detail-p">评论时间：{{fb.time}}</p>
+  <ion-nav-bar class="bar-positive " align-title="center">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content>
+    <ion-item>
 
-			</a>
+      <i class="iconfont icon-wujiaoxing icon-wujiaoxing1"></i>
+      我的评分
+      <span class="myinfo-msg-right" style="color:red;">{{doctor.score}}</span>
+    </ion-item>
+    <ion-item>
+      <span class="input-label"><i class="iconfont icon-jiaoyilishi icon-jiaoyilishi "></i>我的评价</span>
+    </ion-item>
+
+
+ <!--   <div class="list">
+
+      <a class="item item-thumbnail-left " href="#">
+        <img  class="mgleft-10" src="http://www.runoob.com/try/demo_source/blue-album.jpg">
+        <div class="content-style">
+          <span  class="span-text">Weezer</span>
+          <span style="text-align: right;float: right;font-size: 15px;color: #333333" >2017-04-20</span>
         </div>
-    </ion-content>
+        <p class="friend-detail-p mg-top10">评分:1.0</p>
+        <p class="friend-detail-p">描述：这个医生不错很好</p>
+      </a></div>-->
+
+    <div class="list">
+      <a class="item item-thumbnail-left" ng-repeat="fb in feedbacks">
+        <img  class="mgleft-10" ng-src="fb.photoUrl">
+        <div class="content-style">
+          <span  class="span-text">{{fb.patientId.name}}</span>
+          <span style="text-align: right;float: right;font-size: 15px;color: #333333" >{{fb.time}}</span>
+        </div>
+        <p class="friend-detail-p mg-top10">评分:{{fb.totalScore}}</p>
+        <p class="friend-detail-p">描述：{{fb.content}}</p>
+
+
+      </a>
+    </div>
+  </ion-content>
 </ion-view>

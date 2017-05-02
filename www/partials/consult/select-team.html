@@ -1,21 +1,25 @@
 <ion-view hide-tabs view-title="选择团队">
-    <div class="bar bar-subheader item-input-inset bar-light">
-        <div class="item-input-wrapper">
-            <i style="color:#3d6399;font-size:1.6em" class="icon ion-android-search placeholder-icon"></i>
-            <input type="search" ng-model="query.name" ng-change="startSearch(query)" placeholder="搜索团队">
-            <i style="color:#EF473A;font-size:1.6em" class="icon ion-android-close placeholder-icon ng-hide" ng-hide="clearIt" ng-click="clearSearch()"></i>
+    <ion-content class="gray-back">
+        <div class="bar item-input-inset bar-light">
+            <div class="item-input-wrapper">
+                <i style="color:#3d6399;font-size:1.6em" class="icon ion-android-search placeholder-icon"></i>
+                <input type="search" ng-blur="doResume()" ng-model="query.PatientName" ng-change="startSearch(query)" placeholder="搜索团队">
+                <i style="color:#EF473A;font-size:1.6em" class="icon ion-android-close placeholder-icon" ng-hide="clearIt" ng-click="clearSearch()"></i>
+            </div>
         </div>
-        <!-- <button class="button button-clear button-positive" ng-click="docSearch()">
-            {{query.name?'取消':'搜索'}}
-        </button> -->
-    </div>
-    <ion-content class="has-subheader gray-back">
         <div class="list">
-            <a ng-repeat="team in teams | filter:query.name" class="item item-avatar" ng-click="sendTo(team)">
-                <img ng-src="{{team.photoUrl|imgUrl:'group'}}">
-                <h2>{{team.name}} <span>{{team.teamId}}</span></h2>
-                    <div style="display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon ion-android-person"></i><span>{{team.members.length+1}}</span></div>
-                    <div style="display:inline-block;"><span style="display:inline-block;margin:0 0.2em 0 0.5em ;background-color:#AAA;color:#FFF">创建者</span>{{team.sponsorName}}</div>
+            <a ng-repeat="team in teamst" class="item item-avatar" ng-click="sendTo(team)" >
+            <!-- href="#/tab/groups/chat/0/{{team.groupId}}/{{team.groupId}}" -->
+                <img ng-src="img/avatar.png">
+                <h2>{{team.name}}</h2>
+                <div style="display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon ion-android-person"></i><span>{{team.num}}</span></div>
+                <p>{{team.major}}</p>
+            </a>
+            <a ng-repeat="team in teams" class="item item-avatar" ng-click="sendTo(team)" >
+            <!-- href="#/tab/groups/chat/0/{{team.groupId}}/{{team.groupId}}" -->
+                <img ng-src="img/avatar.png">
+                <h2>{{team.name}}</h2>
+                <div style="display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon ion-android-person"></i><span>{{team.number}}</span></div>
                 <p>{{team.description}}</p>
             </a>
         </div>

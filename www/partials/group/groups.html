@@ -1,9 +1,12 @@
-<ion-view show-tabs title="交流">
-    <ion-nav-buttons side="right">
-<!--         <a class="button button-icon icon ion-android-search" ng-hide="params.showSearch" ng-click="search()"></a> -->
-        <a class="button button-icon icon ion-android-add" ng-click="popover.show($event)"></a>
-    </ion-nav-buttons>
-<!--     <div ng-show="params.showSearch" class="bar item-input-inset bar-light ng-hide" style="position:absolute;top:44px;z-index:999">
+<ion-view show-tabs title="我的团队">
+  <ion-nav-bar class="bar-positive" align-title="center">
+
+  <ion-nav-buttons class="bar-dark nav-title-slide-ios7" side="right" >
+    <a class="iconfont icon-sousuo-sousuo icon-sousuo-sousuo1" ng-click="search()"></a>
+    <a class="iconfont icon-add1 icon-add11" ng-click="popover.show($event)"></a>
+  </ion-nav-buttons>
+</ion-nav-bar>
+    <div ng-show="params.showSearch" class="bar item-input-inset ng-hide" style="position:absolute;top:44px;z-index:999">
         <div class="item-input-wrapper">
             <i style="color:#3d6399;font-size:1.6em" class="icon ion-android-search placeholder-icon"></i>
             <input type="search" ng-blur="doResume()" ng-model="query.name" ng-change="startSearch(query)" placeholder="搜索团队或医生">
@@ -12,15 +15,28 @@
         <button class="button button-clear button-positive" ng-click="closeSearch()">
             确认
         </button>
-    </div> -->
-    <div class="bar bar-subheader item-input-inset bar-light text-center" style="padding:0;">
-        <a ng-class="{'high-light':params.isTeam}" class="item col-50 " style="height:50px" ng-click="showTeams()">团队</a>
-        <a ng-class="{'high-light':!params.isTeam}" class="item col-50 " style="border-right: 0px;height:50px" ng-click="showDocs()">医生</a>
     </div>
-    <ion-content class="gray-back has-subheader content-item-list">
+    <div class="bar bar-subheader item-input-inset  text-center br-box" style="padding:0;">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col">
+          <a ng-class="{'high-light':params.isTeam}" class="consult-tab" style="" ng-click="showTeams()">团队</a>
+        </div>
+        <div class="col">
+          <a ng-class="{'high-light':!params.isTeam}" class="consult-tab" style="" ng-click="showDocs()">医生</a>
+        </div>
+        <div class="col"></div>
+      </div>
+
+
+
+
+
+    </div>
+    <ion-content class="has-subheader content-item-list ">
         <div ng-if="!params.showSearch && params.isTeam">
             <!-- 团队 -->
-            <div  ng-repeat="team in teams |filter:query | orderBy:'-lastMsgDate'" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" ng-click="itemClick($event,team)">
+            <div  ng-repeat="team in teams |filter:query | orderBy:team.lastMsgDate" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" ng-click="itemClick($event,team)">
                 <img ng-src="{{team.photoUrl|imgUrl:'group'}}">
                 <div style="display:inline-block;width:70%;">
 
@@ -33,27 +49,35 @@
                     <p><span style="color:#ea4335" ng-show="team.unRead">[{{team.unRead}}条未读]</span>{{team.latestMsg}}<span style="color:#FFF">.</span></p>
                 </div>
                 <!--注意 id="discuss" 用于页面跳转 -->
-                <a id="discuss" style="display:inline-block;width:auto;background-color: #00C853;height:100%;float:right;padding:0.4em 0.6em;border-radius: 0.1em;color:#FFF">讨论</a>
+              <div id="discuss" style="display:inline-block;width:auto;background-color: #11c1f3;float:right;padding:0.3em 0.5em;margin-top:10px;border-radius: 0.1em;color:#FFF;position: absolute;right: 15px;top:25px;border-radius: 5px">讨论</div>
             </div>
         </div>
         <!-- 医生 -->
         <div ng-if="!params.showSearch && !params.isTeam">
-            <div class="item item-avatar" ng-repeat="d in doctors | orderBy:'-lastMsgDate'" ng-click="doctorClick($event,d.doctorId)">
+          <div class="item item-avatar context-pading">
+            <img class="avatar-icon" src="http://www.runoob.com/try/demo_source/venkman.jpg">
+            <div> <span class="groud-d">邵阳</span> <span class="groud-d mgleft-10">主任医师</span></div>
+            <h2 class="mg-top5">浙江医院心外科</h2>
+            <p class="mg-top5 p-dordes">评分:9.5 问诊量:100</p>
+            <div id="profile" style="display:inline-block;width:auto;background-color: #11c1f3;float:right;padding:0.3em 0.5em;margin-top:10px;border-radius: 0.1em;color:#FFF;position: absolute;right: 15px;top:25px;border-radius: 5px">详情</div>
+          </div>
+          <div class="item item-avatar context-pading" ng-repeat="d in doctors | orderBy:d.lastMsgDate" ng-click="doctorClick($event,d.doctorId)">
+            <img class="avatar-icon" src="{{d.doctorId.photoUrl|imgUrl:'doctor'}}">
+            <div> <span class="groud-d">{{d.doctorId.title}}</span> <span class="groud-d mgleft-10">{{d.doctorId.workUnit}}</span></div>
+            <h2 class="mg-top5">{{d.doctorId.department}}</h2>
+            <p class="mg-top5 p-dordes">评分:9.5 问诊量:{{d.doctorId.count2}}</p>
+            <div id="profile" style="display:inline-block;width:auto;background-color: #11c1f3;float:right;padding:0.3em 0.5em;margin-top:10px;border-radius: 0.1em;color:#FFF;position: absolute;right: 15px;top:25px;border-radius: 5px">详情</div>
+          </div>
+
+            <div class="item item-avatar" ng-repeat="d in doctors | orderBy:d.lastMsgDate" ng-click="doctorClick($event,d.doctorId)">
                 <img src="{{d.doctorId.photoUrl|imgUrl:'doctor'}}">
 
-                <div style="display:inline-block;width:70%;">
-                    
-                    {{d.doctorId.name}}<span style="color:#11c1f3"> {{d.doctorId.title}}</span>
-                    <p><span>{{d.doctorId.workUnit}}</span> <span>{{d.doctorId.department}}</span> </p>
-                    <p><span><i style="color:#FFD600" class="icon ion-android-star"></i>{{d.doctorId.score}}</span> 咨询:{{d.doctorId.count2}} 问诊:{{d.doctorId.count2}} </p>
-                    <p>擅长：{{d.doctorId.major}}</p>
-                    <p><span style="color:#ea4335" ng-show="d.unRead">[{{d.unRead}}条未读]</span>{{d.latestMsg}}<span style="color:#FFF">.</span></p>
-                </div>
+
                 <!--注意 id="profile" 用于页面跳转 -->
                 <div style="display:inline-block;width:30%;vertical-align: top;padding-right:10px">
-                    
+
                 <div style="float:right;" class="doctor-msg-left balanced balanced-border">专家团队</div>
-                <div id="profile" style="display:inline-block;width:auto;background-color: #11c1f3;height:100%;float:right;padding:0.3em 0.5em;margin-top:10px;border-radius: 0.1em;color:#FFF">详情</div>
+                  <div id="profile" style="display:inline-block;width:auto;background-color: #11c1f3;float:right;padding:0.3em 0.5em;margin-top:10px;border-radius: 0.1em;color:#FFF;position: absolute;right: 15px;top:25px;border-radius: 5px">详情</div>
                 </div>
 
             </div>
