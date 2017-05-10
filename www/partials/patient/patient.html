@@ -28,12 +28,9 @@
                 <span>今日新增：{{Todays.length}}</span>
             </a>
         </div>
-
-        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
-
         <div ng-if="params.isPatients" class="list">
             <div ng-repeat="p in patients |orderBy:filter.propertyName" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" ng-click="getPatientDetail(p.patientId.userId)">
-                <img ng-src="{{p.patientId.photoUrl||'img/patient.png'}}">
+                <img ng-src={{p.patientId.photoUrl|imgUrl:'patient'}}>
                     <div style="display:inline-block;width:70%;">
                         <h2>{{p.patientId.name}}</h2>
                     <!-- <span>{{p.patientId.gender | filterGender}}</span><span>{{p.patientId.birthday | filterAge}}岁</span> -->
@@ -45,14 +42,14 @@
                         <i class="y-message bg-f7">警报</i>
                         <i class="y-message bg-12">血压</i>  -->
                         <!-- <div style="display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon ion-ios-flame"></i>
-                        </div>                    
+                        </div>
                         <div style="display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon ion-android-hand"></i>
                         </div>
                         <div style="display:inline-block;background-color:#FFFF66;border-radius: 0.3em;color:#FF0000;padding:0 3px"><i style="font-size:1em" class="icon ion-android-person"></i>
                         </div>
                         <div style="display:inline-block;background-color: #FF0000;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon icon ion-android-favorite"></i>
                         </div>    -->
-                          
+
                         <!-- <p>是否VIP：{{p.patientId.VIP | filterVIP}}</p>  -->
                     </div>
             </div>
@@ -67,11 +64,11 @@
 
                         <div style="display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px">
                             <i style="font-size:1em" class="icon ion-android-star" ng-if="t.patientId.VIP==1"></i>
-                        </div> 
+                        </div>
 
                     </div>
             </div>
-        </div>        
+        </div>
 
 
     </ion-content>

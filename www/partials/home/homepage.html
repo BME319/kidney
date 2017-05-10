@@ -1,10 +1,10 @@
-<ion-view show-tabs view-title='主页' hide-nav-bar="false">
-	<ion-nav-bar class="bar-positive" align-title="center">
+<ion-view show-tabs view-title='医生APP' hide-nav-bar=false>
+	<ion-nav-bar class="bar-positive bg-6a" align-title="center">
 		<ion-nav-buttons side="left">
-			<!-- <a class="button button-icon icon ion-qr-scanner" ng-click=""></a> -->
+			<a class="button  iconfont icon-saomiaoerweima icon-saomiaoerweima1" ng-click=""></a>
 	    </ion-nav-buttons>
 		<ion-nav-buttons side="right">
-			<a class="button button-icon icon ion-android-mail" href="#/messages"></a>
+			<a class="button  iconfont icon-lingdang icon-saomiaoerweima1" href="#/messages"></a>
 	    </ion-nav-buttons>
     </ion-nav-bar>
 	<ion-slides  options="options" slider="data.slider" style="margin-top: 44px;height: 100px;">
@@ -29,14 +29,10 @@
 			<span style="vertical-align: sub">我</span>
 		</a>
 	</div> -->
-	<!-- <a class="button" style="z-index: 20;" ng-click="importDocs()">import user 2 forum</a> -->
+
 	<ion-content style="padding:0px;" ng-style="isWriting">
 
 	    <iframe id="bbsframe" ng-src ='{{navigation}}' height="100%" width="100%">
-			<p>Your browser does not support iframes.</p>
-	    </iframe>
-
-	    <iframe id="bbsframe_login" ng-src ='{{navigation_login}}' height="100%" width="100%" ng-show=false>
 			<p>Your browser does not support iframes.</p>
 	    </iframe>
 	</ion-content>

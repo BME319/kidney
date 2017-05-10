@@ -1,41 +1,45 @@
 <ion-view hide-tabs view-title="新建团队">
-    <!--     <ion-nav-buttons side="left">
-      <button class="button button-icon icon ion-qr-scanner " ng-click="QRscan()"></button>
-    </ion-nav-buttons> -->
-    <!--    <ion-nav-buttons side="right">
-      <a class="button button-icon icon ion-android-add" href="#/tab/groups/search" ng-click="popover.show($event)"></a>
-    </ion-nav-buttons> -->
-    <ion-content class="gray-back">
-        <div style="background-color: #FFF" class="list">
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">团队名</span>
-                <input type="text" ng-model="team.name" placeholder="请输入">
-            </label>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">团队介绍</span>
-                <input type="text" ng-model="team.description" placeholder="请输入">
-            </label>
-   <!--          <label class="item item-input item-stacked-label">
-                <span class="input-label">key2</span>
-                <input type="text" placeholder="请输入">
-            </label> -->
-        </div>
-        <div class="item">添加成员</div>
-        <div style="background-color: #FFF;border-bottom: 1px #ccc solid" class="padding">
-            <div class="avatar-item" ng-repeat="member in members">
-                <img src="{{member.photoUrl || 'img/doctor.png'}}" />
-                <div>{{member.name}}</div>
-            </div>
-            <div style="vertical-align: top" class="avatar-item" ng-click="addMember()">
-                <div style="width:100%;padding: 10%;box-sizing: border-box;position: relative;border:1px solid #aaa;font-size:3em;color:#aaa">
-                    <i class="icon ion-android-add"></i>
-                </div>
-            </div>
-        </div>
-            <a style="width:120px;text-align:center;box-shadow: 1px 1.5px 3px #aaa;font-size:1.1em;padding:10px 16px;margin:20px auto" ng-click="confirm()"    class="item" >
-                创建
-            </a>
+  <ion-nav-bar class="bar-positive " align-title="center">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="goback()"></button>
+    </ion-nav-buttons>
+    <!-- 		<ion-nav-back-button class="button-clear">
+                <i class="ion-chevron-left"></i>
 
-    </ion-content>
+            </ion-nav-back-button> -->
+  </ion-nav-bar>
+  <ion-content class="gray-back">
+    <div style="background-color: #FFF" class="list">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">团队名</span>
+        <input type="text" ng-model="team.name" placeholder="请输入">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">团队介绍</span>
+        <input type="text" ng-model="team.description" placeholder="请输入">
+      </label>
+      <!--          <label class="item item-input item-stacked-label">
+                   <span class="input-label">key2</span>
+                   <input type="text" placeholder="请输入">
+               </label> -->
+    </div>
+    <div class="item">添加成员</div>
+    <div style="background-color: #FFF;border-bottom: 1px #ccc solid" class="padding">
+      <div class="avatar-item" ng-repeat="member in members">
+        <img src="{{member.url}}"/>
+        <div>{{member.name}}</div>
+      </div>
+      <div style="vertical-align: top" class="avatar-item" ng-click="addMember()">
+        <div
+          style="width:100%;padding: 10%;box-sizing: border-box;position: relative;border:1px solid #aaa;font-size:3em;color:#aaa">
+          <i class="icon ion-android-add"></i>
+        </div>
+      </div>
+    </div>
+    <button  class="button   login_btn login_outbtn" ng-click="confirm()">创建</button>
+
+
+
+  </ion-content>
 </ion-view>
 

@@ -1,10 +1,41 @@
 <ion-view view-title="患者详情">
-	<ion-nav-bar class="bar-positive" align-title="center">
-      <ion-nav-buttons side="left">
-        <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="goback()"></button>
-      </ion-nav-buttons>
-<!-- 		<ion-nav-back-button class="button-clear">
-			<i class="ion-chevron-left"></i>
+  <ion-nav-bar class="bar-positive " align-title="center">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <div class="button-bar bar-positive " style="margin-top: 40px;">
+    <a class="button" href="#/tab/DoctorDiagnose">
+      <span class="br-e9" style="vertical-align: sub">医生诊断</span>
+    </a>
+    <a class="button" href="#/tab/TaskSet">
+      <span class="br-e9" style="vertical-align: sub">治疗方案</span>
+    </a>
+    <a class="button" href="#/tab/TestRecord">
+      <span class="br-e9" style="vertical-align: sub">测量记录</span>
+    </a>
+    <a class="button" href="#/tab/health">
+      <span class="br-e9" style="vertical-align: sub">健康信息</span>
+    </a>
+  </div>
+  <ion-content class="has-header" style="margin-top: 42px;">
+    <div class="list">
+      <ion-item class="item item-avatar pati-message">
+        <div class="patient-active img-cen">
+          <div>
+            <img ng-src={{patient.photoUrl|imgUrl:'patient'}}>
+          </div>
+        </div>
+        <button class="button button-small button-positive pat-ts bg-f7" ng-click="SendInsMsg()">推送保险</button>
+        <div class="row pd-0">
+          <div class="col pd-0">
+            <p class="m-b10"><span class="f16 fc-33">{{patient.name}}</span><span class="f16 fc-33">&nbsp;&nbsp;&nbsp;{{patient.gender | filterGender}}</span>&nbsp;&nbsp;&nbsp;<span class="f16 fc-33">{{patient.birthday | filterAge}}岁</span></p>
+            <p>身份证号：{{patient.IDNo}}</p>
+            <p>地区：{{patient.address.province}} {{patient.address.city}}</p>
+            <p>是否VIP：{{patient.VIP | filterVIP}}</p>
+            <p>是否有高血压：{{patient.hypertension | filterhypertension}}</p>
+            <!--<p>保险推送次数：{{Ins.count}}</p>-->
+          </div>
 
 		</ion-nav-back-button> -->
     </ion-nav-bar>
@@ -49,7 +80,19 @@
 				 <p>就诊诊断 {{di.content}}</p>
 			</ion-item>				
         </div>
-    </ion-content>
-</ion-view>
 
+      </ion-item>
+
+      <ion-item class="bg-f5 f-18 fc-33">
+        最近就诊信息
+      </ion-item>
+      <ion-item ng-repeat="di in diagnosisInfo" class="diagnosisInfo">
+        <p class="fc-6b ">就诊日期 : {{di.time | dateFormat:"YYYY-MM-DD"}}</p>
+        <p class="fc-6b ">就诊医院 : {{di.doctor.workUnit}}</p>
+        <p class="fc-6b ">就诊科室 : {{di.doctor.department}}</p>
+        <p class="fc-6b >就诊诊断 : {{di.content}}</p>
+      </ion-item>
+    </div>
+  </ion-content>
+</ion-view>
 
