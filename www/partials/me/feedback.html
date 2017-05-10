@@ -26,7 +26,37 @@
                 <p class="friend-detail-p">{{fb.content}}</p>
 				<p class="friend-detail-p">评论时间：{{fb.time|dateFormat:"YYYY-MM-DD h:m"}}</p>
 
-			</a>
+      <i class="iconfont icon-wujiaoxing icon-wujiaoxing1"></i>
+      <span>我的评分</span>
+      <span class="myinfo-msg-right" style="color:red;">{{doctor.score}}</span>
+    </ion-item>
+
+
+
+ <!--   <div class="list">
+
+      <a class="item item-thumbnail-left " href="#">
+        <img  class="mgleft-10" src="http://www.runoob.com/try/demo_source/blue-album.jpg">
+        <div class="content-style">
+          <span  class="span-text">Weezer</span>
+          <span style="text-align: right;float: right;font-size: 15px;color: #333333" >2017-04-20</span>
         </div>
-    </ion-content>
+        <p class="friend-detail-p mg-top10">评分:1.0</p>
+        <p class="friend-detail-p">描述：这个医生不错很好</p>
+      </a></div>-->
+
+    <!--<div class="list">
+      <a class="item item-thumbnail-left" ng-repeat="fb in feedbacks">
+        <img  class="mgleft-10" ng-src="fb.photoUrl">
+        <div class="content-style">
+          <span  class="span-text">{{fb.patientId.name}}</span>
+          <span style="text-align: right;float: right;font-size: 15px;color: #333333" >{{fb.time}}</span>
+        </div>
+        <p class="friend-detail-p mg-top10">评分:{{fb.totalScore}}</p>
+        <p class="friend-detail-p">描述：{{fb.content}}</p>
+
+
+      </a>
+    </div>-->
+  </ion-content>
 </ion-view>

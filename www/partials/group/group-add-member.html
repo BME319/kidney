@@ -1,29 +1,32 @@
 <ion-view hide-tabs view-title="选择医生">
-<ion-nav-buttons side="right">
-      <button class="button button-icon" ng-click="confirmAdd()">添加</button>
+  <ion-nav-bar class="bar-positive " align-title="center">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
     </ion-nav-buttons>
+  </ion-nav-bar>
 
-<div class="bar item-input-inset bar-light" style="position:absolute;top:44px;z-index:999">
+<div class="bar item-input-inset " style="position:absolute;top:44px;z-index:999">
         <div class="item-input-wrapper">
             <i style="color:#3d6399;font-size:1.6em" class="icon ion-android-search placeholder-icon"></i>
             <input type="search" ng-blur="doResume()" ng-model="search.name" placeholder="搜索医生姓名">
             <i style="color:#EF473A;font-size:1.6em" class="icon ion-android-close placeholder-icon" ng-click="clearSearch()"></i>
         </div>
-        <button  class="button button-clear button-positive" ng-click="goSearch()">
+      <!--  <button ng-show="issearching" class="button button-clear button-positive ng-hide" ng-click="goSearch()">
             搜索
         </button>
        <!--  <button ng-show="isnotsearching" class="button button-clear button-positive ng-hide" ng-click="closeSearch()">
-            返回
-        </button> -->
+            返回&nbsp;
+        </button>-->
     </div>
-<div style="padding:4px;position:absolute;top:88px;height:44px;width:100%;margin:0;max-height:30vh;overflow-y: scroll;" ng-hide="params.hidePanel" class="item">
-    <!-- <div style="display:block-inline;width:2em;height:2em;position:relative;margin:2px 4px 2px 0" ng-repeat="member in group.members"> -->
-            <img style="height:2em;width:2em;margin:3px" ng-repeat="member in group.members" src="{{member.photoUrl|| 'img/doctor.png'}}" />
-        <!-- </div> -->
-  </div>
 
-  <ion-content style="padding-top:44px" class="has-subheader gray-back" >
- 
+<!--<div style="padding:4px;position:absolute;top:88px;height:44px;width:100%;margin:0;max-height:30vh;overflow-y: scroll;" ng-hide="params.hidePanel" class="item">
+    &lt;!&ndash; <div style="display:block-inline;width:2em;height:2em;position:relative;margin:2px 4px 2px 0" ng-repeat="member in group.members"> &ndash;&gt;
+            <img style="height:2em;width:2em;margin:3px" ng-repeat="member in group.members" src="{{member.photoUrl|| 'img/doctor.png'}}" />
+        &lt;!&ndash; </div> &ndash;&gt;
+</div>-->
+
+  <ion-content style="" class="has-subheader gray-back" >
+
 <!--   <div class="bar item-input-inset bar-light">
     <div class="item-input-wrapper">
       <i style="color:#3d6399;font-size:1.6em" class="icon ion-android-search placeholder-icon"></i>
@@ -32,6 +35,17 @@
     </div>
   </div>  -->
 <div class="list">
+
+  <div class="item item-avatar">
+    <img src="/img/avatar.png">
+    <span class="patient-title tv-color">专家团队</span>
+    <p class="myp">丁聪  主任医师<p/>
+    <h3 class="m-h3">浙江人民医院心外科</h3>
+    <h3 class="m-h3">评分:9.6  问诊量:88888</h3>
+     <p>擅长:心脏移值</p>
+  </div>
+
+
 
     <div class="item item-avatar" ng-repeat="d in doctors">
         <img src="{{d.photoUrl || 'img/doctor.png'}}">
@@ -42,9 +56,9 @@
             <p><span>评分{{d.score}}</span> 问诊量：{{d.count2}} </p>
             <p>擅长：{{d.major}}</p>
         </div>
-        <div style="display:inline-block;float:right;width:20%;border:none">
+      <!--  <div style="display:inline-block;float:right;width:20%;border:none">
             <ion-checkbox  ng-model="d.check" ng-change="update($index)"></ion-checkbox>
-        </div>
+        </div>-->
     </div>
 </div>
     <ion-infinite-scroll ng-if="moredata" on-infinite="loadMore()" distance="15%" ></ion-infinite-scroll>

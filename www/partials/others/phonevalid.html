@@ -1,15 +1,16 @@
 <ion-view title="手机号验证">
-  <ion-nav-bar class="bar-positive" align-title="center">
-    <ion-nav-back-button class="button-clear">
-    </ion-nav-back-button>
+  <ion-nav-bar class="bar-positive " align-title="center">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+    </ion-nav-buttons>
   </ion-nav-bar>
 
   <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 3px;background-color: #33cd5f;{{barwidth}}" ></div>
-  <ion-content padding="true"  style="" >
+  <ion-content padding="true"  style=" >
 
-        <!-- <div class="row" text-center" style="min-height:100px"> -->
-            
-        <!-- </div> -->
+        <div class="row text-center" style="min-height:100px">
+
+        </div>
         <div class="list list-inset" style="margin-bottom:0">
             <label class="item item-input"  style="border-radius: 5px;border: 1px solid #6ac4f8">
               <span class="input" style="margin-right:16px"><i class="icon ion-android-phone-portrait"></i></span>
@@ -19,7 +20,7 @@
               <span class="input" style="margin-right:16px"><i class="icon ion-ios-locked-outline"></i></span>
               <input type="password" ng-model="Verify.Code" placeholder="验证码" >
             </label>
-        </div>
+          </div>
           <div class="col col-75"><p style="color:#B8B8B8">{{logStatus}}</p></div>
 
 
@@ -30,6 +31,6 @@
             下一步
           </button>
         </div>
-     
+
   </ion-content>
 </ion-view>
