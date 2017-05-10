@@ -1,3 +1,4 @@
+<!--<<<<<<< HEAD
 <ion-view show-tabs>
 
     <ion-content has-bouncing="true" overflow-scroll="false">
@@ -15,7 +16,7 @@
           <div class="col"><a ng-class="{'high-light':!parms.isEnd}" class="consult-tab" style="" href="#/tab/did">已完成</a></div>
         </div>
       </div>
-      <!--<div ng-if="parms.isEnd">
+      &lt;!&ndash;<div ng-if="parms.isEnd">
         <h4 class="m-h4">正在咨询中人数</h4>
         <div class="list bg-fa">
          <a class="item item-avatar context-pading m-b5 br-none fc-4c" href="#">
@@ -24,7 +25,7 @@
             <em class="m-em">病情描述:下午做了拔牙手术，现在好疼怎么办办办</em>
           </a>
         </div>
-      </div>-->
+      </div>&ndash;&gt;
       <div ng-if="!parms.isEnd">
         <h4 class="m-h4">已完成咨询人数{{patients.length}}</h4>
         <div class="list bg-fa">
@@ -41,7 +42,7 @@
 
 
 
-	 <!--   <div>进行中</div>
+	 &lt;!&ndash;   <div>进行中</div>
         <div class="card">
             <a href="#/tab/doing" class="subdued">
                 <div class="item item-text-wrap"">
@@ -49,6 +50,41 @@
 					{{riqi}}&nbsp;&nbsp;&nbsp;
                     {{doctor.a}}位  等待咨询患者
                     &lt;!&ndash; 1位  等待咨询患者 &ndash;&gt;
+					<i class="icon ion-chevron-right mine-msg-right"></i>
+                </div>
+            </a>
+        </div>
+		<div>已完成</div>
+        <div class="card">
+            <a href="#/tab/did" class="subdued">
+                <div class="item item-text-wrap">
+				    <i class="icon ion-android-clipboard"></i>
+                    {{riqi}}&nbsp;&nbsp;&nbsp;
+                    {{doctor.b}}位  已完成咨询
+					<i class="icon ion-chevron-right mine-msg-right"></i>
+                </div>
+            </a>
+        </div>&ndash;&gt;
+    </ion-content>
+</ion-view>
+=======-->
+<ion-view show-tabs view-title="咨询">
+  <ion-nav-bar class="bar-positive" align-title="center">
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+    <ion-content has-bouncing="true" overflow-scroll="false">
+        <div class="blank-h12"></div>
+        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+        </ion-refresher>
+	    <div>进行中</div>
+        <div class="card">
+            <a href="#/tab/doing" class="subdued">
+                <div class="item item-text-wrap"">
+				    <i class="icon ion-calendar"></i>
+					{{riqi}}&nbsp;&nbsp;&nbsp;
+                    {{doctor.a}}位  等待咨询患者
+                    <!-- 1位  等待咨询患者 -->
 					<i class="icon ion-ios-arrow-right mine-msg-right"></i>
                 </div>
             </a>
@@ -63,6 +99,6 @@
 					<i class="icon ion-ios-arrow-right mine-msg-right"></i>
                 </div>
             </a>
-        </div>-->
+        </div>
     </ion-content>
 </ion-view>

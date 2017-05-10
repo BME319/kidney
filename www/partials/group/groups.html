@@ -33,18 +33,18 @@
 
 
     </div>
-    <ion-content class="has-subheader content-item-list ">
+    <ion-content class="has-subheader content-item-list groups" style="margin-top: 10px">
         <div ng-if="!params.showSearch && params.isTeam">
             <!-- 团队 -->
-            <div  ng-repeat="team in teams |filter:query | orderBy:team.lastMsgDate" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" ng-click="itemClick($event,team)">
-                <img ng-src="{{team.photoUrl|imgUrl:'group'}}">
+            <div  ng-repeat="team in teams |filter:query | orderBy:team.lastMsgDate" collection-item-height="94px" class="item item-avatar context-pading" type="item-text-wrap" ng-click="itemClick($event,team)">
+                <img class="avatar-icon"  ng-src="{{team.photoUrl|imgUrl:'group'}}">
                 <div style="display:inline-block;width:70%;">
 
                     <h2>{{team.name}} <span>{{team.teamId}}</span></h2>
                     <div style="font-size: 12px;display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:12px" class="icon ion-android-person"></i><span>{{team.members.length+1}}</span></div>
 
 
-                    <div style="display:inline-block;"><span style="font-size: 12px;border-radius: 3px;display:inline-block;margin:0 0.2em 0 0.5em ;background-color:#AAA;color:#FFF">创建者</span>{{team.sponsorName}}</div>
+                    <div style="display:inline-block;margin-top: 5px"><span style="font-size: 12px;border-radius: 3px;display:inline-block;margin:0 0.2em 0 0.5em ;background-color:#f15124;color:#FFF">创建者</span>{{team.sponsorName}}</div>
                     <!-- <p>{{team.description}}</p> -->
                     <p><span style="color:#ea4335" ng-show="team.unRead">[{{team.unRead}}条未读]</span>{{team.latestMsg}}<span style="color:#FFF">.</span></p>
                 </div>
@@ -54,13 +54,13 @@
         </div>
         <!-- 医生 -->
         <div ng-if="!params.showSearch && !params.isTeam">
-          <div class="item item-avatar context-pading">
+         <!-- <div class="item item-avatar context-pading">
             <img class="avatar-icon" src="http://www.runoob.com/try/demo_source/venkman.jpg">
             <div> <span class="groud-d">邵阳</span> <span class="groud-d mgleft-10">主任医师</span></div>
             <h2 class="mg-top5">浙江医院心外科</h2>
             <p class="mg-top5 p-dordes">评分:9.5 问诊量:100</p>
             <div id="profile" style="display:inline-block;width:auto;background-color: #11c1f3;float:right;padding:0.3em 0.5em;margin-top:10px;border-radius: 0.1em;color:#FFF;position: absolute;right: 15px;top:25px;border-radius: 5px">详情</div>
-          </div>
+          </div>-->
           <div class="item item-avatar context-pading" ng-repeat="d in doctors | orderBy:d.lastMsgDate" ng-click="doctorClick($event,d.doctorId)">
             <img class="avatar-icon" src="{{d.doctorId.photoUrl|imgUrl:'doctor'}}">
             <div> <span class="groud-d">{{d.doctorId.title}}</span> <span class="groud-d mgleft-10">{{d.doctorId.workUnit}}</span></div>

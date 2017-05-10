@@ -146,13 +146,13 @@ margin-bottom:10px!important; ;
   border-radius: inherit;
 }
 .bar-positive .button.active, .bar-positive .button.activated {
-  background-color: #fafafa;
+  background-color: #6ac4f8;
   color: #333;
 }
 
-.bar-positive .button:hover{
+/*.bar-positive .button:hover{
   color: #646464;
-}
+}*/
 .button-bar > .button{
   padding: 0;
 }
@@ -178,7 +178,6 @@ margin-bottom:10px!important; ;
 }
 /*图片居中*/
 .img-cen{
-  display: table;
   table-layout: fixed;
 }
 .img-cen div{

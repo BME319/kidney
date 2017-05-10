@@ -152,7 +152,7 @@ display: inline-block;
   top:20px;
   right: 40px;
   z-index: 10000;
-  font-size: 24px;
+  font-size: 32px;
   color: #333333;
 }
 .me-avatar{
@@ -167,8 +167,8 @@ display: inline-block;
   margin-left: -30px;
 }
 .me-avatar{
-  min-height: 60px;
-  min-width: 60px;
+  min-height: 62px;
+  min-width: 62px;
   border-radius: 100%;
 }
 .me-avatar div{
@@ -1019,6 +1019,7 @@ display: inline-block;
 .myinfo-avatar img{
   width: 5.625rem;
   height: 5.625rem;
+  border-radius: 100%;
 }
 .myinfo-cont{
   padding:0 1.875rem;

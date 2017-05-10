@@ -1,50 +1,40 @@
 <ion-view hide-tabs view-title="选择医生">
   <ion-content class="gray-back">
-  <div class="bar item-input-inset bar-light">
-    <div class="item-input-wrapper">
-      <i style="color:#3d6399;font-size:1.6em" class="icon ion-android-search placeholder-icon"></i>
-      <input type="search" ng-blur="doResume()" ng-model="query.PatientName" ng-change="startSearch(query)" placeholder="搜索医生">
-      <i style="color:#EF473A;font-size:1.6em" class="icon ion-android-close placeholder-icon" ng-hide="clearIt" ng-click="clearSearch()"></i>
+    <div class="bar item-input-inset bar-light">
+      <div class="item-input-wrapper">
+        <i style="color:#3d6399;font-size:1.6em" class="icon ion-android-search placeholder-icon"></i>
+        <input type="search" ng-blur="doResume()" ng-model="query.PatientName" ng-change="startSearch(query)"
+               placeholder="搜索医生">
+        <i style="color:#EF473A;font-size:1.6em" class="icon ion-android-close placeholder-icon" ng-hide="clearIt"
+           ng-click="clearSearch()"></i>
+      </div>
     </div>
-<<<<<<< .mine
-  </div> 
-<div class="list">
-  <a class="item item-avatar" ng-repeat="d in doctorst"  ng-click="sendTo(d)">
+    <div class="list">
+      <a class="item item-avatar" ng-repeat="d in doctorst" ng-click="sendTo(d)">
         <img src="{{d.photoUrl}}">
         <div class="doctor-msg-left balanced balanced-border">专家团队</div>
         <div>
-            <span>{{d.name}}</span> {{d.title}}
-            <p><span>{{d.workUnit}}</span> <span>{{d.department}}</span> </p>
-            <p><span>评分{{d.score}}</span> 问诊量：{{d.num}} </p>
-            <p>擅长：{{d.major}}</p>
-
-
-=======
-    <ion-content class="has-subheader gray-back">
-        <div class="list">
-            <a class="item item-avatar" collection-repeat="d in doctors" collection-item-height="135" collection-item-width="'100%'" ng-click="sendTo(d)">
+          <span>{{d.name}}</span> {{d.title}}
+          <p><span>{{d.workUnit}}</span> <span>{{d.department}}</span></p>
+          <p><span>评分{{d.score}}</span> 问诊量：{{d.num}} </p>
+          <p>擅长：{{d.major}}</p>
+        </div>
+      </a>
+    </div>
+          <!--<ion-content class="has-subheader gray-back">
+            <div class="list">
+              <a class="item item-avatar" collection-repeat="d in doctors" collection-item-height="135"
+                 collection-item-width="'100%'" ng-click="sendTo(d)">
                 <img src="{{d.photoUrl || 'img/doctor.png'}}">
                 <div class="doctor-msg-left balanced balanced-border">专家团队</div>
                 <div>
-                    <span>{{d.name}}</span> {{d.title}}
-                    <p><span>{{d.workUnit}}</span> <span>{{d.department}}</span> </p>
-                    <p><span>评分{{d.score}}</span> 问诊量：{{d.num}} </p>
-                    <p>擅长：{{d.major}}</p>
+                  <span>{{d.name}}</span> {{d.title}}
+                  <p><span>{{d.workUnit}}</span> <span>{{d.department}}</span></p>
+                  <p><span>评分{{d.score}}</span> 问诊量：{{d.num}} </p>
+                  <p>擅长：{{d.major}}</p>
                 </div>
-            </a>
->>>>>>> .theirs
-        </div>
-    </a>
-    <a class="item item-avatar" ng-repeat="d in doctors" ng-click="sendTo(d)">
-        <img src="{{d.photoUrl}}">
-        <div class="doctor-msg-left balanced balanced-border">专家团队</div>
-        <div>
-            <span>{{d.name}}</span> {{d.title}}
-            <p><span>{{d.workUnit}}</span> <span>{{d.department}}</span> </p>
-            <p><span>评分{{d.score}}</span> 问诊量：{{d.num}} </p>
-            <p>擅长：{{d.major}}</p>
-        </div>
-    </a>
-</div>
-  </ion-content>
+              </a>
+            </div>-->
+
+  <!--</ion-content>-->
 </ion-view>

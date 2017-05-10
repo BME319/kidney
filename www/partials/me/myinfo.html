@@ -15,16 +15,16 @@
       <div class="myinfo-avatar">
       <div class="img-cen ">
         <div>
-          <img ng-src="img/alert.png"
-               src="img/alert.png">
+          <img ng-src="{{doctor.photoUrl||'img/doctor.png'}}">
         </div>
       </div>
-        <span class="f16">丁香</span>
+        <span class="f16">{{doctor.name}}</span>
       </div>
 
 
 
     <div class="myinfo-cont">
+
         <ion-item>
             <span class="msg">姓名</span>
 			<p class="myinfo-msg-right top16">{{doctor.name}}</p>
@@ -56,6 +56,23 @@
 			<p class="myinfo-msg-right top16">{{doctor.description}}</p>
 
         </ion-item>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
 		</div>
 
@@ -63,14 +80,16 @@
 			<ion-item>
 				<span class="msg">姓名</span>
 				<p class="myinfo-msg-right"><input type=text ng-model="doctor.name"></p>
+
 			</ion-item>
 			<ion-item>
 				<span class="msg">职称</span>
 				<p class="myinfo-msg-right"><input type=text ng-model="doctor.title"></p>
-			</ion-item>
+      </ion-item>
 			<ion-item>
 				<span class="msg">医院</span>
 				<p class="myinfo-msg-right"><input type=text ng-model="doctor.workUnit"></p>
+
 			</ion-item>
 			<ion-item>
 				<span class="msg">科室</span>
@@ -84,9 +103,18 @@
 				<span class="msg">简介</span>
 				<p class="myinfo-msg-right"><input type=text ng-model="doctor.description"></p>
 			</ion-item>
-
       <button  ng-click="editinfo()" style="margin-top:0 ;background: #6ac4f8;width: 80%;margin: 0 auto" class="button button-block button-positive mt-40" >保存</button>
     </div>
     </ion-content>
 
 </ion-view>
+
+
+
+
+
+
+
+
+
+

@@ -4,7 +4,7 @@
       <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
     </ion-nav-buttons>
   </ion-nav-bar>
-  <div class="button-bar bar-positive " style="margin-top: 40px;">
+  <div class="button-bar bar-positive patient-bar" style="margin-top: 40px;">
     <a class="button" href="#/tab/DoctorDiagnose">
       <span class="br-e9" style="vertical-align: sub">医生诊断</span>
     </a>
@@ -29,7 +29,7 @@
         <button class="button button-small button-positive pat-ts bg-f7" ng-click="SendInsMsg()">推送保险</button>
         <div class="row pd-0">
           <div class="col pd-0">
-            <p class="m-b10"><span class="f16 fc-33">{{patient.name}}</span><span class="f16 fc-33">&nbsp;&nbsp;&nbsp;{{patient.gender | filterGender}}</span>&nbsp;&nbsp;&nbsp;<span class="f16 fc-33">{{patient.birthday | filterAge}}岁</span></p>
+            <p class="m-b10 "><span class="f16 fc-33 f-w-5">{{patient.name}}</span><span class="f16 fc-33 f-w-5">&nbsp;&nbsp;&nbsp;{{patient.gender | filterGender}}</span>&nbsp;&nbsp;&nbsp;<span class="f16 fc-33 f-w-5">{{patient.birthday | filterAge}}岁</span></p>
             <p>身份证号：{{patient.IDNo}}</p>
             <p>地区：{{patient.address.province}} {{patient.address.city}}</p>
             <p>是否VIP：{{patient.VIP | filterVIP}}</p>
@@ -37,48 +37,6 @@
             <!--<p>保险推送次数：{{Ins.count}}</p>-->
           </div>
 
-		</ion-nav-back-button> -->
-    </ion-nav-bar>
-    <div class="button-bar bar-positive" style="margin-top: 40px">
-		<a class="button" href="#/tab/DoctorDiagnose">
-			<span class="br-e9" style="vertical-align: sub">医生诊断</span>
-			<!-- <div style="font-size:12px">医生诊断</div> -->
-		</a>
-		<a class="button" href="#/tab/TaskSet">
-			<span class="br-e9" style="vertical-align: sub">治疗方案</span>
-			<!-- <div style="font-size:12px">管理方案</div> -->
-		</a>
-		<a class="button" ng-click="gototestrecord()" >
-			<span class="br-e9" style="vertical-align: sub">测量记录</span>
-			<!-- <div style="font-size:12px">测量记录</div> -->
-		</a>
-		<a class="button" href="#/tab/HealthInfo">
-		    <span class="br-e9" style="vertical-align: sub">健康信息</span>
-			<!-- <div style="font-size:12px">健康信息</div> -->
-		</a>
-	</div>
-    <ion-content class="has-header" style="margin-top: 42px;">
-        <div class="list">  
-            <ion-item class="item item-avatar pati-message">
-				<img ng-src="{{patient.photoUrl||'img/patient.png'}}">
-				<button class="button button-small button-positive pat-ts bg-f7" ng-click="SendInsMsg()">推送保险</button>
-				<span>{{patient.name}}</span><span>&nbsp;&nbsp;&nbsp;{{patient.gender | filterGender}}</span>&nbsp;&nbsp;&nbsp;<span>{{patient.birthday | filterAge}}岁</span>
-				<p>身份证号：{{patient.IDNo}}</p>
-				<p>地区：{{patient.address.province}} {{patient.address.city}}</p>
-				<p>是否VIP：{{patient.VIP | filterVIP}}</p>
-				<p>是否有高血压：{{patient.hypertension | filterhypertension}}</p>
-				<p>保险推送次数：{{Ins.count}}</p>				
-			</ion-item>
-				
-            <ion-item>
-			     最近就诊信息
-			</ion-item>		
-			<ion-item ng-repeat="di in diagnosisInfo">
-			     <h2>{{di.time | dateFormat:"YYYY-MM-DD"}}</h2>
-				 <p>就诊医院 {{di.doctor.workUnit}}</p>
-				 <p>就诊科室 {{di.doctor.department}}</p>
-				 <p>就诊诊断 {{di.content}}</p>
-			</ion-item>				
         </div>
 
       </ion-item>

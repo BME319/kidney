@@ -425,5 +425,13 @@
   font-size: 16px;
 }
 .item-avatar > img:first-child{
-  top:10px
+  top:16px
+}
+.patient-bar .button{
+  background: #fff;
+  color: #333;
+}
+
+.groups .item-avatar {
+  min-height: 105px;
 }
