@@ -33,7 +33,7 @@
 
 
     </div>
-    <ion-content class="has-subheader content-item-list groups" style="margin-top: 10px">
+    <ion-content class="has-subheader content-item-list groups" style="">
         <div ng-if="!params.showSearch && params.isTeam">
             <!-- 团队 -->
             <div  ng-repeat="team in teams |filter:query | orderBy:team.lastMsgDate" collection-item-height="94px" class="item item-avatar context-pading" type="item-text-wrap" ng-click="itemClick($event,team)">
