@@ -4,31 +4,22 @@
     </ion-nav-buttons> -->
     <ion-nav-bar class="bar-positive">
     <ion-nav-buttons side="left">
-      <button class="button button-icon icon ion-ios-arrow-left" ng-click="goChats()"></button>
+      <button class="button button-icon icon ion-chevron-left" ng-click="goChats()"></button>
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
       <button class="button button-icon icon ion-clipboard ng-hide" ng-click="togglePanel()" ng-show="params.isDiscuss"></button>
       <a class="button button-icon icon ion-android-people ng-hide" ng-click="viewGroup()" ng-hide="params.isDiscuss"></a>
     </ion-nav-buttons>
     </ion-nav-bar>
-  <ion-content delegate-handle="myContentScroll" class="gray-back has-header">
-    <!--&lt;!&ndash;ng-hide="params.hidePanel"&ndash;&gt; class="list card ng-hide hide-animate"-->
-  <div style="position:absolute;width:100%;margin:0;min-height:35vh;max-height:55vh;">
+  <div style="position:absolute;top:44px;width:100%;margin:0;min-height:35vh;max-height:55vh;overflow: scroll;" ng-hide="params.hidePanel" class="list card ng-hide hide-animate">
       <div class="item item-avatar" style="padding-bottom:10px">
-          <img ng-src="{{patient.patientId.photoUrl || 'img/doctor.png'}} ">
+          <img ng-src="{{patient.patientId.photoUrl || 'img/patient.png'}} ">
           <div>
-              <div style="display:inline-block;margin-right:1.2em;font-size:1.25em">{{patient.name}} </div>
-              <div style="display:inline-block">{{patient.gender}} {{patient.age}}</div>
-              <div style="display:inline-block;float:right">4/9/17 12:17</div>
+              <div style="display:inline-block;margin-right:1.2em;font-size:1.25em">{{patient.patientId.name}} </div>
+              <div style="display:inline-block">{{patient.patientId.gender | filterGender}} {{patient.patientId.birthday | filterAge}}岁</div>
+              <div style="display:inline-block;float:right">{{patient.time |msgdate}}</div>
           </div>
           <!-- <h2>范德萨user006</h2><span> fahdjksfh</span> -->
-          <!--<p style="width:60%;display:inline-block;"><i class="icon ion-android-car"></i>{{patient.discription}}</p>
-          <a ng-if="patient.undergo" class="item" style="float:right;background-color:#00E676;border-radius:0.4em;padding:2px;color:#FFF" ng-click="goConclusion()">回复患者</a>
-           <div ng-if="!patient.undergo" style="float:right;background-color:#888;border-radius:0.4em;padding:2px;color:#FFF">已回复</div>
-      </div>
-    &lt;!&ndash;ng-if="params.type=='2'"&ndash;&gt;
-    <div class="item item-body">-->
-
           <p style="width:60%;display:inline-block;">{{patient.diseaseInfo.symptom}}</p>
           <div ng-show="params.ismyturn" class="item ng-hide" style="float:right;background-color:#00E676;border-radius:0.4em;padding:2px;color:#FFF" ng-click="goConclusion()">回复患者</div>
            <div ng-show="!params.undergo" class="item ng-hide" style="float:right;background-color:#888;border-radius:0.4em;padding:2px;color:#FFF">已回复</div>
@@ -38,36 +29,29 @@
 
           <div>
           <span style="color:#2196F3">结论 </span>
-          血压怎么样了？肾脏超声提示慢性病变。加用羟苯磺酸钙一天三次，一次两粒，与饭同服。一月后再复查肾功能。
-          因不能面诊患者，无法全面了解病情，以上建议仅供参考，具体诊疗请一定到医院在医生指导下进行！
+          {{patient.conclusion}}
           </div>
       </div>
       <div class="item item-body">
-<!--
-          <div style="display:inline-block;color:#00897b;width:65%">肾功能障碍 肾内科</div>
-        <div style="display:inline-block;float:right;text-align:right;width:30%"><i style="color:#00E676" class="icon ion-android-pin"></i> 杭州</div>
-          <div >
-          赵老师，您好！这是我妈妈的检查结果，您看还有没有什么好办法可以降肌酐？现在口服药有，早上拜新同两片，中午47.5mg的倍他乐克一片，晚上盐酸特拉唑嗪片一粒！早中晚各吃开同4粒，白令胶囊2片，尿毒清颗粒两袋！
--->
           <!-- <div style="display:inline-block;color:#00897b;width:65%">{{patient.diagnosisInfo.name}}</div> -->
-          <div style="display:inline-block;color:#00897b;width:65%">分期： {{patient.diseaseInfo.class}}</div>
-          <div style="display:inline-block;color:#00897b;width:65%">是否高血压： {{patient.diseaseInfo.hypertension}}</div>
-          <div style="display:inline-block;color:#00897b;width:65%">手术时间： {{patient.diseaseInfo.operationTime}}</div>
-          <div style="display:inline-block;color:#00897b;width:65%">过敏 ：{{patient.diseaseInfo.allergic}}</div>
-          <div style="display:inline-block;color:#00897b;width:65%">发病时间： {{patient.diseaseInfo.sickTime}}</div>
-          <div style="display:inline-block;color:#00897b;width:65%">就诊医院： {{patient.diseaseInfo.hospital}}</div>
-          <div style="display:inline-block;color:#00897b;width:65%">就诊时间： {{patient.diseaseInfo.visitDate.substr(0,10)}}</div>
-          <div style="display:inline-block;color:#00897b;width:65%">诊断结果： {{patient.diseaseInfo.diagnosis}}</div>
+          <!-- <div style="display:inline-block;color:#00897b;width:65%">分期 {{patient.diseaseInfo.class}}</div>
+          <div style="display:inline-block;color:#00897b;width:65%">是否高血压 {{patient.diseaseInfo.hypertension}}</div>
+          <div style="display:inline-block;color:#00897b;width:65%">手术时间 {{patient.diseaseInfo.operationTime}}</div>
+          <div style="display:inline-block;color:#00897b;width:65%">过敏 {{patient.diseaseInfo.allergic}}</div> -->
+          <div style="display:inline-block;color:#00897b;width:65%">发病时间 {{patient.diseaseInfo.sickTime}}</div>
+          <div style="display:inline-block;color:#00897b;width:65%">就诊医院 {{patient.diseaseInfo.hospital}}</div>
+          <div style="display:inline-block;color:#00897b;width:65%">就诊时间 {{patient.diseaseInfo.visitDate.substr(0,10)}}</div>
+          <div style="display:inline-block;color:#00897b;width:65%">诊断结果 {{patient.diseaseInfo.diagnosis}}</div>
 
         <!-- <div style="display:inline-block;float:right;text-align:right;width:30%"><i style="color:#00E676" class="icon ion-android-pin"></i> 杭州</div> -->
           <div>
-         问题描述： {{patient.diseaseInfo.help}}
+         问题描述 {{patient.diseaseInfo.help}}
           </div>
-          <img style="height:3.5em;width:3.5em;margin:0.4em 0.8em 0 0" ng-repeat="pic in content.pics" ng-src="{{pic}}" ng-click="viewPic(this.pic)" />
+         <!--  <img style="height:3.5em;width:3.5em;margin:0.4em 0.8em 0 0" ng-repeat="pic in content.pics" ng-src="{{pic}}" ng-click="viewPic(this.pic)" /> -->
       </div>
   </div>
 
-
+  <ion-content delegate-handle="myContentScroll" class="gray-back">
 
       <ion-refresher on-refresh="DisplayMore()"></ion-refresher>
       <div class="text-center padding hide-animate ng-hide" ng-hide="params.moreMsgs">没有更多消息了</div>
@@ -78,68 +62,31 @@
 </ion-content>
 
   <form ng-if="!params.isOver" name="sendMessageForm" novalidate>
-       <!-- <ion-footer-bar class="input-box" style="position:absolute" keyboard-attach>
-            &lt;!&ndash; 语音button &ndash;&gt;
+        <ion-footer-bar class="input-box" style="position:absolute" keyboard-attach>
+            <!-- 语音button -->
             <div style="position:absolute;bottom:0;">
-              <button style="padding:0 2px 0 4px" class="button button-icon iconfont  icon-yuyin" on-hold="getVoice()" on-release="stopAndSend()"></button>
-              <button style="padding:0 4px" class="button button-icon iconfont icon-yuyin" on-hold="getVoice()" on-release="stopAndSend()"></button>
-                &lt;!&ndash;<button style="padding:0 4px" class="button button-icon icon ion-android-microphone" on-hold="getVoice()" on-release="stopAndSend()"></button>
+                <button style="padding:0 4px" class="button button-icon icon ion-android-microphone" on-hold="getVoice()" on-release="stopAndSend()"></button>
                 <div  style="padding:0 2px"  class="button button-icon icon ion-android-image" ng-click="getImage('gallery')"></div>
                 <div  style="padding:0 2px"  class="button button-icon icon ion-android-camera" ng-click="getImage('cam')"></div>
-                &ndash;&gt;&lt;!&ndash; <div  style="padding:0 2px"  class="button button-icon icon ion-android-add" ng-click="tt()"></div> &ndash;&gt;
+                <!-- <div  style="padding:0 2px"  class="button button-icon icon ion-android-add" ng-click="tt()"></div> -->
 
             </div>
 
-            &lt;!&ndash; 输入框 &ndash;&gt;
-            &lt;!&ndash; <label class="item-input-wrapper"> &ndash;&gt;
-            &lt;!&ndash;<div style="width:100%;position:absolute;left:0;bottom:4px;padding-left:12vw;padding-right:45px;background-color: #FFF">
+            <!-- 输入框 -->
+            <!-- <label class="item-input-wrapper"> -->
+            <div style="width:100%;position:absolute;left:0;bottom:4px;padding-left:114px;padding-right:45px;background-color: #FFF">
               <textarea style="width:100%;min-height:1.4em;height:1.4em;font-size:1.2em;border-bottom:1px #AAA solid" ng-model="input.text" ng-focus="scrollBottom()" minlength="1" maxlength="500" dynamic-height></textarea>
-            </div>&ndash;&gt;
-          <div style="width:100%;position:absolute;left:0;bottom:4px;padding-left:13vw;padding-right:26vw;background-color: #FFF">
-            <textarea style="resize:none;width:100%;min-height:1.4em;height:1.4em;font-size:1.2em;border-bottom:1px #AAA solid" ng-model="input.text" ng-focus="scrollBottom()" minlength="1" maxlength="500" dynamic-height></textarea>
-          </div>
-            &lt;!&ndash; <textarea style="width:100%;height:1.5em;font-size:1.2em;position:absolute;left:0;gbottom:2px;padding-left:80px;padding-right:70px;border-bottom" ng-model="Dialog.SMScontent" ng-change="dynamicHeight()"  required minlength="1" maxlength="500" autofocus dynamic-height></textarea> &ndash;&gt;
+            </div>
+            <!-- <textarea style="width:100%;height:1.5em;font-size:1.2em;position:absolute;left:0;gbottom:2px;padding-left:80px;padding-right:70px;border-bottom" ng-model="Dialog.SMScontent" ng-change="dynamicHeight()"  required minlength="1" maxlength="500" autofocus dynamic-height></textarea> -->
 
-            &lt;!&ndash; </label> &ndash;&gt;
-            &lt;!&ndash; 表情 &ndash;&gt;
-            &lt;!&ndash; <div> &ndash;&gt;
-            &lt;!&ndash; <div></div> &ndash;&gt;
-          <button  style="width:2.6em;position:absolute;bottom:1px;right:50px;padding:0" class="button button-icon  iconfont icon-biaoqing" type="submit" ></button>
-          <button  style="width:2.6em;position:absolute;bottom:4px;right:4px;padding:0" class="button button-icon  iconfont icon-add" type="submit" ng-show="!input.text || input.text === ''"></button>
-          <button  style="width:2.6em;position:absolute;top:auto;right:9px;bottom:auto;padding:0" class="button button-positive" type="submit" ng-hide="!input.text || input.text === ''" ng-click="submitMsg()">发送</button>
-
-          &lt;!&ndash;<button  style="width:2.6em;position:absolute;top:auto;right:4px;bottom:auto;padding:0" class="button button-positive" type="submit" ng-disabled="!input.text || input.text === ''" ng-click="submitMsg()">发送</button>&ndash;&gt;
-                &lt;!&ndash; <div  ng-if="!Dialog.SMScontent" style="position:absolute;top:auto;right:0;bottom:auto;"  class="button button-icon icon ion-android-image" ng-click="getImage()"></div> &ndash;&gt;
-                &lt;!&ndash; <div style="position:relative" class="button">发送</div> &ndash;&gt;
-            &lt;!&ndash; </div> &ndash;&gt;
-        </ion-footer-bar>-->
-    <div class="chat-bar">
-      <div class="chat-top">
-        <button style="position: absolute;top: 5px;z-index: 999"  class="button button-icon iconfont  icon-yuyin" ng-init="showVoice=false;" ng-click="showVoice==false?showVoice=true:showVoice=false;showMore=false;" ng-model="showVoice"></button>
-        <div class="chat-input" style="position: absolute;top: 12px;width: 100%;padding-left:13vw;padding-right:26vw;">
-          <textarea style="resize:none;width:100%;min-height:1.4em;height:1.4em;font-size:1.2em;line-height:20px;border-bottom:1px #AAA solid" ng-model="input.text" ng-focus="scrollBottom()" minlength="1" maxlength="500" dynamic-height></textarea>
-        </div>
-        <button style="width:2.6em;position:absolute;right:50px;padding:0"  class="button button-icon  iconfont icon-biaoqing" type="submit" ></button>
-        <button  style="width:2.6em;position:absolute;right:4px;top: 2px;padding:0"  class="button button-icon  iconfont icon-add" type="submit" ng-show="!input.text || input.text === ''" ng-init="showMore=false;" ng-click="showMore==false?showMore=true:showMore=false;showVoice=false;" ng-model="showMore"></button>
-        <button  style="width:2.6em;position:absolute;top:8px;right:9px;bottom:auto;padding:0;font-size: 12px;min-height: 30px;height: 30px"   class="button button-positive" type="submit" ng-hide="!input.text || input.text === ''" ng-click="submitMsg()">发送</button>
-      </div>
-      <div class="voice-box" ng-show="showVoice">
-        <span class="chat-close" ng-click="showVoice=false;showMore=false;" ng-model="showVoice">×</span>
-        <p>按住开始说话</p>
-        <img src="../../img/icon_voice2@2x.png" alt="" on-hold="getVoice()" on-release="stopAndSend()">
-      </div>
-      <div class="chat-more" ng-show="showMore" >
-        <span>
-          <img src="../../img/icon_photo@2x.png" alt="">
-        </span>
-        <span>
-          <img src="../../img/icon_shot@2x.png" alt="">
-        </span>
-        <span>
-          <img src="../../img/icon_card@2x.png" alt="">
-        </span>
-      </div>
-    </div>
-
-  </form>
+            <!-- </label> -->
+            <!-- 表情 -->
+            <!-- <div> -->
+            <!-- <div></div> -->
+                <button  style="width:2.6em;position:absolute;top:auto;right:4px;bottom:auto;padding:0" class="button button-positive" type="submit" ng-disabled="!input.text || input.text === ''" ng-click="submitMsg()">发送</button>
+                <!-- <div  ng-if="!Dialog.SMScontent" style="position:absolute;top:auto;right:0;bottom:auto;"  class="button button-icon icon ion-android-image" ng-click="getImage()"></div> -->
+                <!-- <div style="position:relative" class="button">发送</div> -->
+            <!-- </div> -->
+        </ion-footer-bar>
+    </form>
 </ion-view>
