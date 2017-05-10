@@ -14,20 +14,22 @@
             <span class="msg">用户须知</span>
             <i class="icon ion-chevron-right mine-msg-right"></i>
         </ion-item> -->
-      <ion-item href="#/tab/me/set/set-content/userprotocol">
-        <span>用户协议</span>
-        <i class="icon ion-ios-arrow-right mine-msg-right"></i>
-      </ion-item>
-      <ion-item href="#/tab/me/set/set-content/private">
-        <span >隐私政策</span>
-        <i class="icon ion-ios-arrow-right mine-msg-right"></i>
-      </ion-item>
-      <ion-item href="#/tab/me/set/set-content/resetpassword">
-        <span >修改密码</span>
-        <i class="icon ion-ios-arrow-right mine-msg-right"></i>
-      </ion-item>
-      <div class="blank-h12"></div>
-      <button style="margin-top:40px;background: #6ac4f8" class="button button-block button-positive login_outbtn" ng-click="logout()" >退出当前账号</button>
-
+        <ion-item href="#/tab/me/set/viewAgree">
+            <span class="msg">用户协议</span>
+            <i class="icon ion-ios-arrow-right mine-msg-right"></i>
+        </ion-item>
+<!--         <ion-item href="#/tab/me/set/set-content/private">
+            <span class="msg">隐私政策</span>
+            <i class="icon ion-chevron-right mine-msg-right"></i>
+        </ion-item> -->
+        <ion-item href="#/tab/me/set/set-content/resetpassword">
+            <span class="msg">修改密码</span>
+            <i class="icon ion-ios-arrow-right mine-msg-right"></i>
+        </ion-item>
+        <div class="blank-h12"></div>
+        <button style="margin-top:10px;background: #6ac4f8" class="button button-block button-positive login_outbtn" ng-click="logout()" >退出当前账号</button>
+        <iframe id="bbsframe_login" ng-src ='{{navigation_login}}' height="100%" width="100%" ng-show=false>
+            <p>Your browser does not support iframes.</p>
+        </iframe>
     </ion-content>
 </ion-view>

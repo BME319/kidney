@@ -1,15 +1,15 @@
 <ion-view title="团队病例" hide-tabs>
-  <ion-nav-bar class="bar-positive">
-    <ion-nav-buttons side="left">
-      <button class="button button-icon icon ion-chevron-left" style="color: white" ng-click="backToGroups()"></button>
-    </ion-nav-buttons>
-  </ion-nav-bar>
-  <ion-content class="gray-back">
-    <div class="list">
-
-      <div>
-        <div class="item  m-item-divider context-pading1">
-          <span class="m-item-divider-content"> 进行中 {{grouppatients0.length}}</span>
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-buttons side="left">
+            <button class="button button-icon icon ion-chevron-left" ng-click="backToGroups()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="gray-back">
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
+<div class="list">
+    <div style="width:100%;background-color: #FFF;height:2.4em;line-height: 2.4em;font-size:1.3em;padding:0 1.5em">
+        <div>
+            <i style="color:green;font-size:1.5em;position:relative;top:4px" class="icon ion-android-calendar"></i> 进行中：{{grouppatients0.length}}
         </div>
         <a class="item item-avatar context-pading" href="#" ng-repeat="grouppatient in grouppatients0" ng-click="enterChat(1,grouppatient)">
           <img class="avatar-icon" src="{{grouppatient.patientId.photoUrl|imgUrl:'patient'}}">

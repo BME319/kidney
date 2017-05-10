@@ -13,19 +13,19 @@
         <div class="item-input-wrapper">
             <i style="color:#3d6399;font-size:1.6em" class="icon ion-android-search placeholder-icon"></i>
             <input type="search" ng-blur="doResume()" ng-model="search.name" placeholder="搜索医生姓名">
-            <i style="color:#EF473A;font-size:1.6em" class="icon ion-android-close placeholder-icon" ng-show="issearching" ng-click="clearSearch()"></i>
+            <i style="color:#EF473A;font-size:1.6em" class="icon ion-android-close placeholder-icon" ng-click="clearSearch()"></i>
         </div>
       <!--  <button ng-show="issearching" class="button button-clear button-positive ng-hide" ng-click="goSearch()">
             搜索
         </button>
-        <button ng-show="isnotsearching" class="button button-clear button-positive ng-hide" ng-click="closeSearch()">
+       <!--  <button ng-show="isnotsearching" class="button button-clear button-positive ng-hide" ng-click="closeSearch()">
             返回&nbsp;
         </button>-->
     </div>
 
 <!--<div style="padding:4px;position:absolute;top:88px;height:44px;width:100%;margin:0;max-height:30vh;overflow-y: scroll;" ng-hide="params.hidePanel" class="item">
     &lt;!&ndash; <div style="display:block-inline;width:2em;height:2em;position:relative;margin:2px 4px 2px 0" ng-repeat="member in group.members"> &ndash;&gt;
-            <img style="height:2em;width:2em;margin:3px" ng-repeat="member in group.members" src="{{member.photoUrl}}" />
+            <img style="height:2em;width:2em;margin:3px" ng-repeat="member in group.members" src="{{member.photoUrl|| 'img/doctor.png'}}" />
         &lt;!&ndash; </div> &ndash;&gt;
 </div>-->
 
@@ -52,7 +52,7 @@
 
 
     <div class="item item-avatar" ng-repeat="d in doctors">
-        <img src="{{d.photoUrl}}">
+        <img src="{{d.photoUrl || 'img/doctor.png'}}">
         <div class="doctor-msg-left balanced balanced-border">专家团队</div>
         <div style="display:inline-block;width:70%">
             <span>{{d.name}}</span> {{d.title}}

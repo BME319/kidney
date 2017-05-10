@@ -1,12 +1,30 @@
 <ion-view view-title="我的评价">
 
-  <ion-nav-bar class="bar-positive " align-title="center">
-    <ion-nav-buttons side="left">
-      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
-    </ion-nav-buttons>
-  </ion-nav-bar>
-  <ion-content>
-    <ion-item>
+<!--       <ion-nav-buttons side="left">
+            <a class="button button-icon icon ion-chevron-left" href="#/tab/me"></a>
+      </ion-nav-buttons> -->
+      <ion-nav-bar class="bar-positive nav-title-slide-ios7" align-title="center">
+          <ion-nav-back-button class="button-clear">
+            <i class="ion-chevron-left"></i>
+        </ion-nav-back-button>
+        </ion-nav-bar>
+    <ion-content>
+        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
+        <ion-item>
+            <i class="iconfont icon-wujiaoxing icon-wujiaoxing1"></i>
+            我的评分
+            <span class="myinfo-msg-right" style="color:red;">{{doctor.score.toFixed(1)}}</span>
+        </ion-item>
+        <ion-item>
+        <span class="input-label" style="margin-left:5px;color:#6ac4f8;"><i class="iconfont icon-jiaoyilishi icon-jiaoyilishi "  ></i>我的评价</span>
+        </ion-item>
+        <div class="list">
+			<a class="item item-thumbnail-left" ng-repeat="fb in feedbacks">
+				<img ng-src="{{fb.patientId.photoUrl||'img/patient.png'}}">
+                <h2 style="margin-left: 10px">{{fb.patientId.name}}</h2>
+                <p class="friend-detail-p">评分：{{fb.totalScore}}</p>
+                <p class="friend-detail-p">{{fb.content}}</p>
+				<p class="friend-detail-p">评论时间：{{fb.time|dateFormat:"YYYY-MM-DD h:m"}}</p>
 
       <i class="iconfont icon-wujiaoxing icon-wujiaoxing1"></i>
       我的评分

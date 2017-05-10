@@ -7,7 +7,7 @@
         <div class="item-input-wrapper">
             <i style="color:#3d6399;font-size:1.6em" class="icon ion-android-search placeholder-icon"></i>
             <input type="search" ng-blur="doResume()" ng-model="search.name" placeholder="搜索医生姓名">
-            <i style="color:#EF473A;font-size:1.6em" class="icon ion-android-close placeholder-icon" ng-show="issearching" ng-click="clearSearch()"></i>
+            <i style="color:#EF473A;font-size:1.6em" class="icon ion-android-close placeholder-icon" ng-click="clearSearch()"></i>
         </div>
         <button  class="button button-clear button-positive" ng-click="goSearch()">
             搜索
@@ -25,7 +25,7 @@
 <div class="list">
 
     <div class="item item-avatar" ng-repeat="d in doctors" ng-click="doctorClick(d.userId)">
-        <img src="{{d.photoUrl|imgUrl:'doctor'}}">
+        <img src="{{d.photoUrl || 'img/doctor.png'}}">
         <div class="doctor-msg-left balanced balanced-border">专家团队</div>
         <div style="display:inline-block;width:70%">
             <span>{{d.name}}</span> {{d.title}}

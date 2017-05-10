@@ -20,7 +20,6 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/common.css" rel="stylesheet">
     <link href="css/kindcss.css" rel="stylesheet">
-
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
@@ -29,6 +28,7 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
     <!-- 第三方js -->
     <script src="lib/angular-resource/angular-resource.min.js"></script>
@@ -38,8 +38,9 @@
 
     <!-- //mazhibin -->
     <script src="lib/ionic-datepicker-master/dist/ionic-datepicker.bundle.min.js"></script>
+    <script src="lib/jquery-1.11.3.min.js"></script>
     <!-- //mazhibin-end -->
-
+    
     <script src="lib/ionic-timepicker/dist/ionic-timepicker.bundle.min.js"></script>
     <script src="lib/jquery/jquery.min.js"></script>
 
@@ -80,13 +81,16 @@
 
     <script src="js/directives.js"></script>
     <script src="js/filters.js"></script>
-
+    
   </head>
   <body ng-app="kidney">
     <!--
       The nav bar that will be updated as we navigate between views.
     -->
-
+    <ion-nav-bar class="bar-positive" align-title="center">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+    </ion-nav-bar>
     <!--
       The views will be rendered in the <ion-nav-view> directive below
       Templates are in the /templates folder (but you could also
