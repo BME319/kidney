@@ -371,6 +371,7 @@ display: inline-block;
   width: 30px;
   height: 30px;
   vertical-align: middle;
+  margin-right: 10px;
 }
 .task-item span{
   vertical-align: middle;

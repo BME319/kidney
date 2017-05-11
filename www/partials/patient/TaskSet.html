@@ -21,7 +21,7 @@
   <ion-content class="has-header" style="margin-top: 42px;">
     <div class="list task-list">
       <a class="task-item fc-33" ng-repeat="item in Tasks.Measure">
-        <img src="../../img/alert.png" alt="">
+        <img ng-src="{{item.Name | icon_filter}}" alt="">
         <span>{{item.Name}}</span>
         <section class="task-item-right">
           <i class="icon  task-icon-r border" style="font-size:16px">
@@ -35,7 +35,7 @@
         <p>{{item.content}}</p>
       </a>
       <a class="task-item fc-33" ng-repeat="item in Tasks.Other">
-        <img src="../../img/alert.png" alt="">
+        <img ng-src="{{item.Name | icon_filter}}" alt="">
         <span>{{item.Name}}</span>
         <section class="task-item-right">
           <i class="icon  task-icon-r border" style="font-size:16px">

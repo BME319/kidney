@@ -13,7 +13,8 @@ angular.module('kidney',[
     'kidney.filters',
     'kidney.directives',
     'monospaced.qrcode',
-    'ionic-datepicker'
+    'ionic-datepicker',
+    'kidney.icon_filter'
 ])
 
 .run(['$ionicPlatform', '$state', 'Storage', 'JM','$rootScope','CONFIG','Communication', function($ionicPlatform, $state, Storage, JM,$rootScope,CONFIG,Communication) {
@@ -213,7 +214,7 @@ angular.module('kidney',[
                     }else if(msg.content.contentStringMap.type=='contact'){
 
                     }
-                    
+
                 }
                 if (msg.targetType == 'group' && msg.targetID != $rootScope.conversation.id) {
                     if(msg.content.contentStringMap.type=='card'){
@@ -250,7 +251,7 @@ angular.module('kidney',[
     //android导航栏在顶部解决办法
     $ionicConfigProvider.platform.android.tabs.style('standard');
     $ionicConfigProvider.platform.android.tabs.position('standard');
-      
+
     //注册与登录
     $stateProvider
     //登陆
@@ -266,7 +267,7 @@ angular.module('kidney',[
       params:{last:null},
       templateUrl: 'partials/others/agreement.html',
       controller: 'AgreeCtrl'
-    })   
+    })
     .state('phonevalid', {
         url: '/phonevalid',
         cache: false,
@@ -298,16 +299,16 @@ angular.module('kidney',[
       templateUrl:'partials/others/VaryMessage.html',
       controller:'VaryMessageCtrl'
     })
-    
-    
+
+
     //选项卡
     .state('tab', {
         url: '/tab',
         abstract: true,
         templateUrl: 'partials/tabs.html',
         controller: 'tabCtrl'
-    }) 
-    
+    })
+
     //主页面
     .state('tab.home', {
         //cache: false,
@@ -319,7 +320,7 @@ angular.module('kidney',[
             }
         }
     })
-        
+
     //咨询
     .state('tab.consult', {
         //cache: false,
@@ -331,7 +332,7 @@ angular.module('kidney',[
             }
         }
     })
-            
+
     //患者页面
     .state('tab.patient', {
         cache: false,
@@ -509,7 +510,7 @@ angular.module('kidney',[
                 templateUrl: 'partials/patient/editHealthInfo.html'
             }
         }
-    })        
+    })
 
     // views-tab-groups
     .state('tab.new-group', {
@@ -661,7 +662,7 @@ angular.module('kidney',[
             }
         }
     })
-            
+
     //我的信息
     .state('tab.myinfo', {
         // cache: false,
@@ -673,7 +674,7 @@ angular.module('kidney',[
             }
         }
     })
-            
+
     //收费定制
     .state('tab.myfee', {
         // cache: false,
@@ -729,7 +730,7 @@ angular.module('kidney',[
                 templateUrl: 'partials/me/set/viewAgree.html'
             }
         }
-    })    
+    })
     //关于
     .state('tab.about', {
         // cache: false,
