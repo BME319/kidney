@@ -886,7 +886,9 @@ angular.module('kidney.services', ['ionic','ngResource'])
 
     var New =function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'new'},{
-            insertNews:{method:'POST', params:{route: 'insertNews'}, timeout: 100000}
+            getNews:{method:'GET', params:{route: 'getNews'}, timeout: 100000},
+            insertNews:{method:'POST', params:{route: 'insertNews'}, timeout: 100000},
+            getNewsByReadOrNot:{method:'GET', params:{route: 'getNewsByReadOrNot'}, timeout: 100000}
         });
     }   
 
@@ -2099,7 +2101,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     };
     self.getStatus = function(params){
         var deferred = $q.defer();
-        Data.Counsels.getStatus(
+        Data.Counsel.getStatus(
             params,
             function(data, headers){
                 deferred.resolve(data);
@@ -2109,18 +2111,18 @@ angular.module('kidney.services', ['ionic','ngResource'])
         });
         return deferred.promise;
     };
-    self.getStatus = function(params){
-        var deferred = $q.defer();
-        Data.Counsels.getStatus(
-            params,
-            function(data, headers){
-                deferred.resolve(data);
-            },
-            function(err){
-                deferred.reject(err);
-        });
-        return deferred.promise;
-    };
+    // self.getStatus = function(params){
+    //     var deferred = $q.defer();
+    //     Data.Counsels.getStatus(
+    //         params,
+    //         function(data, headers){
+    //             deferred.resolve(data);
+    //         },
+    //         function(err){
+    //             deferred.reject(err);
+    //     });
+    //     return deferred.promise;
+    // };
     self.changeStatus = function(params){
         var deferred = $q.defer();
         Data.Counsel.changeStatus(
@@ -2176,9 +2178,34 @@ angular.module('kidney.services', ['ionic','ngResource'])
 
 .factory('New', ['$q', 'Data', function($q, Data){
     var self = this;
+    self.getNews = function(params){
+        var deferred = $q.defer();
+        Data.New.getNews(
+            params,
+            function(data, headers){
+                deferred.resolve(data);
+            },
+            function(err){
+                deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+
     self.insertNews = function(params){
         var deferred = $q.defer();
         Data.New.insertNews(
+            params,
+            function(data, headers){
+                deferred.resolve(data);
+            },
+            function(err){
+                deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+     self.getNewsByReadOrNot = function(params){
+        var deferred = $q.defer();
+        Data.New.getNewsByReadOrNot(
             params,
             function(data, headers){
                 deferred.resolve(data);
