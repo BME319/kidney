@@ -345,6 +345,18 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     $scope.barwidth="width:0%";
     var phoneNumber=Storage.get('RegisterNO');
     var password=Storage.get('password');
+    $scope.Titles =
+    [
+        {Name:"主任医师",Type:1},
+        {Name:"副主任医师",Type:2},
+        {Name:"副主任医师",Type:3},
+        {Name:"住院医师",Type:4},
+        {Name:"主任护师",Type:5},
+        {Name:"副主任护师",Type:6},
+        {Name:"主管护师",Type:7},
+        {Name:"护师",Type:8},
+        {Name:"护士",Type:9}
+    ]
     $scope.doctor={
         userId:"",
         name:"",
@@ -434,6 +446,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                 });
             }
             else{
+                $scope.doctor.title = $scope.doctor.title.Name
                 User.register({
                     'phoneNo':phoneNumber,
                     'password':password,
@@ -511,10 +524,24 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 }])
 
 //首页
-.controller('homeCtrl', ['Communication','$scope','$state','$interval','$rootScope', 'Storage','$http','$sce','$timeout','Doctor',function(Communication,$scope, $state,$interval,$rootScope,Storage,$http,$sce,$timeout,Doctor) {
+.controller('homeCtrl', ['Communication','$scope','$state','$interval','$rootScope', 'Storage','$http','$sce','$timeout','Doctor','New',function(Communication,$scope, $state,$interval,$rootScope,Storage,$http,$sce,$timeout,Doctor,New) {
     $scope.barwidth="width:0%";
-
-    console.log(Storage.get('USERNAME'));
+    console.log(Storage.get('USERNAME'));    
+    $scope.hasUnreadMessages = false;
+    var RefreshUnread;
+    var GetUnread = function(){
+        New.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+            function(data){
+                if(data.results.length){
+                    $scope.HasUnreadMessages = true;
+                    // console.log($scope.HasUnreadMessages);
+                }
+            },function(err){
+                    console.log(err);
+            });
+    }
+    GetUnread();
+    RefreshUnread = $interval(GetUnread,2000);
     $scope.isWriting={'margin-top': '100px'};
     if(!sessionStorage.addKBEvent)
     {
@@ -658,9 +685,9 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     //var date1=new Date().format("MM月dd日");
     $scope.riqi=date1;
 
-    //获取在等待
     var load = function()
     {
+        //获取已完成
         Counsel.getCounsels({
             userId:Storage.get('UID'),
             status:0
@@ -1448,6 +1475,18 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     $scope.ProvinceObject={};
     $scope.CityObject={};
     $scope.HosObject={};
+    $scope.Titles =
+    [
+        {Name:"主任医师",Type:1},
+        {Name:"副主任医师",Type:2},
+        {Name:"副主任医师",Type:3},
+        {Name:"住院医师",Type:4},
+        {Name:"主任护师",Type:5},
+        {Name:"副主任护师",Type:6},
+        {Name:"主管护师",Type:7},
+        {Name:"护师",Type:8},
+        {Name:"护士",Type:9}
+    ]
 
     Doctor.getDoctorInfo({
         userId:Storage.get('UID')
@@ -1468,6 +1507,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     $scope.editinfo = function() {
         // $scope.ProvinceObject = $scope.doctor.province;
         // console.log("123"+$scope.ProvinceObject);
+        $scope.doctor.title = $scope.doctor.title.Name
         Doctor.editDoctorDetail($scope.doctor)
         .then(
             function(data)
@@ -1491,14 +1531,21 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
         var searchObj = function(code,array){
             if(array && array.length){
                 for (var i = 0; i < array.length; i++) {
-                    if(array[i].name == code || array[i].hospitalName == code) return array[i];
+                    if(array[i].name == code || array[i].hospitalName == code|| array[i].Name == code) return array[i];
                 };
             }
             return "未填写";           
-        } 
+        }
+        //读职称
+        if ($scope.doctor.title != null){
+            console.log($scope.doctor.title)
+            console.log($scope.Titles)
+            $scope.doctor.title = searchObj($scope.doctor.title,$scope.Titles)
+        }        
+
         //-------------点击编辑省市医院读字典表--------------
         if ($scope.doctor.province != null){
-            //console.log($scope.doctor.province)
+            console.log($scope.doctor.province)
             //console.log($scope.Provinces)
             $scope.ProvinceObject = searchObj($scope.doctor.province,$scope.Provinces)
 
