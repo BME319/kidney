@@ -221,231 +221,100 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
         $scope.ChartData2=[];
         console.log(Data.results.length)
         for(var i=0;i<Data.results.length;i++){
-          // if(Data.results[i].date>="2017-04-08"&&Data.results[i].code=="舒张压"){
-          if(Data.results[i].code=="舒张压"){
-            for(var j=0;j<Data.results[i].data.length;j++){
-              $scope.ChartData1.push(Data.results[i].data[j])
-            }
-          }else{
+          if(Data.results[i].code=="血压"){
             for(var j=0;j<Data.results[i].data.length;j++){
 
-              $scope.ChartData2.push(Data.results[i].data[j])
+              if(Data.results[i].data[j].value){
+                $scope.ChartData1.push([new Date(new Date(Data.results[i].data[j].time)-8*3600*1000),Data.results[i].data[j].value])
+              }
+              if(Data.results[i].data[j].value2){
+                $scope.ChartData2.push([new Date(new Date(Data.results[i].data[j].time)-8*3600*1000),Data.results[i].data[j].value2])
+              }
+
             }
           }
         }
-        if($scope.ChartData1.length==0){
-          console.log($scope.ChartData1)
-          $scope.chartdiv=false;
-        }else{
-          $scope.chartdiv=true;
-          AmCharts.makeChart("chartdiv", {
-            "type": "serial",
-            "theme": "light",
-            "marginTop":0,
-            "marginRight": 80,
-            "dataProvider": $scope.ChartData1,
-            "valueAxes": [{
-                "axisAlpha": 0,
-                "position": "left"
-            }],
-            "graphs": [{
-                "id":"g1",
-                "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
-                "bullet": "round",
-                "bulletSize": 8,
-                "lineColor": "#d1655d",
-                "lineThickness": 2,
-                "negativeLineColor": "#637bb6",
-                // "type": "smoothedLine",
-                "valueField": "value"
-            }],
-            "chartScrollbar": {
-                "graph":"g1",
-                "gridAlpha":0,
-                "color":"#888888",
-                "scrollbarHeight":55,
-                "backgroundAlpha":0,
-                "selectedBackgroundAlpha":0.1,
-                "selectedBackgroundColor":"#888888",
-                "graphFillAlpha":0,
-                "autoGridCount":true,
-                "selectedGraphFillAlpha":0,
-                "graphLineAlpha":0.2,
-                "graphLineColor":"#c2c2c2",
-                "selectedGraphLineColor":"#888888",
-                "selectedGraphLineAlpha":1
 
-            },
-            "chartCursor": {
-                "categoryBalloonDateFormat": "YYYY-MM-DD",
-                "cursorAlpha": 0,
-                "valueLineEnabled":true,
-                "valueLineBalloonEnabled":true,
-                "valueLineAlpha":0.5,
-                "fullWidth":true
-            },
-            "dataDateFormat": "YYYY-MM-DD",
-            "categoryField": "time",
-            "categoryAxis": {
-                "minPeriod": "mm",
-                "parseDates": true,
-                "minorGridAlpha": 0.1,
-                "minorGridEnabled": true
-            },
-            "export": {
-                "enabled": true
-            }
-        });
-        }
-        if($scope.ChartData2.length==0){
-          $scope.chartdiv1=false;
-        }else{
-          console.log($scope.ChartData2)
+        if($scope.ChartData1.length||$scope.ChartData2.length){
+          console.log(1111)
           $scope.chartdiv1=true;
-          console.log($scope.chartdiv1)
-          AmCharts.makeChart("chartdiv1", {
-            "type": "serial",
-            "theme": "light",
-            "marginTop":0,
-            "marginRight": 80,
-            "dataProvider": $scope.ChartData2,
-            "valueAxes": [{
-                "axisAlpha": 0,
-                "position": "left"
-            }],
-            "graphs": [{
-                "id":"g1",
-                "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
-                "bullet": "round",
-                "bulletSize": 8,
-                "lineColor": "#d1655d",
-                "lineThickness": 2,
-                "negativeLineColor": "#637bb6",
-                // "type": "smoothedLine",
-                "valueField": "value"
-            }],
-            "chartScrollbar": {
-                "graph":"g1",
-                "gridAlpha":0,
-                "color":"#888888",
-                "scrollbarHeight":55,
-                "backgroundAlpha":0,
-                "selectedBackgroundAlpha":0.1,
-                "selectedBackgroundColor":"#888888",
-                "graphFillAlpha":0,
-                "autoGridCount":true,
-                "selectedGraphFillAlpha":0,
-                "graphLineAlpha":0.2,
-                "graphLineColor":"#c2c2c2",
-                "selectedGraphLineColor":"#888888",
-                "selectedGraphLineAlpha":1
-
-            },
-            "chartCursor": {
-                "categoryBalloonDateFormat": "YYYY-MM-DD",
-                "cursorAlpha": 0,
-                "valueLineEnabled":true,
-                "valueLineBalloonEnabled":true,
-                "valueLineAlpha":0.5,
-                "fullWidth":true
-            },
-            "dataDateFormat": "YYYY-MM-DD",
-            "categoryField": "time",
-            "categoryAxis": {
-                "minPeriod": "mm",
-                "parseDates": true,
-                "minorGridAlpha": 0.1,
-                "minorGridEnabled": true
-            },
-            "export": {
-                "enabled": true
-            }
-        });
+        }else{
+          console.log(222)
+          $scope.chartdiv1=false;
         }
+        var option1 = {
+          title : {
+              text : '血压',
+              subtext : 'mmHg'
+          },
+          tooltip : {
+              trigger: 'axis'
+              // formatter : function (params) {
+              //     var date = new Date(params.value[0]);
+              //     data = date.getFullYear() + '-'
+              //            + (date.getMonth() + 1) + '-'
+              //            + date.getDate() + ' '
+              //            + date.getHours() + ':'
+              //            + date.getMinutes();
+              //     return data + '<br/>'
+              //            + params.value[1] + ', ' 
+              //            + params.value[2];
+              // }
+          },
+          dataZoom: {
+              show: true
+              // start : 50
+          },
+          legend : {
+              data : ['收缩压','舒张压']
+          },
+          grid: {
+              y2: 80
+          },
+          xAxis : [
+              {
+                  type : 'time',
+                  splitNumber:8//分割的个数
+              }
+          ],
+          yAxis : [
+              {
+                  type : 'value',
+                  min:50,
+                  max:250
+              }
+          ],
+          series : [
+              {
+                  name: '收缩压',
+                  type: 'line',
+                  symbol:'roundRect',
+                  symbolSize :8,
+                  // showAllSymbol: true,
+                  // symbolSize: function (value){
+                  //     return Math.round(value[2]/10) + 2;
+                  // },
+                  data: $scope.ChartData1
+              },{
+                name:'舒张压',
+                type: 'line',
+                symbol:'diamond',
+                symbolSize :8,
+                  // showAllSymbol: true,
+                  // symbolSize: function (value){
+                  //     return Math.round(value[2]/10) + 2;
+                  // },
+                  data: $scope.ChartData2
+              }
+          ]
+      };
+        var myChart = echarts.init(document.getElementById('chartdiv1'));
+        myChart.setOption(option1);
 
-        // console.log($scope.ChartData);
-        // createStockChart("chartdiv",$scope.ChartData,"舒张压","mmHg");
+        
       }, function(e) {  
       });
 
-      // VitalSign.getVitalSigns({userId:Storage.get("getpatientId"),type:'血压'}).then(
-      // function(Data){
-      //   $scope.ChartData=[];
-      //   console.log(Data.results.length)
-      //   for(var i=0;i<Data.results.length;i++){
-      //     if(Data.results[i].code=="收缩压"){
-      //       for(var j=0;j<Data.results[i].data.length;j++){
-      //         $scope.ChartData.push(Data.results[i].data[j])
-      //       }
-      //     }
-      //   }
-      //   if($scope.ChartData.length==0){
-      //     $scope.chartdiv1=false;
-      //   }else{
-      //     $scope.chartdiv1=true;
-      //     AmCharts.makeChart("chartdiv1", {
-      //       "type": "serial",
-      //       "theme": "light",
-      //       "marginTop":0,
-      //       "marginRight": 80,
-      //       "dataProvider": $scope.ChartData,
-      //       "valueAxes": [{
-      //           "axisAlpha": 0,
-      //           "position": "left"
-      //       }],
-      //       "graphs": [{
-      //           "id":"g1",
-      //           "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
-      //           "bullet": "round",
-      //           "bulletSize": 8,
-      //           "lineColor": "#d1655d",
-      //           "lineThickness": 2,
-      //           "negativeLineColor": "#637bb6",
-      //           // "type": "smoothedLine",
-      //           "valueField": "value"
-      //       }],
-      //       "chartScrollbar": {
-      //           "graph":"g1",
-      //           "gridAlpha":0,
-      //           "color":"#888888",
-      //           "scrollbarHeight":55,
-      //           "backgroundAlpha":0,
-      //           "selectedBackgroundAlpha":0.1,
-      //           "selectedBackgroundColor":"#888888",
-      //           "graphFillAlpha":0,
-      //           "autoGridCount":true,
-      //           "selectedGraphFillAlpha":0,
-      //           "graphLineAlpha":0.2,
-      //           "graphLineColor":"#c2c2c2",
-      //           "selectedGraphLineColor":"#888888",
-      //           "selectedGraphLineAlpha":1
-
-      //       },
-      //       "chartCursor": {
-      //           "categoryBalloonDateFormat": "YYYY-MM-DD",
-      //           "cursorAlpha": 0,
-      //           "valueLineEnabled":true,
-      //           "valueLineBalloonEnabled":true,
-      //           "valueLineAlpha":0.5,
-      //           "fullWidth":true
-      //       },
-      //       "dataDateFormat": "YYYY-MM-DD",
-      //       "categoryField": "time",
-      //       "categoryAxis": {
-      //           "minPeriod": "mm",
-      //           "parseDates": true,
-      //           "minorGridAlpha": 0.1,
-      //           "minorGridEnabled": true
-      //       },
-      //       "export": {
-      //           "enabled": true
-      //       }
-      //     });
-      //   }
-      //   // console.log($scope.ChartData);
-      //   // createStockChart("chartdiv",$scope.ChartData,"收缩压","mmHg");
-      // }, function(e) {  
-      // });
 
       VitalSign.getVitalSigns({userId:Storage.get("getpatientId"),type:'体温'}).then(
       function(Data){
@@ -454,73 +323,75 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
         for(var i=0;i<Data.results.length;i++){
           if(Data.results[i].code=="体温"){
             for(var j=0;j<Data.results[i].data.length;j++){
-              $scope.ChartData.push(Data.results[i].data[j])
+              $scope.ChartData.push([new Date(new Date(Data.results[i].data[j].time)-8*3600*1000),Data.results[i].data[j].value])
             }
           }
         }
-        if($scope.ChartData.length==0){
-          $scope.chartdiv2=false;
-        }else{
-          $scope.chartdiv2=true;
-          AmCharts.makeChart("chartdiv2", {
-            "type": "serial",
-            "theme": "light",
-            "marginTop":0,
-            "marginRight": 80,
-            "dataProvider": $scope.ChartData,
-            "valueAxes": [{
-                "axisAlpha": 0,
-                "position": "left"
-            }],
-            "graphs": [{
-                "id":"g1",
-                "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
-                "bullet": "round",
-                "bulletSize": 8,
-                "lineColor": "#d1655d",
-                "lineThickness": 2,
-                "negativeLineColor": "#637bb6",
-                // "type": "smoothedLine",
-                "valueField": "value"
-            }],
-            "chartScrollbar": {
-                "graph":"g1",
-                "gridAlpha":0,
-                "color":"#888888",
-                "scrollbarHeight":55,
-                "backgroundAlpha":0,
-                "selectedBackgroundAlpha":0.1,
-                "selectedBackgroundColor":"#888888",
-                "graphFillAlpha":0,
-                "autoGridCount":true,
-                "selectedGraphFillAlpha":0,
-                "graphLineAlpha":0.2,
-                "graphLineColor":"#c2c2c2",
-                "selectedGraphLineColor":"#888888",
-                "selectedGraphLineAlpha":1
 
-            },
-            "chartCursor": {
-                "categoryBalloonDateFormat": "YYYY-MM-DD",
-                "cursorAlpha": 0,
-                "valueLineEnabled":true,
-                "valueLineBalloonEnabled":true,
-                "valueLineAlpha":0.5,
-                "fullWidth":true
-            },
-            "dataDateFormat": "YYYY-MM-DD",
-            "categoryField": "time",
-            "categoryAxis": {
-                "minPeriod": "mm",
-                "parseDates": true,
-                "minorGridAlpha": 0.1,
-                "minorGridEnabled": true
-            },
-            "export": {
-                "enabled": true
-            }
-          });
+        if($scope.ChartData.length){
+          $scope.chartdiv=true;
+        }else{
+          $scope.chartdiv=false;
         }
+        var option1 = {
+          title : {
+              text : '体温',
+              subtext : '℃'
+          },
+          tooltip : {
+              trigger: 'axis'
+              // formatter : function (params) {
+              //     var date = new Date(params.value[0]);
+              //     data = date.getFullYear() + '-'
+              //            + (date.getMonth() + 1) + '-'
+              //            + date.getDate() + ' '
+              //            + date.getHours() + ':'
+              //            + date.getMinutes();
+              //     return data + '<br/>'
+              //            + params.value[1] + ', ' 
+              //            + params.value[2];
+              // }
+          },
+          dataZoom: {
+              show: true
+              // start : 50
+          },
+          legend : {
+              data : ['体温']
+          },
+          grid: {
+              y2: 80
+          },
+          xAxis : [
+              {
+                  type : 'time',
+                  splitNumber:8//分割的个数
+              }
+          ],
+          yAxis : [
+              {
+                  type : 'value',
+                  min:32,
+                  max:50
+              }
+          ],
+          series : [
+              {
+                  name: '体温',
+                  type: 'line',
+                  symbol:'roundRect',
+                  symbolSize :8,
+                  // showAllSymbol: true,
+                  // symbolSize: function (value){
+                  //     return Math.round(value[2]/10) + 2;
+                  // },
+                  data: $scope.ChartData
+              }
+          ]
+      };
+        var myChart = echarts.init(document.getElementById('chartdiv2'));
+        myChart.setOption(option1);
+
 
       }, function(e) {  
       });
@@ -531,73 +402,72 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
         for(var i=0;i<Data.results.length;i++){
           if(Data.results[i].code=="体重"){
             for(var j=0;j<Data.results[i].data.length;j++){
-              $scope.ChartData.push(Data.results[i].data[j])
+              $scope.ChartData.push([new Date(new Date(Data.results[i].data[j].time)-8*3600*1000),Data.results[i].data[j].value])
             }
           }
         }
-        if($scope.ChartData.length==0){
-          $scope.chartdiv3=false;
+        if($scope.ChartData.length){
+          $scope.chartdiv=true;
         }else{
-          $scope.chartdiv3=true;
-          AmCharts.makeChart("chartdiv3", {
-            "type": "serial",
-            "theme": "light",
-            "marginTop":0,
-            "marginRight": 80,
-            "dataProvider": $scope.ChartData,
-            "valueAxes": [{
-                "axisAlpha": 0,
-                "position": "left"
-            }],
-            "graphs": [{
-                "id":"g1",
-                "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
-                "bullet": "round",
-                "bulletSize": 8,
-                "lineColor": "#d1655d",
-                "lineThickness": 2,
-                "negativeLineColor": "#637bb6",
-                // "type": "smoothedLine",
-                "valueField": "value"
-            }],
-            "chartScrollbar": {
-                "graph":"g1",
-                "gridAlpha":0,
-                "color":"#888888",
-                "scrollbarHeight":55,
-                "backgroundAlpha":0,
-                "selectedBackgroundAlpha":0.1,
-                "selectedBackgroundColor":"#888888",
-                "graphFillAlpha":0,
-                "autoGridCount":true,
-                "selectedGraphFillAlpha":0,
-                "graphLineAlpha":0.2,
-                "graphLineColor":"#c2c2c2",
-                "selectedGraphLineColor":"#888888",
-                "selectedGraphLineAlpha":1
-
-            },
-            "chartCursor": {
-                "categoryBalloonDateFormat": "YYYY-MM-DD",
-                "cursorAlpha": 0,
-                "valueLineEnabled":true,
-                "valueLineBalloonEnabled":true,
-                "valueLineAlpha":0.5,
-                "fullWidth":true
-            },
-            "dataDateFormat": "YYYY-MM-DD",
-            "categoryField": "time",
-            "categoryAxis": {
-                "minPeriod": "mm",
-                "parseDates": true,
-                "minorGridAlpha": 0.1,
-                "minorGridEnabled": true
-            },
-            "export": {
-                "enabled": true
-            }
-          });
+          $scope.chartdiv=false;
         }
+        var option1 = {
+          title : {
+              text : '体重',
+              subtext : 'kg'
+          },
+          tooltip : {
+              trigger: 'axis'
+              // formatter : function (params) {
+              //     var date = new Date(params.value[0]);
+              //     data = date.getFullYear() + '-'
+              //            + (date.getMonth() + 1) + '-'
+              //            + date.getDate() + ' '
+              //            + date.getHours() + ':'
+              //            + date.getMinutes();
+              //     return data + '<br/>'
+              //            + params.value[1] + ', ' 
+              //            + params.value[2];
+              // }
+          },
+          dataZoom: {
+              show: true
+              // start : 50
+          },
+          legend : {
+              data : ['体重']
+          },
+          grid: {
+              y2: 80
+          },
+          xAxis : [
+              {
+                  type : 'time',
+                  splitNumber:8//分割的个数
+              }
+          ],
+          yAxis : [
+              {
+                  type : 'value',
+                  min:30
+              }
+          ],
+          series : [
+              {
+                  name: '体重',
+                  type: 'line',
+                  symbol:'roundRect',
+                  symbolSize :8,
+                  // showAllSymbol: true,
+                  // symbolSize: function (value){
+                  //     return Math.round(value[2]/10) + 2;
+                  // },
+                  data: $scope.ChartData
+              }
+          ]
+      };
+        var myChart = echarts.init(document.getElementById('chartdiv3'));
+        myChart.setOption(option1);
 
       }, function(e) {  
       });
@@ -608,73 +478,72 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
         for(var i=0;i<Data.results.length;i++){
           if(Data.results[i].code=="尿量"){
             for(var j=0;j<Data.results[i].data.length;j++){
-              $scope.ChartData.push(Data.results[i].data[j])
+              $scope.ChartData.push([new Date(new Date(Data.results[i].data[j].time)-8*3600*1000),Data.results[i].data[j].value])
             }
           }
         }
-        if($scope.ChartData.length==0){
-          $scope.chartdiv4=false;
+        if($scope.ChartData.length){
+          $scope.chartdiv=true;
         }else{
-          $scope.chartdiv4=true;
-          AmCharts.makeChart("chartdiv4", {
-            "type": "serial",
-            "theme": "light",
-            "marginTop":0,
-            "marginRight": 80,
-            "dataProvider": $scope.ChartData,
-            "valueAxes": [{
-                "axisAlpha": 0,
-                "position": "left"
-            }],
-            "graphs": [{
-                "id":"g1",
-                "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
-                "bullet": "round",
-                "bulletSize": 8,
-                "lineColor": "#d1655d",
-                "lineThickness": 2,
-                "negativeLineColor": "#637bb6",
-                // "type": "smoothedLine",
-                "valueField": "value"
-            }],
-            "chartScrollbar": {
-                "graph":"g1",
-                "gridAlpha":0,
-                "color":"#888888",
-                "scrollbarHeight":55,
-                "backgroundAlpha":0,
-                "selectedBackgroundAlpha":0.1,
-                "selectedBackgroundColor":"#888888",
-                "graphFillAlpha":0,
-                "autoGridCount":true,
-                "selectedGraphFillAlpha":0,
-                "graphLineAlpha":0.2,
-                "graphLineColor":"#c2c2c2",
-                "selectedGraphLineColor":"#888888",
-                "selectedGraphLineAlpha":1
-
-            },
-            "chartCursor": {
-                "categoryBalloonDateFormat": "YYYY-MM-DD",
-                "cursorAlpha": 0,
-                "valueLineEnabled":true,
-                "valueLineBalloonEnabled":true,
-                "valueLineAlpha":0.5,
-                "fullWidth":true
-            },
-            "dataDateFormat": "YYYY-MM-DD",
-            "categoryField": "time",
-            "categoryAxis": {
-                "minPeriod": "mm",
-                "parseDates": true,
-                "minorGridAlpha": 0.1,
-                "minorGridEnabled": true
-            },
-            "export": {
-                "enabled": true
-            }
-          });
+          $scope.chartdiv=false;
         }
+        var option1 = {
+          title : {
+              text : '尿量',
+              subtext : 'ml'
+          },
+          tooltip : {
+              trigger: 'axis'
+              // formatter : function (params) {
+              //     var date = new Date(params.value[0]);
+              //     data = date.getFullYear() + '-'
+              //            + (date.getMonth() + 1) + '-'
+              //            + date.getDate() + ' '
+              //            + date.getHours() + ':'
+              //            + date.getMinutes();
+              //     return data + '<br/>'
+              //            + params.value[1] + ', ' 
+              //            + params.value[2];
+              // }
+          },
+          dataZoom: {
+              show: true
+              // start : 50
+          },
+          legend : {
+              data : ['尿量']
+          },
+          grid: {
+              y2: 80
+          },
+          xAxis : [
+              {
+                  type : 'time',
+                  splitNumber:8//分割的个数
+              }
+          ],
+          yAxis : [
+              {
+                  type : 'value',
+                  min:200
+              }
+          ],
+          series : [
+              {
+                  name: '尿量',
+                  type: 'line',
+                  symbol:'roundRect',
+                  symbolSize :8,
+                  // showAllSymbol: true,
+                  // symbolSize: function (value){
+                  //     return Math.round(value[2]/10) + 2;
+                  // },
+                  data: $scope.ChartData
+              }
+          ]
+      };
+        var myChart = echarts.init(document.getElementById('chartdiv4'));
+        myChart.setOption(option1);
 
       }, function(e) {  
       });
@@ -685,73 +554,72 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
         for(var i=0;i<Data.results.length;i++){
           if(Data.results[i].code=="心率"){
             for(var j=0;j<Data.results[i].data.length;j++){
-              $scope.ChartData.push(Data.results[i].data[j])
+              $scope.ChartData.push([new Date(new Date(Data.results[i].data[j].time)-8*3600*1000),Data.results[i].data[j].value])
             }
           }
         }
-        if($scope.ChartData.length==0){
-          $scope.chartdiv5=false;
+        if($scope.ChartData.length){
+          $scope.chartdiv=true;
         }else{
-          $scope.chartdiv5=true;
-          AmCharts.makeChart("chartdiv5", {
-            "type": "serial",
-            "theme": "light",
-            "marginTop":0,
-            "marginRight": 80,
-            "dataProvider": $scope.ChartData,
-            "valueAxes": [{
-                "axisAlpha": 0,
-                "position": "left"
-            }],
-            "graphs": [{
-                "id":"g1",
-                "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
-                "bullet": "round",
-                "bulletSize": 8,
-                "lineColor": "#d1655d",
-                "lineThickness": 2,
-                "negativeLineColor": "#637bb6",
-                // "type": "smoothedLine",
-                "valueField": "value"
-            }],
-            "chartScrollbar": {
-                "graph":"g1",
-                "gridAlpha":0,
-                "color":"#888888",
-                "scrollbarHeight":55,
-                "backgroundAlpha":0,
-                "selectedBackgroundAlpha":0.1,
-                "selectedBackgroundColor":"#888888",
-                "graphFillAlpha":0,
-                "autoGridCount":true,
-                "selectedGraphFillAlpha":0,
-                "graphLineAlpha":0.2,
-                "graphLineColor":"#c2c2c2",
-                "selectedGraphLineColor":"#888888",
-                "selectedGraphLineAlpha":1
-
-            },
-            "chartCursor": {
-                "categoryBalloonDateFormat": "YYYY-MM-DD",
-                "cursorAlpha": 0,
-                "valueLineEnabled":true,
-                "valueLineBalloonEnabled":true,
-                "valueLineAlpha":0.5,
-                "fullWidth":true
-            },
-            "dataDateFormat": "YYYY-MM-DD",
-            "categoryField": "time",
-            "categoryAxis": {
-                "minPeriod": "mm",
-                "parseDates": true,
-                "minorGridAlpha": 0.1,
-                "minorGridEnabled": true
-            },
-            "export": {
-                "enabled": true
-            }
-          });
+          $scope.chartdiv=false;
         }
+        var option1 = {
+          title : {
+              text : '心率',
+              subtext : '次/分钟'
+          },
+          tooltip : {
+              trigger: 'axis'
+              // formatter : function (params) {
+              //     var date = new Date(params.value[0]);
+              //     data = date.getFullYear() + '-'
+              //            + (date.getMonth() + 1) + '-'
+              //            + date.getDate() + ' '
+              //            + date.getHours() + ':'
+              //            + date.getMinutes();
+              //     return data + '<br/>'
+              //            + params.value[1] + ', ' 
+              //            + params.value[2];
+              // }
+          },
+          dataZoom: {
+              show: true
+              // start : 50
+          },
+          legend : {
+              data : ['心率']
+          },
+          grid: {
+              y2: 80
+          },
+          xAxis : [
+              {
+                  type : 'time',
+                  splitNumber:8//分割的个数
+              }
+          ],
+          yAxis : [
+              {
+                  type : 'value',
+                  min:30
+              }
+          ],
+          series : [
+              {
+                  name: '心率',
+                  type: 'line',
+                  symbol:'roundRect',
+                  symbolSize :8,
+                  // showAllSymbol: true,
+                  // symbolSize: function (value){
+                  //     return Math.round(value[2]/10) + 2;
+                  // },
+                  data: $scope.ChartData
+              }
+          ]
+      };
+        var myChart = echarts.init(document.getElementById('chartdiv5'));
+        myChart.setOption(option1);
 
       }, function(e) {  
       });
