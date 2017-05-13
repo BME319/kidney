@@ -214,7 +214,9 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
 }])
 //测量记录
 .controller('TestRecordCtrl', ['$scope', '$http','$stateParams','Storage','VitalSign', function ($scope,$http,$stateParams,Storage,VitalSign) {
-  
+  $scope.BacktoPD = function(){
+    $state.go('tab.patientDetail');
+  }  
 
       console.log($stateParams.PatinetId)
       console.log(Storage.get("getpatientId"))
