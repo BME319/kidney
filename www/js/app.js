@@ -14,12 +14,56 @@ angular.module('kidney',[
     'kidney.directives',
     'monospaced.qrcode',
     'ionic-datepicker',
-    'kidney.icon_filter'
+    'kidney.icon_filter',
+    'btford.socket-io'
 ])
 
-.run(['$ionicPlatform', '$state', 'Storage', 'JM','$rootScope','CONFIG','Communication', function($ionicPlatform, $state, Storage, JM,$rootScope,CONFIG,Communication) {
+.run(['$ionicPlatform', '$state', 'Storage','$rootScope','CONFIG','Communication','notify','$interval','socket', function($ionicPlatform, $state, Storage,$rootScope,CONFIG,Communication,notify,$interval,socket) {
     $ionicPlatform.ready(function() {
-        socket = io.connect(CONFIG.socketServer+'chat');
+        //记录message当前会话
+        $rootScope.conversation = {
+            type: null,
+            id: ''
+        }
+        console.log(socket);
+        // socket = io.connect(CONFIG.socketServer+'chat');
+        // socket.on('err', function(data) {
+        //     console.error(data);
+        // });
+        // socket.on('disconnected', function(data) {
+        //     console.info('disconnected');
+        //     console.error(data);
+        // });
+        socket.on('getMsg', listenGetMsg);
+        // socket.on('messageRes', listenMessageRes);
+        // console.log(socket.listeners());
+        // $rootScope.$on('getMsg', listenGetMsg);
+        // $rootScope.$on('messageRes', listenMessageRes);
+        function listenGetMsg(data){
+            console.info('getMsg');
+            // console.log(event);
+            console.log(data);
+            // $rootScope.$broadcast('im:getMsg',data);
+            if(($rootScope.conversation.type == 'single' && $rootScope.conversation.id==data.msg.fromID) || ($rootScope.conversation.type == 'group' && $rootScope.conversation.id==data.msg.targetID)) return;
+            notify.add(data.msg);
+        }
+        // function listenMessageRes(data){
+            // console.info('messageRes');
+            // console.log(event);
+            // console.log(data);
+            // $rootScope.$broadcast('im:messageRes',data);
+        // }
+
+        // $interval(function(){
+        //     // if(socket.disconnected) 
+        //     console.log(socket.listeners('getMsg'));
+        //     socket.off('getMsg');
+        //     // if(!socket.hasListeners('getMsg')) socket.on('getMsg', listenGetMsg);
+        //     socket.on('getMsg', listenGetMsg);
+        //     socket.off('messageRes');
+        //     // if(!socket.hasListeners('messageRes')) socket.on('messageRes', listenMessageRes);
+        //     socket.on('messageRes', listenMessageRes);
+        // },30000);
         //是否登陆
         var isSignIN = Storage.get("isSignIN");
         if (isSignIN == 'YES') {
@@ -28,11 +72,7 @@ angular.module('kidney',[
 
         //用户ID
         var userid = '';
-        //记录jmessage当前会话
-        $rootScope.conversation = {
-            type: null,
-            id: ''
-        }
+        
         if (window.cordova && window.cordova.plugins.Keyboard) {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -44,10 +84,7 @@ angular.module('kidney',[
             cordova.plugins.Keyboard.disableScroll(true);
         }
         if (window.StatusBar) {
-            StatusBar.styleDefault();
-        }
-        if (window.JPush) {
-            window.JPush.init();
+            StatusBar.backgroundColorByHexString("#33bbff");
         }
         if (window.JMessage) {
             // window.Jmessage.init();
@@ -230,7 +267,40 @@ angular.module('kidney',[
 
             }, false);
         }
+        $rootScope.$on('$cordovaLocalNotification:click',function(event,note,state){
+            console.log(arguments);
+            var msg = JSON.parse(note.data);
+            if(msg.targetType=='group'){
+                //'0':团队交流  '1': 未结束病历  '2':已结束病历
+                if(msg.teamId == msg.targetID){
+                    $state.go('tab.group-chat', { type:'0',groupId: msg.targetID,teamId:msg.teamId});
+                }else{
+                    $state.go('tab.group-chat', { type:'1',groupId: msg.targetID,teamId:msg.teamId});
+                }
 
+                // window.JMessage.getGroupInfo(msg.targetID,
+                //     function(response){
+                //         //'0':团队交流  '1': 未结束病历  '2':已结束病历
+                //         var res=JSON.stringify(response);
+                //         if(res.groupDescription=="consultation_open"){
+                //             $state.go('tab.group-chat', { type:'1',groupId: msg.targetID,teamId:msg.content.stringExtras.teamId});
+                //         }else if(res.groupDescription=="consultation_close"){
+                //             $state.go('tab.group-chat', { type:'2',groupId: msg.targetID,teamId:msg.content.stringExtras.teamId});
+                //         }else{
+                //             $state.go('tab.group-chat', { type:'0',groupId: msg.targetID,teamId:msg.content.stringExtras.teamId});
+                //         }
+                //         console.log(res);
+                //     },function(err){
+                //         console.log(err);
+                //     })
+            }else{
+                if(msg.newsType=='12'){
+                    $state.go('tab.detail', { type:'2',chatId: msg.fromID});
+                }else{
+                    $state.go('tab.detail', { type:'1',chatId: msg.fromID});
+                }
+            }
+        })
         //聊天用，防止消息被keyboard遮挡
         window.addEventListener('native.keyboardshow', function(e) {
             $rootScope.$broadcast('keyboardshow', e.keyboardHeight);
@@ -403,8 +473,8 @@ angular.module('kidney',[
                 controller: 'detailCtrl',
                 templateUrl: 'partials/consult/detail.html'
             }
-        },
-        params:{counselId:null}
+        }
+        // params:{counselId:null}
     })
     // .state('tab.consult-detail', {
     //     // cache: false,

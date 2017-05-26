@@ -2,7 +2,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 
 /////////////////////////////zhangying///////////////////////
 //登录
-.controller('SignInCtrl', ['User','$scope','$timeout','$state','Storage','loginFactory','$ionicHistory','JM','$sce','Doctor', function(User,$scope, $timeout,$state,Storage,loginFactory,$ionicHistory,JM,$sce,Doctor) {
+.controller('SignInCtrl', ['User','$scope','$timeout','$state','Storage','loginFactory','$ionicHistory','$sce','Doctor','$rootScope','notify','$interval','socket', function(User,$scope, $timeout,$state,Storage,loginFactory,$ionicHistory,$sce,Doctor,$rootScope,notify,$interval,socket) {
     $scope.barwidth="width:0%";
     $scope.navigation_login=$sce.trustAsResourceUrl("http://proxy.haihonghospitalmanagement.com/member.php?mod=logging&action=logout&formhash=xxxxxx");
     if(Storage.get('USERNAME')!=null){
@@ -13,17 +13,6 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     }
     $scope.signIn = function(logOn) {  
         $scope.logStatus='';
-
-    // //暂时写在这，交流用 XJZ
-    // window.JMessage.login(logOn.username, logOn.username,
-    //     function(response) {
-    //         window.JMessage.username = user
-    //         //gotoConversation();
-    //     },
-    //     function(err) {
-    //         console.log(err);
-    //         // JM.register($scope.useruserID, $scope.passwd);
-    //     });
 
         if((logOn.username!="") && (logOn.password!="")){
             var phoneReg=/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
@@ -44,16 +33,12 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                         }
                     }
                     else if(data.results.mesg=="login success!"){
-                        //jmessage
-                        // JM.login(data.results.userId)
-                        // .then(function(data){ 
-                        //   console.log(data+" is login");
-                        // },function(err){
-                        //   console.log('login fail');
-                        // })
+
                         Doctor.getDoctorInfo({userId:data.results.userId})
                         .then(function(response){
                             thisDoctor = response.results;
+                            socket.emit('newUser', { user_name: thisDoctor.name, user_id: thisDoctor.userId });
+
                         },function(err){
                             thisDoctor=null;
                         });
@@ -2358,9 +2343,10 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 }])
 
 //"我”设置页
-.controller('setCtrl', ['$scope','$ionicPopup','$state','$timeout','$stateParams', 'Storage','$sce',function($scope, $ionicPopup,$state,$timeout,$stateParams,Storage,$sce) {
+.controller('setCtrl', ['$scope','$ionicPopup','$state','$timeout','$stateParams', 'Storage','$sce','socket',function($scope, $ionicPopup,$state,$timeout,$stateParams,Storage,$sce,socket) {
     $scope.hideTabs = true; 
     $scope.logout = function() {
+        socket.emit('disconnect');
         //Storage.set('IsSignIn','NO');
         $state.logStatus="用户已注销";
         //清除登陆信息
