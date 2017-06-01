@@ -29,14 +29,14 @@ angular.module('kidney',[
         var appState = {
             background:false
         }
-        // document.addEventListener('pause', this.onPause, false);
-        // document.addEventListener('resume', this.onResume, false);
-        // function onPause(){
-        //     appState.background = true;
-        // }
-        // function onResume(){
-        //     appState.background = false;
-        // }
+        document.addEventListener('pause', onPause, false);
+        document.addEventListener('resume', onResume, false);
+        function onPause(){
+            appState.background = true;
+        }
+        function onResume(){
+            appState.background = false;
+        }
         // socket = io.connect(CONFIG.socketServer+'chat');
         socket.on('error', function(data) {
             console.error('socket error');
@@ -63,8 +63,8 @@ angular.module('kidney',[
             // console.log(event);
             console.log(data);
             // $rootScope.$broadcast('im:getMsg',data);
-            if((($rootScope.conversation.type == 'single' && $rootScope.conversation.id==data.msg.fromID) || ($rootScope.conversation.type == 'group' && $rootScope.conversation.id==data.msg.targetID))) return;
-            // if(!appState.background && (($rootScope.conversation.type == 'single' && $rootScope.conversation.id==data.msg.fromID) || ($rootScope.conversation.type == 'group' && $rootScope.conversation.id==data.msg.targetID))) return;
+            // if((($rootScope.conversation.type == 'single' && $rootScope.conversation.id==data.msg.fromID) || ($rootScope.conversation.type == 'group' && $rootScope.conversation.id==data.msg.targetID))) return;
+            if(!appState.background && (($rootScope.conversation.type == 'single' && $rootScope.conversation.id==data.msg.fromID) || ($rootScope.conversation.type == 'group' && $rootScope.conversation.id==data.msg.targetID))) return;
             notify.add(data.msg);
         }
         // function listenMessageRes(data){

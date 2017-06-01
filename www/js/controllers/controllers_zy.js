@@ -37,7 +37,10 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                         Doctor.getDoctorInfo({userId:data.results.userId})
                         .then(function(response){
                             thisDoctor = response.results;
-                            socket.emit('newUser', { user_name: thisDoctor.name, user_id: thisDoctor.userId });
+                            $interval(function newuser(){
+                                socket.emit('newUser', { user_name: thisDoctor.name, user_id: thisDoctor.userId });
+                                return newuser;
+                            }(),10000);
 
                         },function(err){
                             thisDoctor=null;

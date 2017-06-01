@@ -419,7 +419,9 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.params.msgCount = 0;
         $scope.params.newsType = $scope.params.type=='2'?'12':'11';
 
-        notify.remove($scope.params.chatId);
+        try{
+            notify.remove($scope.params.chatId);
+        }catch(e){}
         console.log($scope.params)
             //获取counsel信息
         if ($scope.params.type != '2') {
@@ -1337,8 +1339,9 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.params.type = $state.params.type;
         $scope.params.groupId = $state.params.groupId;
         $scope.params.teamId = $state.params.teamId;
-
-        notify.remove($scope.params.groupId);
+        try{
+            notify.remove($scope.params.groupId);
+        }catch(e){}
 
         var loadWatcher = $scope.$watch('msgs.length',function(newv,oldv){
             if(newv) {
