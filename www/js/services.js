@@ -405,7 +405,9 @@ angular.module('kidney.services', ['ionic','ngResource'])
             sendSMS:{method:'POST', params:{route: 'sendSMS',mobile:'@mobile',smsType:'@smsType'}, timeout: 100000},//第一次验证码发送成功返回结果为”User doesn't exist“，如果再次发送才返回”验证码成功发送“
             verifySMS:{method:'GET', params:{route: 'verifySMS',mobile:'@mobile',smsType:'@smsType',smsCode:'@smsCode'}, timeout: 100000},
             getAgree:{method:'GET', params:{route: 'getUserAgreement',userId:'@userId'}, timeout: 100000},
-            updateAgree:{method:'POST', params:{route: 'updateUserAgreement'}, timeout: 100000}
+            updateAgree:{method:'POST', params:{route: 'updateUserAgreement'}, timeout: 100000},
+            getUserIDbyOpenId:{method:'GET', params:{route: 'getUserIDbyOpenId'}, timeout: 100000},
+            setOpenId:{method:'POST', params:{route: 'setOpenId'}, timeout: 100000}
         });
     }
 
@@ -484,12 +486,10 @@ angular.module('kidney.services', ['ionic','ngResource'])
         });
     }
 
-    var wechat = function(){
+    var Mywechat = function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'wechat'},{
-            // settingConfig:{method:'GET', params:{route: 'settingConfig'}, timeout: 100000},
-            // getUserInfo:{method:'GET', params:{route: 'getUserInfo'}, timeout: 100000},
-            // download:{method:'GET', params:{route: 'download'}, timeout: 100000},
-            messageTemplate:{method:'POST', params:{route: 'messageTemplate'}, timeout: 100000}
+            messageTemplate:{method:'POST', params:{route: 'messageTemplate'}, timeout: 100000},
+            gettokenbycode:{method:'GET', params:{route: 'gettokenbycode'}, timeout: 100000}
         })
     }
 
@@ -511,7 +511,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             serve.Message = Message();
             serve.Communication = Communication();
             serve.User = User();
-            serve.wechat = wechat();
+            serve.Mywechat = Mywechat();
             serve.Insurance = Insurance();
             serve.New = New();          
             serve.Expense = Expense();    
@@ -531,7 +531,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     serve.Message = Message();
     serve.Communication = Communication();
     serve.User = User();
-    serve.wechat = wechat();
+    serve.Mywechat = Mywechat();
     serve.Insurance = Insurance();
     serve.New = New();  
     serve.Expense = Expense();        
@@ -1099,7 +1099,31 @@ angular.module('kidney.services', ['ionic','ngResource'])
         return deferred.promise;
     }
 
-
+    self.getUserIDbyOpenId = function(params){
+        var deferred = $q.defer();
+        Data.User.getUserIDbyOpenId(
+            params,
+            function(data, headers){
+                deferred.resolve(data);
+            },
+            function(err){
+                deferred.reject(err);
+        });
+        return deferred.promise;
+    }
+    
+    self.setOpenId  = function(params){
+        var deferred = $q.defer();
+        Data.User.setOpenId (
+            params,
+            function(data, headers){
+                deferred.resolve(data);
+            },
+            function(err){
+                deferred.reject(err);
+        });
+        return deferred.promise;
+    }
     
     return self;
 }])
@@ -1960,12 +1984,12 @@ angular.module('kidney.services', ['ionic','ngResource'])
     }
 
 }])
-.factory('wechat', ['$q', 'Data', function($q, Data){
+.factory('Mywechat', ['$q', 'Data', function($q, Data){
     var self = this;
 
     self.messageTemplate = function(params){
         var deferred = $q.defer();
-        Data.wechat.messageTemplate(
+        Data.Mywechat.messageTemplate(
             params,
             function(data, headers){
                 deferred.resolve(data);
@@ -1975,9 +1999,23 @@ angular.module('kidney.services', ['ionic','ngResource'])
         });
         return deferred.promise;
     };
-    
+
+    self.gettokenbycode = function(params){
+        var deferred = $q.defer();
+        Data.Mywechat.gettokenbycode(
+            params,
+            function(data, headers){
+                deferred.resolve(data);
+            },
+            function(err){
+                deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+
     return self;
 }])
+
 .factory('arrTool',function(){
     return {
         indexOf:function(arr,key,val,binary){

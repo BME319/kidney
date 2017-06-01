@@ -2,7 +2,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 
 /////////////////////////////zhangying///////////////////////
 //登录
-.controller('SignInCtrl', ['User','$scope','$timeout','$state','Storage','loginFactory','$ionicHistory','$sce','Doctor','$rootScope','notify','$interval','socket', function(User,$scope, $timeout,$state,Storage,loginFactory,$ionicHistory,$sce,Doctor,$rootScope,notify,$interval,socket) {
+.controller('SignInCtrl', ['User','$scope','$timeout','$state','Storage','loginFactory','$ionicHistory','$sce','Doctor','$rootScope','notify','$interval','socket','Mywechat', function(User,$scope, $timeout,$state,Storage,loginFactory,$ionicHistory,$sce,Doctor,$rootScope,notify,$interval,socket,Mywechat) {
     $scope.barwidth="width:0%";
     $scope.navigation_login=$sce.trustAsResourceUrl("http://proxy.haihonghospitalmanagement.com/member.php?mod=logging&action=logout&formhash=xxxxxx");
     if(Storage.get('USERNAME')!=null){
@@ -90,6 +90,74 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     $scope.toReset = function(){
         Storage.set('validMode',1);//修改密码
         $state.go('phonevalid');   
+    }
+
+    //0531
+    $scope.wxsignIn=function(){
+        /*Wechat.isInstalled(function (installed) {
+            alert("Wechat installed: " + (installed ? "Yes" : "No"));
+        }, function (reason) {
+            alert("Failed: " + reason);
+        });*/
+        //先判断localstorage是否有unionid
+        if(Storage.get('doctorunionid')!=undefined&&Storage.get('bindingsucc')=='yes'){
+            User.logIn({username:Storage.get('doctorunionid'),password:"112233",role:"doctor"}).then(function(data){
+              if(data.results.mesg=="login success!"){
+                Storage.set('isSignIn',"Yes");
+                Storage.set('UID',ret.UserId);//后续页面必要uid
+                Storage.set('bindingsucc','yes')
+                $state.go('tab.home')  
+              }
+            })
+        }
+        // if(1==2){
+        var wxscope = "snsapi_userinfo",
+        wxstate = "_" + (+new Date());
+        Wechat.auth(wxscope, wxstate, function (response) {
+            // you may use response.code to get the access token.
+            // alert(JSON.stringify(response));
+            // alert(response.code)
+            //将code传个后台服务器 获取unionid
+            Mywechat.gettokenbycode({role:"appDoctor",code:response.code}).then(function(res){
+                // alert(JSON.stringify(res));
+              // { 
+              // "access_token":"ACCESS_TOKEN", 
+              // "expires_in":7200, 
+              // "refresh_token":"REFRESH_TOKEN",
+              // "openid":"OPENID", 
+              // "scope":"SCOPE",
+              // "unionid":"o6_bmasdasdsad6_2sgVt7hMZOPfL"
+              // }
+              $scope.unionid=res.result.unionid;
+              // alert($scope.unionid)
+              //判断这个unionid是否已经绑定用户了 有直接登录
+              User.getUserIDbyOpenId({"openId":$scope.unionid}).then(function(ret){
+                // alert(JSON.stringify(ret))
+                //用户已经存在id 说明公众号注册过
+                if(ret.results==0&&ret.role.indexOf("doctor")!=-1){//直接登录
+                  User.logIn({username:$scope.unionid,password:"112233",role:"doctor"}).then(function(data){
+                    // alert(JSON.stringify(data));
+                    if(data.results.mesg=="login success!"){
+                      Storage.set('isSignIn',"Yes");
+                      Storage.set('UID',ret.UserId);//后续页面必要uid
+                      Storage.set("doctorunionid",$scope.unionid);//自动登录使用
+                      Storage.set('bindingsucc','yes')
+                      $state.go('tab.home')  
+                    }
+                  })
+                }else{
+                  Storage.set("doctorunionid",$scope.unionid);//自动登录使用
+                  $state.go('phonevalid',{last:'wechatsignin'})
+                }
+              })
+            },function(err){
+              alert(JSON.stringify(err));
+            })
+        }, function (reason) {
+            alert("Failed: " + reason);
+        });
+
+        // }
     } 
   
 }])
@@ -101,6 +169,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     $scope.Verify={Phone:"",Code:""};
     $scope.veritext="获取验证码";
     $scope.isable=false;
+    $scope.hasimport=false;
     var validMode=Storage.get('validMode');//0->set;1->reset
     var unablebutton = function(){      
      //验证码BUTTON效果
@@ -149,7 +218,59 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
         .then(function(succ)
         {
             console.log(succ)
-            if(validMode==0)
+            if($stateParams.last=='wechatsignin'){
+                if (succ.mesg =="User doesn't Exist!")
+                {
+                    User.sendSMS({
+                        mobile:Verify.Phone,
+                        smsType:2
+                    })
+                    .then(function(data)
+                    {
+                        unablebutton();
+                        if(data.mesg.substr(0,8)=="您的邀请码已发送"){
+                            $scope.logStatus = "您的验证码已发送，重新获取请稍后";
+                        }else if (data.results == 1){
+                            $scope.logStatus = "验证码发送失败，请稍后再试";
+                        }
+                        else{
+                            $scope.logStatus ="验证码发送成功！";
+                        }
+                    },function(err)
+                    {
+                        $scope.logStatus="验证码发送失败！";
+                    })
+                }
+                else 
+                {
+                    if (succ.roles.indexOf('doctor') != -1)
+                    {
+                        // $scope.logStatus="您已经注册过了";
+                        Storage.set('UID',succ.UserId)//导入的用户 只要绑定下手机号码就行了
+                        $scope.hasimport=true;
+                    }
+                    User.sendSMS({
+                        mobile:Verify.Phone,
+                        smsType:2
+                    })
+                    .then(function(data)
+                    {
+                        unablebutton();
+                        if(data.mesg.substr(0,8)=="您的邀请码已发送"){
+                            $scope.logStatus = "您的验证码已发送，重新获取请稍后";
+                        }else if (data.results == 1){
+                            $scope.logStatus = "验证码发送失败，请稍后再试";
+                        }
+                        else{
+                            $scope.logStatus ="验证码发送成功！";
+                        }
+                    },function(err)
+                    {
+                        $scope.logStatus="验证码发送失败！";
+                    })
+                }
+            }
+            else if(validMode==0)
             {
                 if (succ.mesg =="User doesn't Exist!")
                 {
@@ -271,7 +392,17 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                     {
                         $scope.logStatus="验证成功！";
                         Storage.set('phoneNumber',Verify.Phone);
-                        if(validMode == 0){
+                        if($stateParams.last=='wechatsignin'){
+                            if($scope.hasimport){//导入的用户绑定手机号就行了
+                                // User.setOpenId({phoneNo:Verify.Phone,openId:Storage.get('doctorunionid')}).then(function(response){
+                                  // Storage.set('bindingsucc','yes')
+                                  $timeout(function(){$state.go('agreement',{last:'wechatimport'});},500);
+                                // })
+                            }else{
+                                $timeout(function(){$state.go('agreement',{last:'wechatsignin'});},500);
+                            }
+                        }
+                        else if(validMode == 0){
                             $timeout(function(){$state.go('agreement',{last:'register'});},500);
                         }else{
                             $timeout(function(){$state.go('setpassword')}); 
@@ -299,7 +430,23 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 .controller('AgreeCtrl', ['User','$stateParams','$scope','$timeout','$state','Storage','$ionicHistory','$http','Data', function(User,$stateParams,$scope, $timeout,$state,Storage,$ionicHistory,$http,Data) {
     $scope.YesIdo = function(){
         console.log('yesido');
-        if($stateParams.last=='signin'){
+        if($stateParams.last=='wechatimport'){
+            User.updateAgree({userId:Storage.get('UID'),agreement:"0"}).then(function(data){
+                if(data.results!=null){
+                    User.setOpenId({phoneNo:Storage.get('phoneNumber'),openId:Storage.get('doctorunionid')}).then(function(response){
+                        Storage.set('bindingsucc','yes')
+                        $timeout(function(){$state.go('tab.home');},500);
+                    })
+                }else{
+                    console.log("用户不存在!");
+                }
+            },function(err){
+                console.log(err);
+            })
+        }else if($stateParams.last=='wechatsignin'){
+            $timeout(function(){$state.go('userdetail',{last:'wechatsignin'})},500);
+        }
+        else if($stateParams.last=='signin'){
             User.updateAgree({userId:Storage.get('UID'),agreement:"0"}).then(function(data){
                 if(data.results!=null){
                     $timeout(function(){$state.go('tab.home');},500);
@@ -383,6 +530,9 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     $scope.barwidth="width:0%";
     var phoneNumber=Storage.get('RegisterNO');
     var password=Storage.get('password');
+    if(Storage.get('password')==undefined||Storage.get('password')==""||Storage.get('password')==null){
+        password='123456'
+    }
     $scope.Titles =
     [
         {Name:"主任医师",Type:1},
@@ -493,6 +643,13 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                 })
                 .then(function(succ)
                 {
+                    //绑定手机号和unionid
+                    if($stateParams.last=='wechatsignin'){
+                        User.setOpenId({phoneNo:Storage.get('phoneNumber'),openId:Storage.get('doctorunionid')}).then(function(response){
+                            Storage.set('bindingsucc','yes')
+                            // $timeout(function(){$state.go('tab.home');},500);
+                        })
+                    }
                     console.log(phoneNumber)
                     console.log(password)
                     console.log(succ)

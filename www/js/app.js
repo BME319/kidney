@@ -363,7 +363,8 @@ angular.module('kidney',[
         url: '/phonevalid',
         cache: false,
         templateUrl: 'partials/others/phonevalid.html',
-        controller: 'phonevalidCtrl'
+        controller: 'phonevalidCtrl',
+        params:{last:null}
     })
     .state('setpassword', {
       cache:false,
@@ -374,6 +375,7 @@ angular.module('kidney',[
     .state('userdetail',{
       cache:false,
       url:'/userdetail',
+      params:{last:null},
       templateUrl:'partials/others/userDetail.html',
       controller:'userdetailCtrl'
     })
