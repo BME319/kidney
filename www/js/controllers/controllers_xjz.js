@@ -377,7 +377,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
 
 }])
 //"咨询”问题详情
-.controller('detailCtrl', ['$scope', '$state', '$rootScope', '$ionicModal', '$ionicScrollDelegate', '$ionicHistory', '$ionicPopover', '$ionicPopup', 'Camera', 'voice', '$http', 'CONFIG', 'arrTool', 'Communication','Account','Counsel','Storage','Doctor','Patient','$q','New','wechat','Account','socket',function($scope, $state, $rootScope, $ionicModal, $ionicScrollDelegate, $ionicHistory, $ionicPopover, $ionicPopup, Camera, voice, $http, CONFIG, arrTool, Communication, Account, Counsel,Storage,Doctor,Patient,$q,New,wechat,Account,socket) {
+.controller('detailCtrl', ['$scope', '$state', '$rootScope', '$ionicModal', '$ionicScrollDelegate', '$ionicHistory', '$ionicPopover', '$ionicPopup', 'Camera', 'voice', '$http', 'CONFIG', 'arrTool', 'Communication','Account','Counsel','Storage','Doctor','Patient','$q','New','wechat','Account','socket','notify',function($scope, $state, $rootScope, $ionicModal, $ionicScrollDelegate, $ionicHistory, $ionicPopover, $ionicPopup, Camera, voice, $http, CONFIG, arrTool, Communication, Account, Counsel,Storage,Doctor,Patient,$q,New,wechat,Account,socket,notify) {
     $scope.input = {
         text: ''
     }
@@ -418,6 +418,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.params.connect = false;
         $scope.params.msgCount = 0;
         $scope.params.newsType = $scope.params.type=='2'?'12':'11';
+
+        notify.remove($scope.params.chatId);
         console.log($scope.params)
             //获取counsel信息
         if ($scope.params.type != '2') {
@@ -1294,7 +1296,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
 }])
 
 //团队聊天
-.controller('GroupChatCtrl', ['$scope', '$state', '$ionicHistory', '$http', '$ionicModal', '$ionicScrollDelegate', '$rootScope', '$stateParams', '$ionicPopover','$ionicLoading', '$ionicPopup', 'Camera', 'voice', 'Communication','Storage','Doctor','$q','CONFIG','arrTool','New','socket', function($scope, $state, $ionicHistory, $http, $ionicModal, $ionicScrollDelegate, $rootScope, $stateParams, $ionicPopover,$ionicLoading, $ionicPopup, Camera, voice, Communication,Storage,Doctor,$q,CONFIG,arrTool,New,socket) {
+.controller('GroupChatCtrl', ['$scope', '$state', '$ionicHistory', '$http', '$ionicModal', '$ionicScrollDelegate', '$rootScope', '$stateParams', '$ionicPopover','$ionicLoading', '$ionicPopup', 'Camera', 'voice', 'Communication','Storage','Doctor','$q','CONFIG','arrTool','New','socket','notify', function($scope, $state, $ionicHistory, $http, $ionicModal, $ionicScrollDelegate, $rootScope, $stateParams, $ionicPopover,$ionicLoading, $ionicPopup, Camera, voice, Communication,Storage,Doctor,$q,CONFIG,arrTool,New,socket,notify) {
     $scope.input = {
         text: ''
     };
@@ -1335,6 +1337,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
         $scope.params.type = $state.params.type;
         $scope.params.groupId = $state.params.groupId;
         $scope.params.teamId = $state.params.teamId;
+
+        notify.remove($scope.params.groupId);
 
         var loadWatcher = $scope.$watch('msgs.length',function(newv,oldv){
             if(newv) {
@@ -1382,6 +1386,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                     $scope.params.team = data.results;
                     $scope.params.title = $scope.params.team.name + '(' + $scope.params.team.number + ')';
                     $scope.params.targetName = $scope.params.team.name;
+                    getSponsor(data.results.sponsorId);
                     for(i=0;i<data.results.members.length;i++){
                         $scope.photoUrls[data.results.members[i].userId]=data.results.members[i].photoUrl;
                     }
@@ -1547,11 +1552,18 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             Communication.getTeam({ teamId: $scope.params.teamId })
                 .then(function(data) {
                     $scope.params.targetName = '['+data.result.patientId.name+']'+$scope.params.team.name;
+                    getSponsor(data.results.sponsorId);
                     for(i=0;i<data.results.members.length;i++){
                         $scope.photoUrls[data.results.members[i].userId]=data.results.members[i].photoUrl;
                     }
                 });
         });
+    }
+    function getSponsor(id){
+        Doctor.getDoctorInfo({userId:id})
+            .then(function(sponsor){
+                $scope.photoUrls[sponsor.results.userId]=sponsor.results.photoUrl;
+            })
     }
     $scope.DisplayMore = function() {
         $scope.getMsg(15).then(function(data){

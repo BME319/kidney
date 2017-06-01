@@ -25,15 +25,34 @@ angular.module('kidney',[
             type: null,
             id: ''
         }
-        console.log(socket);
+        thisDoctor=null;
+        var appState = {
+            background:false
+        }
+        // document.addEventListener('pause', this.onPause, false);
+        // document.addEventListener('resume', this.onResume, false);
+        // function onPause(){
+        //     appState.background = true;
+        // }
+        // function onResume(){
+        //     appState.background = false;
+        // }
         // socket = io.connect(CONFIG.socketServer+'chat');
-        // socket.on('err', function(data) {
-        //     console.error(data);
-        // });
-        // socket.on('disconnected', function(data) {
-        //     console.info('disconnected');
-        //     console.error(data);
-        // });
+        socket.on('error', function(data) {
+            console.error('socket error');
+            console.log(data);
+        });
+        socket.on('disconnected', function(data) {
+            console.error('disconnected');
+            console.error(data);
+        });
+        socket.on('reconnect', function(attempt) {
+            console.info('reconnect: ' + attempt);
+            var id = Storage.get('UID'),
+                name = thisDoctor===null?'':thisDoctor.name;
+            socket.emit('newUser',{ user_name: name, user_id: id });
+        });
+
         socket.on('getMsg', listenGetMsg);
         // socket.on('messageRes', listenMessageRes);
         // console.log(socket.listeners());
@@ -44,7 +63,8 @@ angular.module('kidney',[
             // console.log(event);
             console.log(data);
             // $rootScope.$broadcast('im:getMsg',data);
-            if(($rootScope.conversation.type == 'single' && $rootScope.conversation.id==data.msg.fromID) || ($rootScope.conversation.type == 'group' && $rootScope.conversation.id==data.msg.targetID)) return;
+            if((($rootScope.conversation.type == 'single' && $rootScope.conversation.id==data.msg.fromID) || ($rootScope.conversation.type == 'group' && $rootScope.conversation.id==data.msg.targetID))) return;
+            // if(!appState.background && (($rootScope.conversation.type == 'single' && $rootScope.conversation.id==data.msg.fromID) || ($rootScope.conversation.type == 'group' && $rootScope.conversation.id==data.msg.targetID))) return;
             notify.add(data.msg);
         }
         // function listenMessageRes(data){

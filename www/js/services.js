@@ -2020,7 +2020,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     return self;
 }])
 .factory('socket',['$rootScope','socketFactory','CONFIG',function($rootScope,socketFactory,CONFIG){
-    myIoSocket = io.connect(CONFIG.socketServer+'chat');
+    var myIoSocket = io.connect(CONFIG.socketServer+'chat');
 
     // return io.connect(CONFIG.socketServer+'chat');
     // return {
@@ -2124,15 +2124,16 @@ angular.module('kidney.services', ['ionic','ngResource'])
                     }else{
                         return schedulNote(msg,note);
                     }
-                }).then(function(res){
-                    console.log(res);
-                    $cordovaLocalNotification.getAll()
-                    .then(function(notes){
-                        console.log(notes);
-                    });
-                },function(err){
-                    console.log(err);
-                })
+                });
+                // .then(function(res){
+                //     console.log(res);
+                //     $cordovaLocalNotification.getAll()
+                //     .then(function(notes){
+                //         console.log(notes);
+                //     });
+                // },function(err){
+                //     console.log(err);
+                // })
 
 
             // var url = CONFIG.mediaUrl+'uploads/photos/resized'+msg.fromID+'_myAvatar.jpg',
@@ -2169,8 +2170,9 @@ angular.module('kidney.services', ['ionic','ngResource'])
             // });
             // if(getNote(msg))
         },
-        remome:function(id){
-            return $cordovaLocalNotification.cancel(id);
+        remove:function(id){
+            var matchId=Number(id.slice(1));
+            return $cordovaLocalNotification.cancel(matchId);
         }
     }
 }])
