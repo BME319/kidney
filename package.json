@@ -26,21 +26,6 @@
         "cordova-plugin-splashscreen",
         "ionic-plugin-keyboard",
         "cordova-plugin-compat",
-        {
-            "id": "jmessage-phonegap-plugin",
-            "locator": "../jmessage-phonegap-plugin",
-            "variables": {
-                "APP_KEY": "cf32b94444c4eaacef86903e"
-            }
-        },
-        "cordova-plugin-jcore",
-        {
-            "id": "jpush-phonegap-plugin",
-            "locator": "jpush-phonegap-plugin",
-            "variables": {
-                "APP_KEY": "cf32b94444c4eaacef86903e"
-            }
-        },
         "cordova-plugin-media",
         "cordova-plugin-file",
         "cordova-plugin-camera",

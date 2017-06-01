@@ -41,8 +41,6 @@ angular.module('kidney.services', ['ionic','ngResource'])
   };
 }])
 .constant('CONFIG', {
-    crossKey:'fe7b9ba069b80316653274e4',
-    appKey: 'cf32b94444c4eaacef86903e',
     baseUrl: 'http://121.43.107.106:4050/',
     mediaUrl: 'http://121.43.107.106:8052/',
     socketServer:'ws://121.43.107.106:4050/',
@@ -232,409 +230,15 @@ angular.module('kidney.services', ['ionic','ngResource'])
     return audio;
 }])
 
-//jmessage XJZ
-.factory('JM', ['Storage','$q','Doctor', function(Storage,$q,Doctor) {
-    var ConversationList = [];
-    var messageLIsts = {};
-    function pGen(u){
-        return md5(u,"kidney").substr(4,10);
-    }
-
-    function checkIsLogin() {
-        return $q(function(resolve,reject){
-            window.JMessage.getMyInfo(function(response) {
-                console.log("user is login" + response);
-                var myInfo = JSON.parse(response);
-                window.JMessage.username = myInfo.userName;
-                // window.JMessage.nickname = myInfo.nickname;
-                // window.JMessage.gender = myInfo.mGender;
-                // usernameForConversation = myInfo.userName;
-                resolve(myInfo.userName);
-            }, function(response) {
-
-                console.log("User is not login.");
-                window.JMessage.username = "";
-                window.JMessage.nickname = "";
-                window.JMessage.gender = "unknown";
-                reject('not login')
-            });
-        });
-        // console.log("checkIsLogin...");
-        
-    }
-
-    // function getPushRegistrationID() {
-    //     try {
-    //         window.JPush.getRegistrationID(onGetRegistrationID);
-    //         if (device.platform != "Android") {
-    //             window.JPush.setDebugModeFromIos();
-    //             window.JPush.setApplicationIconBadgeNumber(0);
-    //         } else {
-    //             window.JPush.setDebugMode(true);
-    //         }
-    //     } catch (exception) {
-    //         console.log(exception);
-    //     }
-    // }
-
-    // function updateUserInfo() {
-    //     window.JMessage.getMyInfo(
-    //         function(response) {
-    //             var myInfo = JSON.parse(response);
-    //             console.log("user is login" + response);
-    //             window.JMessage.username = myInfo.userName;
-    //             window.JMessage.nickname = myInfo.nickname;
-    //             window.JMessage.gender = myInfo.mGender;
-    //             $('#myInfoUsername').val(myInfo.userName);
-    //             $('#myInfoNickname').val(myInfo.nickname);
-    //             $('#myInfoGender').val(myInfo.gender);
-    //         }, null);
-    // }
-
-    // function getUserDisplayName() {
-    //     if (window.JMessage.nickname.length == 0) {
-    //         return window.JMessage.username;
-    //     } else {
-    //         return window.JMessage.nickname;
-    //     }
-    // }
-
-    function login(user,nick) {
-        return $q(function(resolve,reject){
-            Doctor.getDoctorInfo({userId:user})
-            .then(function(data){
-                console.log(user);
-                console.log(pGen(user));
-                if(window.JMessage){
-                    window.JMessage.login(user, pGen(user),
-                        function(response) {
-                            window.JMessage.updateMyInfo('nickname',data.results.name);
-                            window.JMessage.nickname = data.results.name;
-                            window.JMessage.username = user;
-                            resolve(user);
-                        }, function(err){
-                            console.log(err);
-                            register(user,data.results.name);
-                            // reject(err);
-                        });
-
-
-                }
-            },function(err){
-                reject(err);
-            })            
-        });
-    }
-
-    function register(user,nick) {
-        return $q(function(resolve,reject){
-            window.JMessage.register(user, pGen(user),
-                function(response) {
-                    window.JMessage.login(user, pGen(user),
-                    function(response) {
-                        //真实姓名
-                        window.JMessage.updateMyInfo('nickname',nick);
-                        window.JMessage.username = user;
-                        window.JMessage.nickname = nick;
-                        resolve(user);
-                    }, function(err){
-                        console.log(err);
-                        reject(err);
-                    });
-                    // console.log("login callback success" + response);
-                    // resolve(user);
-                },
-                function(response) {
-                    console.log("login callback fail" + response);
-                    reject(response)
-                }
-            );
-        });
-        
-    }
-    // nickname：昵称。
-    // birthday：生日。
-    // signature：个性签名。
-    // gender：性别。
-    // region：地区。
-    // function updateMyInfo(field,value){
-    //     window.JMessage.updateMyInfo(field,value,null,null)
-    // }
-    // function updateConversationList() {
-    //     $('#conversationList').empty().listview('refresh');
-    //     console.log("updateConversationList");
-    //     window.JMessage.getConversationList(
-    //         function(response) {
-    //             conversationList = JSON.parse(response);
-    //         },
-    //         function(response) {
-    //             alert("Get conversation list failed.");
-    //             console.log(response);
-    //         });
-    // }
-
-    // function onReceiveMessage(message) {
-    //     console.log("onReceiveSingleMessage");
-    //     if (device.platform == "Android") {
-    //         message = window.JMessage.message;
-    //         console.log(JSON.stringify(message));
-    //     }
-    //     // messageArray.unshift(message);
-    //     //refreshConversation();
-    // }
-    // function getMessageHistory(username) {
-    //     $('#messageList').empty().listview('refresh');
-    //     //读取的是从 0 开始的 50 条聊天记录，可按实现需求传不同的值。
-    //     window.JMessage.getHistoryMessages("single", username,
-    //         '', 0, 50, function (response) {
-    //             console.log("getMessageHistory ok: " + response);
-    //             messageArray = JSON.parse(response);
-    //             refreshConversation();
-    //         }, function (response) {
-    //             alert("getMessageHistory failed");
-    //             console.log("getMessageHistory fail" + response);
-    //         }
-    //     );
-    // }
-    // function sendMessage() {
-    //     var messageContentString = $("#messageContent").val();
-    //     window.JMessage.sendSingleTextMessage(
-    //         usernameForConversation, messageContentString, null,
-    //         function (response) {
-    //             var msg = JSON.parse(response);
-    //             messageArray.unshift(msg);
-    //             refreshConversation();
-    //         }, function (response) {
-    //             console.log("send message fail" + response);
-    //             alert("send message fail" + response);
-    //         });
-    // }
-    function onGetRegistrationID(response) {
-        console.log("registrationID is " + response);
-        Storage.set('jid', response);
-        //$("#registrationId").html(response);
-    }
-
-    function getPushRegistrationID() {
-        try {
-            window.JPush.getRegistrationID(onGetRegistrationID);
-            if (device.platform != "Android") {
-                window.JPush.setDebugModeFromIos();
-                window.JPush.setApplicationIconBadgeNumber(0);
-            } else {
-                window.JPush.setDebugMode(true);
-            }
-        } catch (exception) {
-            console.log(exception);
-        }
-    }
-
-    function onOpenNotification(event) {
-        console.log("index onOpenNotification");
-        try {
-            var alertContent;
-            if (device.platform == "Android") {
-                alertContent = event.alert;
-            } else {
-                alertContent = event.aps.alert;
-            }
-            alert("open Notification:" + alertContent);
-        } catch (exception) {
-            console.log("JPushPlugin:onOpenNotification" + exception);
-        }
-    }
-
-    function onReceiveNotification(event) {
-        console.log("index onReceiveNotification");
-        try {
-            var alertContent;
-            if (device.platform == "Android") {
-                alertContent = event.alert;
-            } else {
-                alertContent = event.aps.alert;
-            }
-            $("#notificationResult").html(alertContent);
-        } catch (exception) {
-            console.log(exception)
-        }
-    }
-
-    function onReceivePushMessage(event) {
-        try {
-            var message;
-            if (device.platform == "Android") {
-                message = event.message;
-            } else {
-                message = event.content;
-            }
-            console.log(message);
-            $("#messageResult").html(message);
-        } catch (exception) {
-            console.log("JPushPlugin:onReceivePushMessage-->" + exception);
-        }
-    }
-
-    // function onSetTagsWithAlias(event) {
-    //     try {
-    //         console.log("onSetTagsWithAlias");
-    //         var result = "result code:" + event.resultCode + " ";
-    //         result += "tags:" + event.tags + " ";
-    //         result += "alias:" + event.alias + " ";
-    //         $("#tagAliasResult").html(result);
-    //     } catch (exception) {
-    //         console.log(exception)
-    //     }
-    // }
-
-    // function setTagWithAlias() {
-    //     try {
-    //         var username = $("#loginUsername").val();
-    //         var tag1 = $("#tagText1").val();
-    //         var tag2 = $("#tagText2").val();
-    //         var tag3 = $("#tagText3").val();
-    //         var alias = $("#aliasText").val();
-    //         var dd = [];
-    //         if (tag1 != "") {
-    //             dd.push(tag1);
-    //         }
-    //         if (tag2 != "") {
-    //             dd.push(tag2);
-    //         }
-    //         if (tag3 != "") {
-    //             dd.push(tag3);
-    //         }
-    //         window.JPush.setTagsWithAlias(dd, alias);
-    //     } catch (exception) {
-    //         console.log(exception);
-    //     }
-    // }
-    function newGroup(name,des,members,type){
-        return $q(function(resolve,reject){
-            window.JMessage.createGroup('abcde','fg','',
-            // window.JMessage.createGroup(name,des,
-                function(data){
-                    console.log(data);
-                    // members=$rootScope.newMember;
-                    var idStr=[];
-                    for(var i in members) idStr.push(members[i].userId);
-                    idStr.join(',');
-                    // window.JMessage.addGroupMembers(groupId,idStr,
-                    window.JMessage.addGroupMembers('22818577','user004,',
-                        function(data){
-                            console.log(data);
-                            upload();
-                        },function(err){
-                            $ionicLoading.show({ template: '失败addGroupMembers', duration: 1500 });
-                            console.log(err);
-                        })
-                },function(err){
-                    $ionicLoading.show({ template: '失败createGroup', duration: 1500 });
-                    console.log(err);
-                })
-        })
-    }
-
-    function sendCustom(type,toUser,key,data){
-        return $q(function(resolve,reject){
-            if(type='single'){
-                window.JMessage.sendSingleCustomMessage(toUser,data,key,
-                    function(data){
-                        resolve(data);
-                    },function(err){
-                        reject(err);
-                    });
-            }else if(type='group'){
-                window.JMessage.sendGroupCustomMessage(toUser,data,key,
-                    function(data){
-                        resolve(data);
-                    },function(err){
-                        reject(err);
-                    });
-            }else{
-                reject('wrong type')
-            }
-        })
-    }
-    function sendContact(type,toUser,data){
-        return $q(function(resolve,reject){
-            if(type='single'){
-                window.JMessage.sendSingleCustomMessage(toUser,data,key,
-                    function(data){
-                        resolve(data);
-                    },function(err){
-                        reject(err);
-                    });
-            }else if(type='group'){
-                window.JMessage.sendGroupCustomMessage(toUser,data,key,
-                    function(data){
-                        resolve(data);
-                    },function(err){
-                        reject(err);
-                    });
-            }else{
-                reject('wrong type')
-            }
-        })
-    }
-    function sendEndl(type,toUser,data){
-        return $q(function(resolve,reject){
-            if(type='single'){
-                window.JMessage.sendSingleCustomMessage(toUser,data,key,
-                    function(data){
-                        resolve(data);
-                    },function(err){
-                        reject(err);
-                    });
-            }else if(type='group'){
-                window.JMessage.sendGroupCustomMessage(toUser,data,key,
-                    function(data){
-                        resolve(data);
-                    },function(err){
-                        reject(err);
-                    });
-            }else{
-                reject('wrong type')
-            }
-        })
-    }
-    return {
-        init: function() {
-            window.JPush.init();
-            // checkIsLogin()
-            // .then(function(data){
-
-            // },function(err){
-            //     if(Storage.get('UID')) login(Storage.get('UID'));
-            // })
-            getPushRegistrationID();
-            // document.addEventListener("jmessage.onReceiveMessage", onReceiveMessage, false);
-            // document.addEventListener("deviceready", onDeviceReady, false);
-            // document.addEventListener("jpush.setTagsWithAlias",
-            //     onSetTagsWithAlias, false);
-            // document.addEventListener("jpush.openNotification",
-            //     onOpenNotification, false);
-            // document.addEventListener("jpush.receiveNotification",
-            //     onReceiveNotification, false);
-            // document.addEventListener("jpush.receiveMessage",
-            //     onReceivePushMessage, false);
-        },
-        login:login,
-        pGen:pGen,
-        sendCustom:sendCustom,
-        newGroup:newGroup,
-        register: register,
-        pGen:pGen,
-        checkIsLogin: checkIsLogin,
-        getPushRegistrationID: getPushRegistrationID,
-    }
-}])
 //获取图片，拍照or相册，见CONFIG.cameraOptions。return promise。xjz
 .factory('Camera', ['$q','$cordovaCamera','$cordovaFileTransfer','CONFIG','fs',function($q,$cordovaCamera,$cordovaFileTransfer,CONFIG,fs) { 
   return {
-    getPicture: function(type){
+    getPicture: function(type,noCrop){
       console.log(type);
         return $q(function(resolve, reject) {
-            $cordovaCamera.getPicture(CONFIG.cameraOptions[type]).then(function(imageUrl) {
+            var opt = CONFIG.cameraOptions[type];
+            if(noCrop) opt.allowEdit = false;
+            $cordovaCamera.getPicture(opt).then(function(imageUrl) {
               console.log(imageUrl)
               // file manipulation
               var tail=imageUrl.lastIndexOf('?');
@@ -2414,4 +2018,161 @@ angular.module('kidney.services', ['ionic','ngResource'])
     };
 
     return self;
+}])
+.factory('socket',['$rootScope','socketFactory','CONFIG',function($rootScope,socketFactory,CONFIG){
+    var myIoSocket = io.connect(CONFIG.socketServer+'chat');
+
+    // return io.connect(CONFIG.socketServer+'chat');
+    // return {
+    //     on: function(eventName, callback) {
+    //         socket.on(eventName, function() {
+    //             var args = arguments;
+    //             // $rootScope.$apply(function() {
+    //                 callback.apply(socket, args);
+    //             // });
+    //         });
+    //     },
+    //     emit: function(eventName, data, callback) {
+    //         socket.emit(eventName, data, function() {
+    //             var args = arguments;
+    //             // $rootScope.$apply(function() {
+    //                 if (callback) {
+    //                     callback.apply(socket, args);
+    //                 }
+    //             // });
+    //         })
+    //     }
+    // };
+
+    var mySocket = socketFactory({
+        ioSocket: myIoSocket,
+        prefix: 'im:'
+    });
+    mySocket.forward(['getMsg','messageRes','err','disconnect']);
+    return mySocket;
+}])
+.factory('notify',['$cordovaLocalNotification','$cordovaFileTransfer','CONFIG','arrTool',function($cordovaLocalNotification,$cordovaFileTransfer,CONFIG,arrTool){
+    var notices = {},
+        iconPath = 'file://img/default_user.png',
+        COUNT_REG = /^\[([1-9]+[0-9]*)\]/;
+    function getNote(msg){
+        console.log($cordovaLocalNotification.getAll());
+    }
+    function nextCount(text){
+        var matchs = text.match(COUNT_REG);
+        return matchs===null?2:Number(matchs[1])+1;
+    }
+    function noteGen(msg){
+        var note = msg.fromName+':',
+            type = msg.contentType;
+        if(type=='text'){
+            note += msg.content.text;
+        }else if(type == 'image'){
+            note += '[图片]';
+        }else if(type == 'voice'){
+            note += '[语音]';
+        }else{
+            var subT = msg.content.type;
+            if(subT=='card'){
+                if(msg.newsType=='11') note += msg.content.counsel.type=='1'?'[新咨询]':'[新问诊]';
+                else if(msg.newsType=='12') note += '[病历转发]';
+                else note += '[团队病历]';
+            }else if(subT == 'contact'){
+                note += '[联系人名片]'
+            }else if(subT == 'endl'){
+                note += msg.content.counseltype==1?'[咨询结束]':'[问诊结束]';
+            }else{
+                note+='[新消息]';
+            }
+        }
+        return note;
+    }
+    function schedulNote(msg,note){
+        if(note){
+            note.text = '[' + nextCount(note.text) + ']' + noteGen(msg);
+            // opt.text = '[' + nextCount(note.text) + ']' + opt.text;
+        }else{
+            var noteid = msg.targetType=='single'?msg.fromID:msg.targetID;
+            noteid=Number(noteid.slice(1));
+            var note = {
+                id:noteid,
+                title:msg.targetType=='single'?msg.fromName:msg.targetName,
+                text:noteGen(msg),
+                data:msg,
+                led:'1199dd',
+                icon:'',
+                smallIcon:'texticon',
+                color:'1199dd'
+            }
+        }
+        return $cordovaLocalNotification.schedule(note);
+    }
+    return {
+        add:function(msg){
+            if(msg.contentType=='custom' && (msg.content.type=='counsel-upgrade' || msg.content.type=='count-notice')) return;
+
+            var matchId = msg.targetType=='single'?msg.fromID:msg.targetID;
+            matchId=Number(matchId.slice(1));
+            return $cordovaLocalNotification.getAll()
+                .then(function(notes){
+                    var pos=arrTool.indexOf(notes,'id',matchId);
+                    if(pos==-1) return null;
+                    return notes[pos];
+                }).then(function(note){
+                    if(note==null){
+                        return schedulNote(msg);
+                    }else{
+                        return schedulNote(msg,note);
+                    }
+                });
+                // .then(function(res){
+                //     console.log(res);
+                //     $cordovaLocalNotification.getAll()
+                //     .then(function(notes){
+                //         console.log(notes);
+                //     });
+                // },function(err){
+                //     console.log(err);
+                // })
+
+
+            // var url = CONFIG.mediaUrl+'uploads/photos/resized'+msg.fromID+'_myAvatar.jpg',
+            //     targetPath = cordova.file.dataDirectory + 'resized'+msg.fromID+'_myAvatar.jpg',
+            //     trustHosts = true,
+            //     options = {};
+
+            // var opt = {
+            //     id:msg.createTimeInMillis,
+            //     title:msg.fromName,
+            //     text:msg.content.text,
+            //     data:msg,
+            //     led:'0000FF',
+            //     // icon:iconPath,
+            //     iconUri:iconPath
+            // }
+            // $cordovaFileTransfer.download(url, targetPath, options, trustHosts)
+            // .then(function(data){
+            //     console.log(data);
+            // },function(err){
+            //     console.log(err);
+            //     opt.icon=iconPath;
+            // });
+            
+            // $cordovaLocalNotification.schedule(opt)
+            // .then(function(result){
+            //     // result  = 'OK'
+            //     $cordovaLocalNotification.getAll()
+            //     .then(function(notes){
+            //         console.log(notes);
+            //     },function(err){
+            //         console.error(err);
+            //     })
+            // });
+            // if(getNote(msg))
+        },
+        remove:function(id){
+            var matchId=Number(id.slice(1));
+            return $cordovaLocalNotification.cancel(matchId);
+        }
+    }
 }])
