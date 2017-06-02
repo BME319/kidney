@@ -493,6 +493,12 @@ angular.module('kidney.services', ['ionic','ngResource'])
         })
     }
 
+    var Advice =function(){
+        return $resource(CONFIG.baseUrl + ':path/:route',{path:'advice'},{
+            postAdvice:{method:'POST', params:{route: 'postAdvice'}, timeout: 100000}
+        });
+    }    
+
     serve.abort = function ($scope) {
         abort.resolve();
         $interval(function () {
@@ -514,7 +520,8 @@ angular.module('kidney.services', ['ionic','ngResource'])
             serve.Mywechat = Mywechat();
             serve.Insurance = Insurance();
             serve.New = New();          
-            serve.Expense = Expense();    
+            serve.Expense = Expense();   
+            serve.Advice = Advice();  
         }, 0, 1);
     };
     serve.Dict = Dict();
@@ -534,7 +541,8 @@ angular.module('kidney.services', ['ionic','ngResource'])
     serve.Mywechat = Mywechat();
     serve.Insurance = Insurance();
     serve.New = New();  
-    serve.Expense = Expense();        
+    serve.Expense = Expense();    
+    serve.Advice = Advice();    
     return serve;
 }])
 .factory('Dict', ['$q', 'Data', function($q, Data){
@@ -1839,6 +1847,24 @@ angular.module('kidney.services', ['ionic','ngResource'])
     self.updateInsuranceMsg = function(params){
         var deferred = $q.defer();
         Data.Insurance.updateInsuranceMsg(
+            params,
+            function(data, headers){
+                deferred.resolve(data);
+            },
+            function(err){
+                deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+    return self;
+}])
+
+
+.factory('Advice', ['$q', 'Data', function($q, Data){
+    var self = this;
+    self.postAdvice = function(params){
+        var deferred = $q.defer();
+        Data.Advice.postAdvice(
             params,
             function(data, headers){
                 deferred.resolve(data);

@@ -427,7 +427,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 }])
 
 //签署协议（0为签署）
-.controller('AgreeCtrl', ['User','$stateParams','$scope','$timeout','$state','Storage','$ionicHistory','$http','Data', function(User,$stateParams,$scope, $timeout,$state,Storage,$ionicHistory,$http,Data) {
+.controller('AgreeCtrl', ['User','$stateParams','$scope','$timeout','$state','Storage','$ionicHistory','$http','Data','$ionicPopup', function(User,$stateParams,$scope, $timeout,$state,Storage,$ionicHistory,$http,Data,$ionicPopup) {
     $scope.YesIdo = function(){
         console.log('yesido');
         if($stateParams.last=='wechatimport'){
@@ -435,7 +435,18 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                 if(data.results!=null){
                     User.setOpenId({phoneNo:Storage.get('phoneNumber'),openId:Storage.get('doctorunionid')}).then(function(response){
                         Storage.set('bindingsucc','yes')
-                        $timeout(function(){$state.go('tab.home');},500);
+                    })
+                    $ionicPopup.show({   
+                         title: '微信账号绑定手机账号成功，您的初始密码是123456，您以后也可以用手机号码登录！',
+                         buttons: [
+                           {
+                                text: '確定',
+                                type: 'button-positive',
+                                onTap: function(e) {
+                                    $state.go('tab.home');
+                                }
+                           }
+                           ]
                     })
                 }else{
                     console.log("用户不存在!");
@@ -468,7 +479,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 }])
 
 //设置密码
-.controller('setPasswordCtrl', ['$scope','$state','$rootScope' ,'$timeout' ,'Storage','User',function($scope,$state,$rootScope,$timeout,Storage,User) {
+.controller('setPasswordCtrl', ['$scope','$state','$rootScope' ,'$timeout' ,'Storage','User','$stateParams',function($scope,$state,$rootScope,$timeout,Storage,User,$stateParams) {
     $scope.barwidth="width:0%";
     var validMode=Storage.get('validMode');//0->set;1->reset
     var phoneNumber=Storage.get('RegisterNO');
@@ -526,12 +537,13 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
 }])
 
 //注册时填写医生个人信息
-.controller('userdetailCtrl',['Dict','Doctor','$scope','$state','$ionicHistory','$timeout' ,'Storage', '$ionicPopup','$ionicLoading','$ionicPopover','$ionicScrollDelegate','User','$http','Camera','$ionicModal',function(Dict,Doctor,$scope,$state,$ionicHistory,$timeout,Storage, $ionicPopup,$ionicLoading, $ionicPopover,$ionicScrollDelegate,User,$http,Camera,$ionicModal){
+.controller('userdetailCtrl',['Dict','Doctor','$scope','$state','$ionicHistory','$timeout' ,'Storage', '$ionicPopup','$ionicLoading','$ionicPopover','$ionicScrollDelegate','User','$http','Camera','$ionicModal','$stateParams',function(Dict,Doctor,$scope,$state,$ionicHistory,$timeout,Storage, $ionicPopup,$ionicLoading, $ionicPopover,$ionicScrollDelegate,User,$http,Camera,$ionicModal,$stateParams){
     $scope.barwidth="width:0%";
     var phoneNumber=Storage.get('RegisterNO');
     var password=Storage.get('password');
     if(Storage.get('password')==undefined||Storage.get('password')==""||Storage.get('password')==null){
         password='123456'
+        Storage.set('password','123456');
     }
     $scope.Titles =
     [
@@ -700,7 +712,11 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                         // console.log(data);
                     });
                     //zxf
-                    $state.go('uploadcertificate');
+                    if($stateParams.last=='wechatsignin'){
+                        $state.go('uploadcertificate',{last:'wechatsignin'});
+                    }else{
+                        $state.go('uploadcertificate')
+                    }
                     Storage.set("lt",'bme319');
 
                 },function(err)
@@ -723,10 +739,13 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
     //     $scope.modal.remove();
     // })
 }])
-.controller('uploadcertificateCtrl',['CONFIG','Dict','Doctor','$scope','$state','$ionicHistory','$timeout' ,'Storage', '$ionicPopup','$ionicLoading','$ionicPopover','$ionicScrollDelegate','User','$http','Camera','$ionicModal',function(CONFIG,Dict,Doctor,$scope,$state,$ionicHistory,$timeout,Storage, $ionicPopup,$ionicLoading, $ionicPopover,$ionicScrollDelegate,User,$http,Camera,$ionicModal){
+.controller('uploadcertificateCtrl',['CONFIG','Dict','Doctor','$scope','$state','$ionicHistory','$timeout' ,'Storage', '$ionicPopup','$ionicLoading','$ionicPopover','$ionicScrollDelegate','User','$http','Camera','$ionicModal','$stateParams',function(CONFIG,Dict,Doctor,$scope,$state,$ionicHistory,$timeout,Storage, $ionicPopup,$ionicLoading, $ionicPopover,$ionicScrollDelegate,User,$http,Camera,$ionicModal,$stateParams){
     
-    $scope.doctor=""
-    User.logIn({username:Storage.get('RegisterNO'),password:Storage.get('password'),role:"doctor"}).then(function(data){
+    $scope.doctor={
+        
+    }
+    User.logIn({username:Storage.get('phoneNumber'),password:Storage.get('password'),role:"doctor"}).then(function(data){
+        console.log(data)
         if(data.results.mesg=="login success!"){
             $scope.doctor.userId=data.results.userId
         }
@@ -740,7 +759,22 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
             .then(
                 function(data)
                 {
-                    $state.go('signin')
+                    if($stateParams.last=='wechatsignin'){
+                        $ionicPopup.show({   
+                             title: '微信账号绑定手机账号成功，您的初始密码是123456，您以后也可以用手机号码登录！',
+                             buttons: [
+                               {
+                                    text: '確定',
+                                    type: 'button-positive',
+                                    onTap: function(e) {
+                                        $state.go('tab.home');
+                                    }
+                               }
+                               ]
+                        })
+                    }else{
+                        $state.go('signin')
+                    }
                     console.log(data)
                 },
                 function(err)
@@ -2866,6 +2900,32 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
         });
     }
 
+}])
+
+//意见反馈
+.controller('adviceCtrl', ['$scope','$state','$ionicLoading', 'Advice','Storage','$timeout', function ($scope,$state,$ionicLoading,Advice,Storage,$timeout) {
+    $scope.deliverAdvice = function(advice){        
+        Advice.postAdvice({userId:Storage.get('UID'),role:"doctor",topic:advice.topic,content:advice.content}).then(
+            function(data){
+                if(data.result == "新建成功"){
+                    $ionicLoading.show({
+                        template: '提交成功',
+                        noBackdrop: false,
+                        duration: 1000,
+                        hideOnStateChange: true
+                    });
+                    $timeout(function(){$state.go('tab.me');},900);
+                }
+            },function(err){
+                $ionicLoading.show({
+                    template: '提交失败',
+                    noBackdrop: false,
+                    duration: 1000,
+                    hideOnStateChange: true
+                });
+            })
+        
+    }
 }])
 
 .controller('aboutCtrl', ['$scope','$state','Storage','$ionicHistory', function($scope,$state,Storage,$ionicHistory) {

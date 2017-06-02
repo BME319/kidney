@@ -8,7 +8,9 @@
 
 
     <ion-content>
-        
+       <!--  -->
+
+        <!-- <div class="row" style="font-size:15px;font-weight: bold;margin-top: 10px"> -->
         <i class="icon ion-asterisk" style="color:red;font-size:6px"></i>
         <button class="button button-clear" style="color:#666" ng-click="onClickCamera($event,0)" ><i class="icon ion-camera"></i>上传医师资格证书</button>
         <ion-item style="height:100px,width=100px" >
@@ -23,6 +25,15 @@
         <ion-item  style="height:100px,width=100px">
             <img ng-src="{{doctor.practisingPhotoUrl}}"  name="Photo2" ng-click="showoriginal(doctor.practisingPhotoUrl)"  style="height:30%; width:30%"  />
         </ion-item>
+        <!-- <ion-item class="row row-wrap" style="border:none; text-align:center; height:100%;margin-top:30px" >
+        <div  class="col col-33" ng-repeat="filepath in health.imgurl track by $index">
+          <img ng-src="{{filepath}}"  name="Photo" ng-click="showoriginal(filepath)"  style="height:90%; width:90%"  /><i ng-if="canEdit" class="icon ion-close-circled" style="width: 5%;float: right;" ng-click="deleteimg($index)"></i>
+        </div>
+             
+        </ion-item>
+        <div style="text-align: center;" ng-if="canEdit">
+               <button class="button button-clear" style="color:#666" ng-click="onClickCamera($event)" ><i class="icon ion-camera"></i>上传图片</button>
+        </div> -->
 
 
         <script id="my-popover1.html" type="text/ng-template">
