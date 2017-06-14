@@ -2222,13 +2222,45 @@ angular.module('kidney.services', ['ionic','ngResource'])
     }
 }])
 .factory('mySocket',['socket','$interval',function(socket,$interval){
+    var timer = null;
+    var currentUser ={
+        id:'',
+        name:''
+    };
+    function newUserOnce(userId,name){
+        if(userId=='') return;
+        var n = name || '';
+        socket.emit('newUser',{ user_name:n , user_id: userId, client:'app'});
+    }
     return {
-        newUser:function(userId){
-            $interval(function newuser(){
-                socket.emit('newUser',{ user_name: '', user_id: userId, client:'app'})
-                // socket.emit('newUser', { user_name: thisDoctor.name, user_id: thisDoctor.userId, client:'app'});
+        newUser:function(userId,name){
+            var n = name || '';
+            currentUser.id=userId;
+            currentUser.name = n;
+            timer = $interval(function newuser(){
+                newUserOnce(userId,name);
+                // socket.emit('newUser',{ user_name:n , user_id: userId, client:'app'});
                 return newuser;
             }(),60000);
+        },
+        newUserOnce:newUserOnce,
+        newUserForTempUse:function(userId,name){
+            $interval.cancel(timer);
+            newUserOnce(userId,name);
+            return function(){
+                socket.emit('disconnect');
+                setTimeout(function(){
+                    newUser(currentUser.id,currentUser.name);
+                },1000);
+                // socket.emit('newUser',{ user_name:currentUser.name , user_id: currentUser.id, client:'app'});
+            }
+        },
+        cancelAll:function(){
+            if(timer!=null){
+                $interval.cancel(timer);
+                timers = null;
+            }
+            currentUser.id = '';
         }
     }
 }])
