@@ -386,8 +386,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
 }])
 //"咨询”问题详情
 
-.controller('detailCtrl', ['$scope', '$state', '$rootScope', '$ionicModal', '$ionicScrollDelegate', '$ionicHistory', '$ionicPopover', '$ionicPopup', 'Camera', 'voice', '$http', 'CONFIG', 'arrTool', 'Communication','Counsel','Storage','Doctor','Patient','$q','New','Mywechat','Account','socket','notify',function($scope, $state, $rootScope, $ionicModal, $ionicScrollDelegate, $ionicHistory, $ionicPopover, $ionicPopup, Camera, voice, $http, CONFIG, arrTool, Communication, Counsel,Storage,Doctor,Patient,$q,New,Mywechat,Account,socket,notify) {
-
+.controller('detailCtrl', ['$ionicPlatform','$scope', '$state', '$rootScope', '$ionicModal', '$ionicScrollDelegate', '$ionicHistory', '$ionicPopover', '$ionicPopup', 'Camera', 'voice', '$http', 'CONFIG', 'arrTool', 'Communication','Counsel','Storage','Doctor','Patient','$q','New','Mywechat','Account','socket','notify',function($ionicPlatform,$scope, $state, $rootScope, $ionicModal, $ionicScrollDelegate, $ionicHistory, $ionicPopover, $ionicPopup, Camera, voice, $http, CONFIG, arrTool, Communication, Counsel,Storage,Doctor,Patient,$q,New,Mywechat,Account,socket,notify) {
+    if($ionicPlatform.is('ios')) cordova.plugins.Keyboard.disableScroll(true);
 
     $scope.input = {
         text: ''
@@ -1366,7 +1366,8 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
 }])
 
 //团队聊天
-.controller('GroupChatCtrl', ['$scope', '$state', '$ionicHistory', '$http', '$ionicModal', '$ionicScrollDelegate', '$rootScope', '$stateParams', '$ionicPopover','$ionicLoading', '$ionicPopup', 'Camera', 'voice', 'Communication','Storage','Doctor','$q','CONFIG','arrTool','New','socket','notify', function($scope, $state, $ionicHistory, $http, $ionicModal, $ionicScrollDelegate, $rootScope, $stateParams, $ionicPopover,$ionicLoading, $ionicPopup, Camera, voice, Communication,Storage,Doctor,$q,CONFIG,arrTool,New,socket,notify) {
+.controller('GroupChatCtrl', ['$ionicPlatform','$scope', '$state', '$ionicHistory', '$http', '$ionicModal', '$ionicScrollDelegate', '$rootScope', '$stateParams', '$ionicPopover','$ionicLoading', '$ionicPopup', 'Camera', 'voice', 'Communication','Storage','Doctor','$q','CONFIG','arrTool','New','socket','notify', function($ionicPlatform,$scope, $state, $ionicHistory, $http, $ionicModal, $ionicScrollDelegate, $rootScope, $stateParams, $ionicPopover,$ionicLoading, $ionicPopup, Camera, voice, Communication,Storage,Doctor,$q,CONFIG,arrTool,New,socket,notify) {
+    if($ionicPlatform.is('ios')) cordova.plugins.Keyboard.disableScroll(true);
     $scope.input = {
         text: ''
     };
