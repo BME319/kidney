@@ -1346,12 +1346,7 @@ angular.module('zy.controllers', ['ionic','kidney.services'])
                 console.log(err)
             }
         )        
-    }
-    $scope.doRefresh = function(){
-        load();
-        // Stop the ion-refresher from spinning
-        $scope.$broadcast('scroll.refreshComplete');
-    }    
+    }  
     // $scope.$on('$ionicView.beforeEnter', function() {
     //     $scope.params.isPatients = '1';
     // })
