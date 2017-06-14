@@ -2235,7 +2235,11 @@ angular.module('kidney.services', ['ionic','ngResource'])
     return {
         newUser:function(userId,name){
             currentUser.id=userId;
+<<<<<<< HEAD
             currentUser.name = name;
+=======
+            currentUser.name = n;
+>>>>>>> dda6df6fb8989e214538b8decf0563c5defb0078
             timer = $interval(function newuser(){
                 newUserOnce(userId,name);
                 // socket.emit('newUser',{ user_name:n , user_id: userId, client:'app'});
