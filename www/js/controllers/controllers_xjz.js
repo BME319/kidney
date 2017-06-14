@@ -1773,7 +1773,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             };
         }
         var msgJson = {
-            clientType: 'app',
+            clientType: 'doctor',
             contentType: type,
             fromID: $scope.params.UID,
             fromName: thisDoctor.name,
@@ -1805,7 +1805,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
             d.src = msg.content.src;
         }
         return {
-            clientType: 'app',
+            clientType: 'doctor',
             contentType: type,
             fromID: msg.fromID,
             fromName: msg.fromName,
@@ -1936,6 +1936,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                         var DID = res.results.doctorId.userId,
                             PID = res.results.patientId.userId;
                         var msgJson = {
+                            clientType:'doctor',
                             contentType: 'text',
                             fromID: DID,
                             fromName: res.results.doctorId.name,
@@ -2199,6 +2200,7 @@ angular.module('xjz.controllers', ['ionic', 'kidney.services'])
                 msgdata.targetId = team.teamId;
                 msgdata.fromId = thisDoctor.userId;
                 var msgJson = {
+                    clientType:'doctor',
                     contentType: 'custom',
                     fromID: thisDoctor.userId,
                     fromName: thisDoctor.name,
