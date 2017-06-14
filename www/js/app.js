@@ -18,7 +18,7 @@ angular.module('kidney',[
     'btford.socket-io'
 ])
 
-.run(['$ionicPlatform', '$state', 'Storage','$rootScope','CONFIG','Communication','notify','$interval','socket', function($ionicPlatform, $state, Storage,$rootScope,CONFIG,Communication,notify,$interval,socket) {
+.run(['$ionicPlatform', '$state', 'Storage','$rootScope','CONFIG','Communication','notify','$interval','socket','mySocket', function($ionicPlatform, $state, Storage,$rootScope,CONFIG,Communication,notify,$interval,socket,mySocket) {
     $ionicPlatform.ready(function() {
         //记录message当前会话
         $rootScope.conversation = {
@@ -37,7 +37,6 @@ angular.module('kidney',[
         function onResume(){
             appState.background = false;
         }
-        // socket = io.connect(CONFIG.socketServer+'chat');
         socket.on('error', function(data) {
             console.error('socket error');
             console.log(data);
@@ -50,40 +49,25 @@ angular.module('kidney',[
             console.info('reconnect: ' + attempt);
             var id = Storage.get('UID'),
                 name = thisDoctor===null?'':thisDoctor.name;
-            socket.emit('newUser',{ user_name: name, user_id: id, client:'app'});
+            mySocket.newUserOnce(id,name);
+            // socket.emit('newUser',{ user_name: name, user_id: id, client:'app'});
+        });
+        socket.on('kicked', function() {
+            mySocket.cancelAll();
+            Storage.set('isSignIN','');
+            $state.go('signin');
         });
 
         socket.on('getMsg', listenGetMsg);
-        // socket.on('messageRes', listenMessageRes);
-        // console.log(socket.listeners());
-        // $rootScope.$on('getMsg', listenGetMsg);
-        // $rootScope.$on('messageRes', listenMessageRes);
+
         function listenGetMsg(data){
             console.info('getMsg');
-            // console.log(event);
             console.log(data);
             // $rootScope.$broadcast('im:getMsg',data);
-            // if((($rootScope.conversation.type == 'single' && $rootScope.conversation.id==data.msg.fromID) || ($rootScope.conversation.type == 'group' && $rootScope.conversation.id==data.msg.targetID))) return;
             if(!appState.background && (($rootScope.conversation.type == 'single' && $rootScope.conversation.id==data.msg.fromID) || ($rootScope.conversation.type == 'group' && $rootScope.conversation.id==data.msg.targetID))) return;
             notify.add(data.msg);
         }
-        // function listenMessageRes(data){
-            // console.info('messageRes');
-            // console.log(event);
-            // console.log(data);
-            // $rootScope.$broadcast('im:messageRes',data);
-        // }
 
-        // $interval(function(){
-        //     // if(socket.disconnected) 
-        //     console.log(socket.listeners('getMsg'));
-        //     socket.off('getMsg');
-        //     // if(!socket.hasListeners('getMsg')) socket.on('getMsg', listenGetMsg);
-        //     socket.on('getMsg', listenGetMsg);
-        //     socket.off('messageRes');
-        //     // if(!socket.hasListeners('messageRes')) socket.on('messageRes', listenMessageRes);
-        //     socket.on('messageRes', listenMessageRes);
-        // },30000);
         //是否登陆
         var isSignIN = Storage.get("isSignIN");
         if (isSignIN == 'YES') {
