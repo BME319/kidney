@@ -1,4 +1,4 @@
-<ion-view view-title="我">
+<ion-view view-title="我" show-tabs>
 <!-- <ion-nav-bar class="bar-positive nav-title-slide-ios7">
           <ion-nav-back-button class="button-clear">
             <i class="ion-chevron-left"></i>
@@ -16,29 +16,7 @@
                     <img ng-src="{{doctor.photoUrl}}" name="Photo" ng-click="onClickCamera($event)">
                 </div>
 
-                <!-- 上传照片的弹出框 -->
-                <script id="my-popover.html" type="text/ng-template">
-                    <ion-popover-view>
-                        <ion-header-bar class="bar-calm">
-                            <h1 class="title">上传图片</h1>
-                        </ion-header-bar>
-                        <ion-content>
-                            <ion-list> 
-                                <div class = "padding">
-                                    <button class="button button-block button-primary " ng-click="getPhoto()"><i class="icon ion-camera"></i>
-                                  拍照
-                                    </button>
-                            
-                                    <button class="button button-block button-primary " ng-click="onClickCameraPhotos()"><i class="icon ion-image"></i>
-                                  相册
-                                    </button>
-                             
-                                </div>
-                            </ion-list>
-                        </ion-content>
-                    </ion-popover-view>
-                </script>
-                <!-- 上传照片的弹出框 -->
+                
 
                 <div class="me-edit-btn">更换头像</div>
             </div>
@@ -51,12 +29,12 @@
     </div>
     <div class="me-mun bg-wite mt-10">
         <div class="row ">
-            <a class="col col-50 text-center br-e9" href="#/tab/schedual"><i class="iconfont icon-paibanguanli"></i>排班 <em class="me-dic iconfont  icon-dian"></em></a>
-            <a class="col col-50 text-center" href="#/tab/myinfo"><i class="iconfont icon-jibenziliao"></i>我的资料</a>
+            <a class="col col-50 text-center br-e9" href="#/tab/schedual"><i class="iconfont icon-paibanguanli"></i><span style="margin-left: -8px;">排班</span><em class="me-dic iconfont  icon-dian"></em></a>
+            <a class="col col-50 text-center" href="#/tab/myinfo"><i class="iconfont icon-jibenziliao"></i><span style="margin-left: -8px;">我的资料</span></a>
         </div>
         <div class="row">
-            <a class="col col-50 text-center br-e9" href="#/tab/myfee"><i class="iconfont icon-wodezhanghu"></i>我的账户<em class="me-dic iconfont  icon-dian"></em></a>
-            <a class="col col-50 text-center" href="#/tab/feedback"><i class="iconfont icon-wujiaoxing"></i>我的评价</a>
+            <a class="col col-50 text-center br-e9" href="#/tab/myfee"><i class="iconfont icon-wodezhanghu"></i><span style="margin-left: -8px;">我的账户</span><em class="me-dic iconfont  icon-dian"></em></a>
+            <a class="col col-50 text-center" href="#/tab/feedback"><i class="iconfont icon-wujiaoxing"></i><span style="margin-left: -8px;">我的评价</span></a>
         </div>
     </div>
     <div class="me-list list mt-15">

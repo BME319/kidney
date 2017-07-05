@@ -10,21 +10,21 @@
 
 
 <!--   <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2.5px;background-color: #33cd5f;{{barwidth}}" ></div> -->
-    <div class="button-bar bar-positive" style="margin-top: 40px">
+    <div class="button-bar bar-positive" ng-style="barStyle">
     <a class="button" href="#/tab/DoctorDiagnose">
       <span class="br-e9" style="vertical-align: sub">医生诊断</span>
     </a>
     <a class="button" href="#/tab/TaskSet">
       <span class="br-e9" style="vertical-align: sub">治疗方案</span>
     </a>
-    <a class="button" href="#/tab/TestRecord" >
+    <a class="button" ng-click="gototestrecord()" >
       <span class="br-e9" style="vertical-align: sub">测量记录</span>
     </a>
     <a class="button" href="#/tab/HealthInfo">
         <span class="br-e9" style="vertical-align: sub">健康信息</span>
     </a>
   </div>
-  <ion-content  style="margin-top: 42px;">
+  <ion-content  ng-style="barStyle">
     <div  class="list" ng-show="!edit">
         <ion-item>
           肾病类型:{{Diagnose.diagname|diagname}}

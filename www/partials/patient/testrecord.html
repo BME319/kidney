@@ -1,4 +1,4 @@
-<ion-view title="测量记录">
+<ion-view cache-view="true" title="测量记录">
   <ion-nav-bar class="bar-positive " align-title="center">
     <ion-nav-buttons side="left">
       <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="BacktoPD()"></button>
@@ -8,7 +8,7 @@
     <ion-nav-back-button class="button-icon ion-arrow-left-c">
     </ion-nav-back-button>
   </ion-nav-bar>  -->
-    <div class="button-bar bar-positive" style="margin-top: 40px">
+    <div class="button-bar bar-positive" ng-style="barStyle">
     <a class="button" href="#/tab/DoctorDiagnose">
       <span class="br-e9" style="vertical-align: sub">医生诊断</span>
     </a>
@@ -22,7 +22,7 @@
         <span class="br-e9" style="vertical-align: sub">健康信息</span>
     </a>
   </div>
-  <ion-content padding="true" class="has-header" style="margin-top: 42px;">
+  <ion-content padding="true" class="has-header" ng-style="barStyle">
   <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
   <!-- <select ng-model="vitalInfo" ng-change="changeVitalInfo(vitalInfo)" ng-controller="TestRecordCtrl">
       <option ng-repeat="option in options" >{{option.SignName}}</option>

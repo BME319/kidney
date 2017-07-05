@@ -9,21 +9,21 @@
     </ion-nav-buttons>
   </ion-nav-bar>
 <!--   <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2.5px;background-color: #33cd5f;{{barwidth}}" ></div> -->
-    <div class="button-bar bar-positive" style="margin-top: 40px">
+    <div class="button-bar bar-positive" ng-style="barStyle">
     <a class="button" href="#/tab/DoctorDiagnose">
       <span class="br-e9" style="vertical-align: sub">医生诊断</span>
     </a>
     <a class="button" href="#/tab/TaskSet">
       <span class="br-e9" style="vertical-align: sub">治疗方案</span>
     </a>
-    <a class="button" href="#/tab/TestRecord" >
+    <a class="button" ng-click="gototestrecord()" >
       <span class="br-e9" style="vertical-align: sub">测量记录</span>
     </a>
     <a class="button" href="#/tab/HealthInfo">
         <span class="br-e9" style="vertical-align: sub">健康信息</span>
     </a>
   </div>
-  <ion-content class="has-header"  style="margin-top: 42px;">
+  <ion-content class="has-header"  ng-style="barStyle">
   <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
     <div class="list">
       <div class="item" ng-repeat="item in items " ng-click="gotoHealthDetail($event,item)">
@@ -32,7 +32,7 @@
         <div class="health-img-box clearfix">
           <div class="health-img" ng-repeat = "img in item.url"><img ng-src="{{img}}"></div>
         </div>
-        <div class="text-right "> <i class="iconfont icon-del f-24"></i> <i class="iconfont icon-bianji f-32 ml-10"></i></div>
+        <div class="text-right "> <i class="iconfont icon-del f-24"></i> </div>
       </div>
 
     </div>

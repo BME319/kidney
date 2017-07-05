@@ -9,7 +9,7 @@
   </ion-nav-bar>
 
    
-        <div class="bar item-input-inset" style="position:absolute;top:44px;z-index:999">
+        <div class="bar item-input-inset" ng-style="searchStyle">
             <div class="item-input-wrapper">
                 <i style="color:#3d6399;font-size:1.6em" class="icon ion-android-search placeholder-icon"></i>
                 <input type="search" ng-blur="doResume()" ng-model="search" placeholder="搜索群号">
