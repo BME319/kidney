@@ -1,6 +1,5 @@
-angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker'])
+angular.module('health.controllers', ['ionic','kidney.services','ionic-datepicker'])
 
-/////////////////////////tongdanyang/////////////////
 .controller('DoctorDiagnoseCtrl', ['Task','$scope', 'Storage','ionicDatePicker','Patient','$state','$ionicLoading', function (Task,$scope, Storage,ionicDatePicker,Patient,$state,$ionicLoading) {
   $scope.barStyle={'margin-top':'40px'}
   if(ionic.Platform.isIOS()){
@@ -212,7 +211,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
                     }else if(month>=36){
                         sortNo = 4;//对应肾移植大于3年
                     }
-
                 }
                 else{
                     sortNo = 4;
@@ -226,7 +224,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
                         sortNo = 6;
                     }else if(kidneyDetail == "stage_7"){//>3年
                         sortNo = 7;
-
                     }
                 }
                 else{
@@ -240,7 +237,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
             case "class_5"://血透
                 sortNo = 9;
                 break;
-
             case "class_6"://腹透
                 if(kidneyTime!=undefined && kidneyTime!=null && kidneyTime!=""){
                     var month = MonthInterval(kidneyTime);
@@ -255,7 +251,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
                 break;
         }
         return sortNo;
-
     }
   $scope.saveDiagnose=function()
   {
@@ -321,9 +316,8 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
   $scope.BacktoPD = function(){
     $state.go('tab.patientDetail');
   }  
-
-      console.log($stateParams.PatinetId)
-      console.log(Storage.get("getpatientId"))
+      //console.log($stateParams.PatinetId)
+      //console.log(Storage.get("getpatientId"))
       var load =  function(){
           VitalSign.getVitalSigns({userId:Storage.get("getpatientId"),type:'血压'}).then(
           function(Data){
@@ -343,12 +337,10 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
                   if(Data.results[i].data[j].value2){
                     $scope.ChartData2.push([new Date(new Date(Data.results[i].data[j].time)),Data.results[i].data[j].value2])
                   }
-
                 }
               }
             }
-            if($scope.ChartData1.length||$scope.ChartData2.length){
-              
+            if($scope.ChartData1.length||$scope.ChartData2.length){              
             // $scope.chartdiv1=true;
             }else{
               console.log(222)
@@ -432,7 +424,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
                           return table;
                       }
                       }
-
                       // magicType : {show: true, type: ['line', 'bar']},
                       // restore : {show: true},
                       // saveAsImage : {show: true}
@@ -468,11 +459,10 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
           }, function(e) {  
           });
 
-
           VitalSign.getVitalSigns({userId:Storage.get("getpatientId"),type:'体温'}).then(
           function(Data){
             $scope.ChartData3=[];
-            console.log(Data.results.length)
+            //console.log(Data.results.length)
             for(var i=0;i<Data.results.length;i++){
               if(Data.results[i].code=="体温"){
                 for(var j=0;j<Data.results[i].data.length;j++){
@@ -558,7 +548,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
                               return table;
                           }
                           }
-
                           // magicType : {show: true, type: ['line', 'bar']},
                           // restore : {show: true},
                           // saveAsImage : {show: true}
@@ -585,8 +574,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
               };
             var myChart = echarts.init(document.getElementById('chartdiv2'));
             myChart.setOption(option1);  
-
-
           }, function(e) {  
           });
           VitalSign.getVitalSigns({userId:Storage.get("getpatientId"),type:'体重'}).then(
@@ -676,7 +663,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
                               return table;
                           }
                           }
-
                           // magicType : {show: true, type: ['line', 'bar']},
                           // restore : {show: true},
                           // saveAsImage : {show: true}
@@ -703,7 +689,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
               };
             var myChart = echarts.init(document.getElementById('chartdiv3'));
             myChart.setOption(option1);
-
           }, function(e) {  
           });
           VitalSign.getVitalSigns({userId:Storage.get("getpatientId"),type:'尿量'}).then(
@@ -718,7 +703,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
               }
             }
             if($scope.ChartData5.length){
-              
               // $scope.chartdiv4=true;
             }else{
               // $scope.chartdiv4=false;
@@ -793,7 +777,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
                           return table;
                       }
                       }
-
                       // magicType : {show: true, type: ['line', 'bar']},
                       // restore : {show: true},
                       // saveAsImage : {show: true}
@@ -820,7 +803,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
           };
             var myChart = echarts.init(document.getElementById('chartdiv4'));
             myChart.setOption(option1);
-
           }, function(e) {  
           });
           VitalSign.getVitalSigns({userId:Storage.get("getpatientId"),type:'心率'}).then(
@@ -910,7 +892,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
                               return table;
                           }
                           }
-
                           // magicType : {show: true, type: ['line', 'bar']},
                           // restore : {show: true},
                           // saveAsImage : {show: true}
@@ -937,7 +918,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
               };
             var myChart = echarts.init(document.getElementById('chartdiv5'));
             myChart.setOption(option1);
-
           }, function(e) {  
           });        
       }
@@ -952,9 +932,7 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
     $scope.$on('$ionicView.enter', function() {
         load();
     })
-
-
-  
+ 
 }])
 //任务设置--GL
 .controller('TaskSetCtrl', ['$scope', '$state', '$ionicPopup', 'Storage', 'Task','$ionicLoading', function ($scope, $state, $ionicPopup, Storage, Task,$ionicLoading) {
@@ -986,8 +964,7 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
             //console.log($scope.Tasks);
             HandleTasks();
          }
-       },function(){
-                      
+       },function(){                      
        })
     }
 
@@ -1067,8 +1044,7 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
          };
          },function(){                    
          })
-      }
-      
+      }     
     }
 
   //名称转换
@@ -1117,7 +1093,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
     $scope.$on('$ionicView.beforeLeave',function(){
        $ionicLoading.hide();
      })
-
 
   //编辑任务描述
     $scope.showPopup = function(task) {
@@ -1206,7 +1181,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
 
 }])
 
-
 //健康信息--PXY
 .controller('HealthInfoCtrl', ['$state','$scope','$timeout','$state','$ionicHistory','$ionicPopup','Storage','Health','Dict',function($state,$scope, $timeout,$state,$ionicHistory,$ionicPopup,Storage,Health,Dict) {
   $scope.barStyle={'margin-top':'40px'}
@@ -1218,20 +1192,9 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
     $state.go('tab.patientDetail');
   }
   var patientId = Storage.get('getpatientId')
-  //console.log(Storage.get('getpatientId'))
-  // var patientId = 'U201702071766'  //测试ID
-
   $scope.Goback = function(){
     $state.go('tab.patientDetail')
   }
-
-  //从字典中搜索选中的对象。
-  // var searchObj = function(code,array){
-  //     for (var i = 0; i < array.length; i++) {
-  //       if(array[i].Type == code || array[i].type == code || array[i].code == code) return array[i];
-  //     };
-  //     return "未填写";
-  // }
 
   $scope.items = []
   
@@ -1242,9 +1205,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
           if (data.results != "" && data.results!= null)
           {
             $scope.items = data.results
-            //console.log($scope.items)
-            //var testtime=$scope.items[0]
-            //console.log(testtime)
             for (var i = 0; i < $scope.items.length; i++){
               $scope.items[i].acture = $scope.items[i].insertTime
               //$scope.items[i].time = $scope.items[i].time.substr(0,10)
@@ -1268,7 +1228,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
 
     $scope.doRefresh = function(){
         load();
-        // Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
     }
     
@@ -1298,9 +1257,7 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
                       break;
                     }
                   }
-                }
-                
-                console.log($scope.items)
+                }               
               },
               function(err)
               {
@@ -1322,14 +1279,11 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
         });
     }else{
       $state.go('tab.HealthInfoDetail',{id:editId});
-    }
-    
+    }  
   }
-
 
   $scope.newHealth = function(){
     $state.go('tab.HealthInfoDetail',{id:null});
-
   }
 
   $scope.gototestrecord=function(){
@@ -1340,23 +1294,13 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
   //   console.log("健康信息");
   //   console.log(editId);
   //   $state.go('tab.myHealthInfoDetail',{id:editId});
-  // }
-
-
-  
+  // }  
 }])
-
 
 //健康详情--PXY
 .controller('HealthDetailCtrl', ['CONFIG','ionicDatePicker','$scope','$state','$ionicHistory','$ionicPopup','$stateParams','$ionicPopover','$ionicModal','$ionicScrollDelegate','$ionicLoading','$timeout','Dict','Health','Storage','Camera',function(CONFIG,ionicDatePicker,$scope, $state,$ionicHistory,$ionicPopup,$stateParams,$ionicPopover,$ionicModal,$ionicScrollDelegate,$ionicLoading,$timeout,Dict,Health,Storage,Camera) {
   $scope.barwidth="width:0%";
   var patientId = Storage.get('getpatientId')
-  // var patientId = 'U201702071766'   //测试ID
-
-  // $scope.test = function(){
-  //   console.log($scope.datepickerObject4);
-  // }
-
   $scope.Goback = function(){
         if($scope.canEdit==true){
             $scope.canEdit = false;
@@ -1366,11 +1310,8 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
             }else{
                 $ionicHistory.goBack();
             }
-            console.log(123);
-            console.log($ionicHistory.backTitle());
-            
-        }
-        
+            //console.log($ionicHistory.backTitle());            
+        }       
     }
 
 //点击显示大图
@@ -1505,8 +1446,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
                 //   Storage.set('consulthealthinfo',angular.toJson(healthinfoToconsult))
                 //   console.log(Storage.get('consulthealthinfo'))
                 // }
-
-
                 $ionicHistory.goBack()
               },
               function(err)
@@ -1538,7 +1477,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
             duration:1000
         });
     }
-
 }
 
     var ipObj1 = {
@@ -1568,48 +1506,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
         ionicDatePicker.openDatePicker(ipObj1);
     };
 
-
-
-  // --------datepicker设置----------------
-  // var  monthList=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
-  // var weekDaysList=["日","一","二","三","四","五","六"];
-  // var datePickerCallback = function (val) {
-  //   if (typeof(val) === 'undefined') {
-  //     console.log('No date selected');
-  //   } else {
-  //     $scope.datepickerObject4.inputDate=val;
-  //     var dd=val.getDate();
-  //     var mm=val.getMonth()+1;
-  //     var yyyy=val.getFullYear();
-  //     var d=dd<10?('0'+String(dd)):String(dd);
-  //     var m=mm<10?('0'+String(mm)):String(mm);
-  //     //日期的存储格式和显示格式不一致
-  //     $scope.health.date=yyyy+'-'+m+'-'+d;
-  //   }
-  // };
-
-  // $scope.datepickerObject4 = {
-  //   titleLabel: '时间日期',  //Optional
-  //   todayLabel: '今天',  //Optional
-  //   closeLabel: '取消',  //Optional
-  //   setLabel: '设置',  //Optional
-  //   setButtonType : 'button-assertive',  //Optional
-  //   todayButtonType : 'button-assertive',  //Optional
-  //   closeButtonType : 'button-assertive',  //Optional
-  //   mondayFirst: false,    //Optional
-  //   //disabledDates: disabledDates, //Optional
-  //   weekDaysList: weekDaysList,   //Optional
-  //   monthList: monthList, //Optional
-  //   templateType: 'popup', //Optional
-  //   showTodayButton: 'false', //Optional
-  //   modalHeaderColor: 'bar-positive', //Optional
-  //   modalFooterColor: 'bar-positive', //Optional
-  //   from: new Date(1900, 1, 1),   //Optional
-  //   to: new Date(),    //Optional
-  //   callback: function (val) {    //Mandatory
-  //     datePickerCallback(val);
-  //   }
-  // };  
 //--------------copy from minectrl
   // 上传头像的点击事件----------------------------
   $scope.onClickCamera = function($event){
@@ -1682,7 +1578,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
     });// 从相册获取照片结束
   }; // function结束
 
-
   // 照相机的点击事件----------------------------------
   $scope.getPhoto = function() {
     // console.log("要拍照了！");
@@ -1700,31 +1595,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
     })// 照相结束
   }; // function结束
 
-
-
-  //   $scope.openModal = function() {
-  //     $scope.modal.show();
-  //   };
-  //   $scope.closeModal = function() {
-  //     $scope.modal.hide();
-  //   };
-  //   //Cleanup the modal when we're done with it!
-  //   $scope.$on('$destroy', function() {
-  //     $scope.modal.remove();
-  //   });
-  //   // Execute action on hide modal
-  //   $scope.$on('modal.hidden', function() {
-  //     // Execute action
-  //   });
-  //   // Execute action on remove modal
-  //   $scope.$on('modal.removed', function() {
-  //     // Execute action
-  //   });
-
-  // //点击图片返回
-  // $scope.imggoback = function(){
-  //   $scope.modal.hide();
-  // };
   $scope.showoriginal=function(resizedpath){
         // $scope.openModal();
         // console.log(resizedpath)
@@ -1749,7 +1619,6 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
         }
     }
     
-
   $scope.deleteimg=function(index){
     //somearray.removeByValue("tue");
     console.log($scope.health.imgurl)
@@ -1760,196 +1629,5 @@ angular.module('tdy.controllers', ['ionic','kidney.services','ionic-datepicker']
   $scope.$on('$ionicView.leave', function() {
     $scope.modal.remove();
   })
-
-
-
   
-}])
-
-
-
-//消息类型--PXY
-.controller('VaryMessageCtrl', ['$scope','$state','$ionicHistory','Storage',function($scope, $state,$ionicHistory,Storage) {
-
-    var messageType = Storage.get("getMessageType")
-    $scope.messages=angular.fromJson(Storage.get("allMessages"))[messageType]
-    console.log($scope.messages)
-
-    if(messageType=='ZF')
-        $scope.avatar='payment.png'
-    else if(messageType=='JB')
-        $scope.avatar='alert.png'
-    else if(messageType=='RW')
-        $scope.avatar='task.png'
-    else if(messageType=='BX')
-        $scope.avatar='security.png'
-
-    $scope.Goback = function(){
-        $ionicHistory.goBack();
-    }
-
-  
-}])
-//消息中心--ZY
-.controller('messageCtrl', ['$ionicPopup','$q','$scope','$state','$ionicHistory','New','Storage','Doctor','Patient','Communication','Counsel',function($ionicPopup,$q,$scope, $state,$ionicHistory,New,Storage,Doctor,Patient,Communication,Counsel) {
-    $scope.barwidth="width:0%";
-    var getPatNamePhoto = function(sender,patient){
-        Patient.getPatientDetail({userId:sender}).then(
-            function(data){
-                if(data.results){
-                    if(data.results.photoUrl){
-                        patient.Name = data.results.name;
-                        patient.Photo = data.results.photoUrl;                        
-                        
-                    }
-                    else {
-                        patient.Name = data.results.name;
-                        patient.Photo = 'img/patient.png'
-                    }
-                }                        
-            },function(err){
-                console.log(err);
-            });
-    }   
-
-    var getDocNamePhoto = function(sender,doctor){
-        Doctor.getDoctorInfo({userId:sender}).then(
-            function(data){
-                if(data.results){
-                    console.log(data.results)
-                    if(data.results.photoUrl){
-                        doctor.Name = data.results.name;
-                        doctor.Photo = data.results.photoUrl;                        
-                    }
-                    else {                        
-                        doctor.Name = data.results.name;
-                        doctor.Photo = 'img/doctor.png'
-                    }
-                }                        
-            },function(err){
-                console.log(err);
-            });
-    }
-
-    var getTeamNamePhoto = function(sender,team){
-        Communication.getTeam({teamId:sender}).then(
-            function(data){
-                if(data.results){
-                    if(data.results.photoUrl){
-                        team.Name = data.results.name;
-                        team.Photo = data.results.photoUrl;                                                
-                    }
-                    else {
-                        team.Name = data.results.name;
-                        team.Photo = 'img/doctor_group.png'
-                    }
-                }                        
-            },function(err){
-                console.log(err);
-            });
-    }
-
-    var Lastnews = function(){
-        var receiver = Storage.get('UID');
-        // News.getNews({userId:receiver,type:1}).then(
-        //     function(data){
-        //         if(data.results.length){
-        //             console.log(data.results);
-        //             $scope.pay = data.results[0];
-        //         }
-                
-        //     },function(err){
-        //         console.log(err);
-        //     }
-        // );
-
-        //获取所有类别聊天消息 type=chat  分类别type11患者-医生  type12医生-医生  type13团队-医生
-        New.getNewsByReadOrNot({userId:receiver,type:'chat',readOrNot:0,userRole:'doctor'}).then(
-            function(data){
-                //console.log(data.results)
-                if(data.results.length){
-                    for (var i = 0; i < data.results.length; i++){
-                        //console.log(data.results[i].type)
-                        if(data.results[i].type == 11){
-                            getPatNamePhoto(data.results[i].sendBy,data.results[i]);                    
-                        }
-                        if(data.results[i].type == 12){
-                            getDocNamePhoto(data.results[i].sendBy,data.results[i]);                   
-                        }
-                        if(data.results[i].type == 13){
-                            getTeamNamePhoto(data.results[i].sendBy,data.results[i]);                                                
-                        } 
-                    } 
-                    $scope.chats=data.results;
-                }
-            },function(err){
-                console.log(err);
-            }
-        );        
-
-    }
-     $scope.$on('$ionicView.enter', function() {
-        Lastnews();
-    })
-
-    $scope.do_refresher = function(){
-        Lastnews();
-        $scope.$broadcast("scroll.refreshComplete");
-    }
-
-    $scope.Goback = function(){
-        $state.go('tab.home')
-    }
-
-    //患者-医生  获取咨询状态 [status]：1进行中；0已完成  进入聊天：[type]:1=进行中;0=已结束;
-    getPChatDetail = function(Pchat) {
-        var patientId = Pchat.sendBy;
-        Counsel.getStatus({doctorId:Storage.get('UID'),patientId:patientId})
-        .then(function(data){
-            Storage.set('consultId',data.result.consultId)
-            if(data.result.status==1){
-                $state.go("tab.detail",{chatId:patientId,type:1,consultId:Storage.get('consultId')});
-            }
-            else if(data.result.status==0){
-                $state.go("tab.detail",{chatId:patientId,type:0,consultId:Storage.get('consultId')});
-            }
-        })
-    }
-
-    //医生-医生 进入聊天：type：2
-    getDChatDetail = function(Dchat) {
-        console.log(Dchat.sendBy)
-        $state.go("tab.detail",{chatId:Dchat.sendBy,type:2,consultId:'DoctorChat'});
-    }
-
-    //团队-医生  获取交流状态 [status]：1进行中；0已完成  进入聊天：[type]:1=进行中;2=已结束;
-    getTChatDetail = function(Tchat) {
-        var msg = JSON.parse(Tchat.url)
-        var teamId = msg.teamId
-        var groupId = msg.targetID
-        if(teamId == groupId) return $state.go("tab.group-chat",{type:0,teamId:teamId,groupId:groupId});
-        Communication.getConsultation({consultationId:msg.targetID})
-        .then(function(data){
-            Storage.set('consultId',data.result.consultId)
-            if(data.result.status==1){
-                $state.go("tab.group-chat",{type:1,teamId:teamId,groupId:groupId});
-            }
-            else if(data.result.status==0){
-                $state.go("tab.group-chat",{type:2,teamId:teamId,groupId:groupId});
-            }
-        })
-    }
-
-    $scope.getChatDetail = function(chat){
-        console.log(chat.type);
-        if(chat.type==11){
-            getPChatDetail(chat)
-        }
-        else if(chat.type==12){
-            getDChatDetail(chat)
-        }
-        else if(chat.type==13){
-            getTChatDetail(chat)
-        }        
-    }
 }])
