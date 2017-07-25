@@ -41,7 +41,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
 }])
 .constant('CONFIG', {
   baseUrl: 'http://121.43.107.106:4060/api/v1/',
-  baseTwoUrl: 'http://121.43.107.106:4060/api/v1/',
+  baseTwoUrl: 'http://121.43.107.106:4060/api/v2/',
   mediaUrl: 'http://121.43.107.106:8054/',
   socketServer: 'ws://121.43.107.106:4060/',
   imgThumbUrl: 'http://121.43.107.106:8054/uploads/photos/resize',
@@ -466,7 +466,8 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
 
   var Message = function () {
     return $resource(CONFIG.baseUrl + ':path/:route', {path: 'message'}, {
-      getMessages: {method: 'GET', params: {route: 'messages'}, timeout: 100000}
+      getMessages: {method: 'GET', params: {route: 'messages'}, timeout: 100000},
+      insertMessages: {method: 'POST', params: {route: 'message'}, timeout: 100000}
     })
   }
 
@@ -534,6 +535,13 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
     })
   }
 
+  var Doctor2 = function () {
+    return $resource(CONFIG.baseTwoUrl + ':path/:route', {path: 'doctor'}, {
+      getReviewList: {method: 'GET', params: {route: 'myPatientsToReview'}, timeout: 100000},
+      saveReviewInfo: {method: 'POST', params: {route: 'PatientInCharge'}, timeout: 100000}
+    })
+  }
+
   serve.abort = function ($scope) {
     abort.resolve()
     $interval(function () {
@@ -559,6 +567,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
       serve.Advice = Advice()
       serve.version = version()
       serve.labtestImport = labtestImport()
+      serve.Doctor2 = Doctor2()
     }, 0, 1)
   }
   serve.Dict = Dict()
@@ -582,6 +591,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   serve.Advice = Advice()
   serve.version = version()
   serve.labtestImport = labtestImport()
+  serve.Doctor2 = Doctor2()
   return serve
 }])
 .factory('Dict', ['$q', 'Data', function ($q, Data) {
@@ -1302,6 +1312,20 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
             })
     return deferred.promise
   }
+
+  self.insertMessages = function (params) {
+    var deferred = $q.defer()
+    Data.Message.insertMessages(
+            params,
+            function (data, headers) {
+              deferred.resolve(data)
+            },
+            function (err) {
+              deferred.reject(err)
+            })
+    return deferred.promise
+  }
+
   return self
 }])
 .factory('Account', ['$q', 'Data', function ($q, Data) {
@@ -2420,6 +2444,36 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   self.getLabtestImport = function (params) {
     var deferred = $q.defer()
     Data.labtestImport.getLabtestImport(
+            params,
+            function (data, headers) {
+              deferred.resolve(data)
+            },
+            function (err) {
+              deferred.reject(err)
+            })
+    return deferred.promise
+  }
+  return self
+}])
+
+.factory('Doctor2', ['$q', 'Data', function ($q, Data) {
+  var self = this
+  self.getReviewList = function (params) {
+    var deferred = $q.defer()
+    Data.Doctor2.getReviewList(
+            params,
+            function (data, headers) {
+              deferred.resolve(data)
+            },
+            function (err) {
+              deferred.reject(err)
+            })
+    return deferred.promise
+  }
+
+  self.saveReviewInfo = function (params) {
+    var deferred = $q.defer()
+    Data.Doctor2.saveReviewInfo(
             params,
             function (data, headers) {
               deferred.resolve(data)

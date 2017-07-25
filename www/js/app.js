@@ -506,6 +506,18 @@ angular.module('kidney', [
       }
     })
 
+// 主管医生审核申请--rzx
+    .state('tab.review', {
+        // cache: false,
+      url: '/review',
+      views: {
+        'tab-patient': {
+          controller: 'reviewCtrl',
+          templateUrl: 'partials/patient/review.html'
+        }
+      }
+    })
+
     // views-tab-groups
     .state('tab.new-group', {
       url: '/newgroup',

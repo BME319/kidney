@@ -3173,3 +3173,160 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
     $ionicScrollDelegate.scrollTop(true)
   }
 }])
+
+// 主管医生审核申请---rzx
+.controller('reviewCtrl', ['New', 'Message', '$ionicPopup', '$ionicHistory', 'Doctor2', '$scope', '$state', '$ionicLoading', '$interval', '$rootScope', 'Storage', '$ionicPopover', function (New, Message, $ionicPopup, $ionicHistory, Doctor2, $scope, $state, $ionicLoading, $interval, $rootScope, Storage, $ionicPopover) {
+  $scope.Goback = function () {
+    $ionicHistory.goBack()
+  }
+
+  $scope.passApplication = function (id) {
+    console.log(id)
+    Storage.set('getpatientId', id)
+
+    Doctor2.saveReviewInfo({
+      token: Storage.get('TOKEN'),
+      reviewResult: 'consent',
+      patientId: Storage.get('getpatientId')
+    }).then(function (data) {
+      console.log(data)
+    }, function (err) {
+      console.log(err)
+    })
+
+    Message.insertMessages({
+      userId: Storage.get('getpatientId'),
+      sendBy: Storage.get('UID'),
+      title: '审核完成',
+      type: '7',
+      description: '医生通过了您的申请,成为您的主管医生！'
+    }).then(function (data) {
+      console.log(data.result)
+      Storage.set('MessId', data.newResults.messageId)
+    }), function (err) {
+      console.log(err)
+    }
+
+    New.insertNews({
+      sendBy: Storage.get('UID'),
+      userId: Storage.get('getpatientId'),
+      type: 7,
+      readOrNot: '0',
+      description: '医生通过了您的申请！',
+      messageId: Storage.get('MessId')
+    }).then(function (data) {
+      console.log(data)
+    }, function (err) {
+      console.log(err)
+    })
+
+    $ionicLoading.show({
+      template: '审核完成',
+      duration: 1000
+    })
+  }
+
+  $scope.rejectApplication = function (id) {
+    Storage.set('getpatientId', id)
+    $scope.data = {}
+    var myPopup = $ionicPopup.show({
+      template: '<textarea style="height:120px;" ng-model="data.reason"></textarea>',
+      title: '请输入拒绝理由',
+      scope: $scope,
+      buttons: [
+      { text: '取消' },
+        { text: '确定',
+          type: 'button-positive',
+          onTap: function (e) {
+            if (!$scope.data.reason) {
+          // 必须输入拒绝理由
+              e.preventDefault()
+            } else {
+              return $scope.data.reason
+              $state.go('tab.review')
+            }
+          }
+        }]
+    })
+
+    myPopup.then(function (reason) {
+      console.log(reason)
+      if (reason != null) {
+        Doctor2.saveReviewInfo({
+          token: Storage.get('TOKEN'),
+          reviewResult: 'reject',
+          rejectReason: reason,
+          patientId: Storage.get('getpatientId')
+        }).then(function (data) {
+          console.log(data)
+        })
+
+        Message.insertMessages({
+          userId: Storage.get('getpatientId'),
+          sendBy: Storage.get('UID'),
+          title: '审核完成',
+          type: '7',
+          description: '医生拒绝了您的申请，理由是：' + reason
+        }).then(function (data) {
+          console.log(data.result)
+          Storage.set('MessId', data.newResults.messageId)
+        }), function (err) {
+          console.log(err)
+        }
+
+        New.insertNews({
+          sendBy: Storage.get('UID'),
+          userId: Storage.get('getpatientId'),
+          type: 7,
+          readOrNot: '0',
+          description: '医生拒绝了您的申请，理由是：' + reason,
+          messageId: Storage.get('MessId')
+        }).then(function (data) {
+          console.log(data)
+        }, function (err) {
+          console.log(err)
+        })
+
+        $ionicLoading.show({
+          template: '审核完成',
+          duration: 1000
+        })
+      } else {
+        $state.go('tab.review')
+      }
+    }, function (err) {
+      console.log(err)
+    })
+  }
+
+  var load = function () {
+  // 获取该医生所有待审核患者列表
+    Doctor2.getReviewList({
+      token: Storage.get('TOKEN')
+      // userId: Storage.get('UID')
+    }).then(function (data) {
+      if (data.numberToReview !== 0) {
+        console.log(data)
+        $scope.patients = data.results
+        $scope.TotalNum = data.numberToReview
+      } else {
+        $scope.show = true
+        $scope.patients = ''
+        $scope.TotalNum = data.numberToReview
+      }
+    }, function (err) {
+      console.log(err)
+    })
+  }
+
+  // 进入加载
+  $scope.$on('$ionicView.beforeEnter', function () {
+    load()
+  })
+  // 下拉刷新
+  $scope.doRefresh = function () {
+    load()
+        // Stop the ion-refresher from spinning
+    $scope.$broadcast('scroll.refreshComplete')
+  }
+}])
