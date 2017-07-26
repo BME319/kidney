@@ -108,7 +108,8 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
             $ionicHistory.clearCache()
             $ionicHistory.clearHistory()
             Storage.set('USERNAME', $scope.logOn.username)
-            Storage.set('TOKEN', data.results.token)// token作用目前还不明确
+            Storage.set('TOKEN', data.results.token)
+            console.log('TOKEN', data.results.token)// token作用目前还不明确
             Storage.set('isSignIn', true)
             Storage.set('UID', data.results.userId)
             /**
@@ -3131,6 +3132,597 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
 // 关于页面-zy
 .controller('aboutCtrl', ['$scope', '$state', 'Storage', '$ionicHistory', function ($scope, $state, Storage, $ionicHistory) {
 
+}])
+
+//我的服务
+.controller('myserviceCtrl', ['$scope','$state','Storage','$ionicPopup','$ionicHistory','services' ,function($scope,$state,Storage,$ionicPopup,$ionicHistory,services) {
+    
+  $scope.doctorinfo = {status1:'' , status2:'', status3:'', status4:'', status5:'',
+    charge1:0, charge2:0, charge3:0, charge4:0, charge5:0} ;
+
+    var getStatus = function () {
+    services.getStatus({token: Storage.get('TOKEN'), userId: Storage.get('UID')}).then(function (data) {
+      console.log(data);
+      if (data.results.counselStatus1) {
+        $scope.doctorinfo.status1 = true
+        $scope.doctorinfo.charge1 = data.results.charge1
+      }
+      if (data.results.counselStatus2) {
+        $scope.doctorinfo.status2 = true
+        $scope.doctorinfo.charge2 = data.results.charge2
+      }
+      if (data.results.counselStatus3) {
+        $scope.doctorinfo.status3 = true
+        $scope.doctorinfo.charge3 = data.results.charge3
+      }
+      if (data.results.counselStatus4) {
+        $scope.doctorinfo.status4 = true
+        $scope.doctorinfo.charge4 = data.results.charge4
+      }
+      //$scope.doctorinfo.status5 = data.results.counselStatus5;
+      //$scope.doctorinfo.charge5 = data.results.charge5
+      //angular.forEach(data.results.schedules, function (value, key) {
+                // console.log(value)
+       
+    }, function (err) {
+      console.log(err)
+    })
+  }
+  $scope.$on('$ionicView.enter', function () {
+    getStatus()
+  })
+
+
+  $scope.consultChange = function () {
+    services.setStatus({token: Storage.get('TOKEN'), serviceType: "service1"}).then(function (data) {                  
+    }, function (err) {
+      console.log(err)
+    })
+    console.log('status1', $scope.doctorinfo.status1);
+    if ($scope.doctorinfo.status1) {
+ 
+      services.getStatus({token: Storage.get('TOKEN'), userId: Storage.get('UID')}).then(function (data) {
+      //console.log(data);
+        $scope.doctorinfo.charge1 = data.results.charge1
+      }, function (err) {
+        console.log(err)
+      })
+    }
+  }
+
+  $scope.inquiryChange = function () {
+
+    services.setStatus({token: Storage.get('TOKEN'), serviceType: "service2"}).then(function (data) {                  
+    }, function (err) {
+      console.log(err)
+    })
+    console.log('status2', $scope.doctorinfo.status2);
+    if ($scope.doctorinfo.status2) {
+ 
+      services.getStatus({token: Storage.get('TOKEN'), userId: Storage.get('UID')}).then(function (data) {
+      //console.log(data);
+        $scope.doctorinfo.charge2 = data.results.charge2
+      }, function (err) {
+        console.log(err)
+      })
+    }
+  }
+
+  $scope.fastconsultChange = function () {
+
+   services.setStatus({token: Storage.get('TOKEN'), serviceType: "service3"}).then(function (data) {                  
+    }, function (err) {
+      console.log(err)
+    })
+    console.log('status3', $scope.doctorinfo.status3);
+    if ($scope.doctorinfo.status3) {
+ 
+      services.getStatus({token: Storage.get('TOKEN'), userId: Storage.get('UID')}).then(function (data) {
+      //console.log(data);
+        $scope.doctorinfo.charge3 = data.results.charge3
+      }, function (err) {
+        console.log(err)
+      })
+    }
+  }
+
+  $scope.maindoctorChange = function () {
+
+    services.setStatus({token: Storage.get('TOKEN'), serviceType: "service4"}).then(function (data) {                  
+    }, function (err) {
+      console.log(err)
+    })
+    console.log('status4', $scope.doctorinfo.status4);
+    if ($scope.doctorinfo.status4) {
+ 
+      services.getStatus({token: Storage.get('TOKEN'), userId: Storage.get('UID')}).then(function (data) {
+      //console.log(data);
+        $scope.doctorinfo.charge4 = data.results.charge4
+      }, function (err) {
+        console.log(err)
+      })
+    }
+  }
+
+  $scope.charge1Save = function () {
+    var param = {
+                    //userId: Storage.get('UID'),
+                    token: Storage.get('TOKEN'),
+                    serviceType: "service1",
+                    charge: $scope.doctorinfo.charge1.toString()
+                  }
+      services.setCharge(param).then(function (data) {                  
+      }, function (err) {
+        console.log(err)
+      })
+    var confirmPopup = $ionicPopup.confirm({
+      title: '保存成功！',
+      cancelText: '取消',
+      okText: '确定'
+    })
+  }
+
+  $scope.charge2Save = function () {
+    var param = {
+                    //userId: Storage.get('UID'),
+                    token: Storage.get('TOKEN'),
+                    serviceType: "service2",
+                    charge: $scope.doctorinfo.charge2.toString()
+                  }
+      services.setCharge(param).then(function (data) {                  
+      }, function (err) {
+        console.log(err)
+      })
+    var confirmPopup = $ionicPopup.confirm({
+      title: '保存成功！',
+      cancelText: '取消',
+      okText: '确定'
+    })
+  }
+
+  $scope.charge3Save = function () {
+    var param = {
+                    //userId: Storage.get('UID'),
+                    token: Storage.get('TOKEN'),
+                    serviceType: "service3",
+                    charge: $scope.doctorinfo.charge3.toString()
+                  }
+      services.setCharge(param).then(function (data) {                  
+      }, function (err) {
+        console.log(err)
+      })
+    var confirmPopup = $ionicPopup.confirm({
+      title: '保存成功！',
+      cancelText: '取消',
+      okText: '确定'
+    })
+  }
+
+  $scope.charge4Save = function () {
+    var param = {
+                    //userId: Storage.get('UID'),
+                    token: Storage.get('TOKEN'),
+                    serviceType: "service4",
+                    charge: $scope.doctorinfo.charge4.toString()
+                  }
+      services.setCharge(param).then(function (data) {                  
+      }, function (err) {
+        console.log(err)
+      })
+    var confirmPopup = $ionicPopup.confirm({
+      title: '保存成功！',
+      cancelText: '取消',
+      okText: '确定'
+    })
+  }
+
+}])
+
+//是否转发页面
+.controller('forwardingCtrl', ['$scope','$state','Storage','$ionicHistory','services' ,function($scope,$state,Storage,$ionicHistory,services) {
+ 
+ $scope.forwardinginfo = {autoRelay:'' } ;
+
+ $scope.initial={
+  item:""
+ }
+
+var getStatus = function () {
+    services.getStatus({token: Storage.get('TOKEN'), userId: Storage.get('UID')}).then(function (data) {
+      console.log(data);
+      if (data.results.autoRelay) {
+        $scope.forwardinginfo.autoRelay = true
+        $scope.teams = data.teams
+        $scope.initial.item = data.results.relayTarget[0].teamId
+        console.log($scope.teams)
+      }
+
+    }, function (err) {
+      console.log(err)
+    })
+  }
+  $scope.$on('$ionicView.enter', function () {
+    getStatus()
+  })
+
+  $scope.forwardingChange = function () {
+    services.setStatus({token: Storage.get('TOKEN'),serviceType:"service6"}).then(function (data) { 
+      console.log(data.currentStatus)
+      console.log(data.currentStatus.autoRelay)
+      console.log(data) 
+      console.log('autoRelay', $scope.forwardinginfo.autoRelay);
+      if (data.currentStatus.autoRelay) {
+        $scope.forwardinginfo.autoRelay = true
+        $scope.teams = data.teams
+        console.log($scope.teams)
+      }               
+    }, function (err) {
+      console.log(err)
+    })
+  }
+
+  $scope.pickgroup = function (teamId) {
+    console.log(teamId)
+    // $scope.saveChoose = function (){
+      services.relayTarget({token: Storage.get('TOKEN'),relayTarget:[{teamId}]}).then(function (data) {
+        console.log(data)                
+      }, function (err) {
+        console.log(err)
+      })      
+    }
+  // }
+
+}])
+
+//面诊服务页面
+.controller('faceconsultCtrl', ['$scope', 'ionicDatePicker', '$ionicPopup', 'Doctor', 'services', 'Storage', '$interval', function ($scope, ionicDatePicker, $ionicPopup, Doctor, services, Storage, $interval) {
+  $scope.dateC = new Date() 
+  var getStatus = function () {
+    services.getStatus({token: Storage.get('TOKEN'), userId: Storage.get('UID')}).then(function (data) {
+      console.log(data);
+      if (data.results.counselStatus5) {
+        $scope.doctorinfo.status5 = true
+        $scope.doctorinfo.charge5 = data.results.charge5
+      }
+      //$scope.doctorinfo.status5 = data.results.counselStatus5;
+      //$scope.doctorinfo.charge5 = data.results.charge5
+      //angular.forEach(data.results.schedules, function (value, key) {
+                // console.log(value)
+       
+    }, function (err) {
+      console.log(err)
+    })
+  }
+  $scope.$on('$ionicView.enter', function () {
+    getStatus()
+  })
+  var getSchedules = function () {
+    services.getSchedules({token: Storage.get('TOKEN')}).then(function (data) {
+            //console.log('data',data)
+      angular.forEach(data.results.serviceSchedules, function (value, key) {
+            console.log('value',value)
+        var index = value.day - '0'
+        if (value.time == 1) { index += 7 }
+        $scope.workStatus[index].status = 1
+        $scope.workStatus[index].style = {'background-color': 'red'}
+        $scope.workStatus[index].number = value.total
+        //$scope.workStatus[index].day = value.day.toString()
+        //$scope.workStatus[index].time = value.time.toString()
+        
+        $scope.workStatus[index].place = ''
+      })
+    }, function (err) {
+      console.log(err)
+    })
+    console.log($scope.workStatus)
+      services.getStatus({token: Storage.get('TOKEN'),userId: Storage.get('UID')}).then(function (data) {
+      console.log(data.results.serviceSuspendTime)
+      if (data.results.serviceSuspendTime.length == 0) {
+        $scope.stausText = '接诊中...'
+        $scope.stausButtontText = '设置停诊'
+      } else {
+        var date = new Date()
+        var dateNow = '' + date.getFullYear();
+        (date.getMonth() + 1) < 10 ? dateNow += '0' + (date.getMonth() + 1) : dateNow += (date.getMonth() + 1)
+        date.getDate() < 10 ? dateNow += '0' + date.getDate() : dateNow += date.getDate()
+        console.log(dateNow)
+
+        $scope.begin = data.results.serviceSuspendTime[data.results.serviceSuspendTime.length-1].start
+        $scope.end = data.results.serviceSuspendTime[data.results.serviceSuspendTime.length-1].end
+
+        date = new Date($scope.begin)
+        var dateB = '' + date.getFullYear();
+        (date.getMonth() + 1) < 10 ? dateB += '0' + (date.getMonth() + 1) : dateB += (date.getMonth() + 1)
+        date.getDate() < 10 ? dateB += '0' + date.getDate() : dateB += date.getDate()
+        date = new Date($scope.end)
+        var dateE = '' + date.getFullYear();
+        (date.getMonth() + 1) < 10 ? dateE += '0' + (date.getMonth() + 1) : dateE += (date.getMonth() + 1)
+        date.getDate() < 10 ? dateE += '0' + date.getDate() : dateE += date.getDate()
+
+        if (dateNow >= dateB && dateNow <= dateE) {
+          $scope.stausText = '停诊中...'
+        } else {
+          $scope.stausText = '接诊中...'
+        }
+        $scope.stausButtontText = '取消停诊'
+      }
+    }, function (err) {
+      console.log(err)
+    })
+  }
+  $scope.workStatus = [
+    {status:0, number:0, day:'0', time:'0', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'1', time:'0', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'2', time:'0', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'3', time:'0', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'4', time:'0', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'5', time:'0', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'6', time:'0', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'0', time:'1', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'1', time:'1', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'2', time:'1', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'3', time:'1', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'4', time:'1', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'5', time:'1', place:'', style:{'background-color':'white'}},
+    {status:0, number:0, day:'6', time:'1', place:'', style:{'background-color':'white'}},
+  ]
+  $scope.stausButtontText = '停诊'
+  $scope.stausText = '接诊中...'
+  $scope.showSchedual = true
+  $scope.inp={num:'', pla:''}
+
+  //$scope.fsdiagnose={checked:true, charge:''}
+  $scope.doctorinfo= {status5:'', charge5:0}
+  $scope.$on('$ionicView.enter', function () {
+    getSchedules()
+  })
+  
+  $interval(function () {
+    var getD = new Date()
+    if (getD.getDate() != $scope.dateC.getDate()) {
+      $scope.dateC = new Date()
+      getSchedual()
+    }
+  }, 1000)
+  var ipObj1 = {
+    callback: function (val) {  // Mandatory
+            // console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+      if ($scope.flag == 1) {
+        $scope.begin = val
+        if ($scope.end == undefined || $scope.begin > new Date($scope.end)) { $scope.end = $scope.begin }
+      } else {
+        $scope.end = val
+        if ($scope.begin != undefined && $scope.begin > new Date($scope.end)) { $scope.begin = $scope.end }
+      }
+    },
+    titleLabel: '',
+    inputDate: new Date(),
+    mondayFirst: true,
+    closeOnSelect: false,
+    templateType: 'popup',
+    setLabel: '确定',
+    todayLabel: '今天',
+    closeLabel: '取消',
+    showTodayButton: true,
+    dateFormat: 'yyyy MMMM dd',
+    weeksList: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+    monthsList: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    from: new Date()
+  }
+
+  $scope.openDatePicker = function (params) {
+    ipObj1.titleLabel = params == 1 ? '停诊开始日期' : '停诊结束日期'
+    if (params == 1) {
+      if ($scope.begin != undefined) { ipObj1.inputDate = new Date($scope.begin) }
+    } else {
+      if ($scope.end != undefined) { ipObj1.inputDate = new Date($scope.end) }
+    }
+    ionicDatePicker.openDatePicker(ipObj1)
+    $scope.flag = params// 标识选定时间用于开始时间还是结束时间
+  }
+
+  $scope.showSch = function () {
+    if ($scope.stausButtontText == '设置停诊') {
+      $scope.showSchedual = false
+    } else {
+      var param = {
+        token: Storage.get('TOKEN'),
+        start: $scope.begin,
+        end: $scope.end
+      }
+      console.log(param)
+      services.deleteSuspend(param).then(function (data) {
+        console.log(data)
+        $scope.stausButtontText = '设置停诊'
+        $scope.stausText = '接诊中...'
+      }, function (err) {
+        console.log(err)
+      })
+    }
+  }
+  $scope.stopWork = function (cancel) {
+    if (cancel) {
+      $scope.showSchedual = true
+      return
+    }
+    if ($scope.begin != undefined && $scope.end != undefined) {
+      var param = {
+        token: Storage.get('TOKEN'),
+        start: $scope.begin,
+        end: $scope.end
+      }
+      // console.log(param)
+      services.setSuspend(param).then(function (data) {
+        $scope.showSchedual = true
+        getSchedules()
+      }, function (err) {
+        console.log(err)
+      })
+    }
+  }
+
+  $scope.fsdiagnoseChange = function () {
+    services.setStatus({token: Storage.get('TOKEN'), serviceType: "service5"}).then(function (data) {                  
+    }, function (err) {
+      console.log(err)
+    })
+    console.log('status5', $scope.doctorinfo.status5);
+    if (!$scope.doctorinfo.status5) {
+      angular.forEach($scope.workStatus, function (value, key) {
+        console.log('value',value);
+        if (!value.number==0) { 
+          var para = {
+                    //userId: Storage.get('UID'),
+                    token: Storage.get('TOKEN'),
+                    day: value.day,
+                    time: value.time,                    
+                  }
+          services.deleteSchedules(para).then(function (data) {           
+          var index = value.day - '0'
+          if (value.time == 1) { index += 7 }
+          console.log('index', index)
+          $scope.workStatus[index].number = 0
+          $scope.workStatus[index].style = {'background-color':'white'}
+          $scope.workStatus[index].status = 0
+
+          }, function (err) {
+            console.log(err)
+          })
+        }
+      })
+    } else {
+      services.getStatus({token: Storage.get('TOKEN'), userId: Storage.get('UID')}).then(function (data) {
+      //console.log(data);
+        $scope.doctorinfo.charge5 = data.results.charge5
+      }, function (err) {
+        console.log(err)
+      })
+    }
+  }
+
+  $scope.charge5Save = function () {
+    var param = {
+                    //userId: Storage.get('UID'),
+                    token: Storage.get('TOKEN'),
+                    serviceType: "service5",
+                    charge: $scope.doctorinfo.charge5.toString()
+                  }
+      services.setCharge(param).then(function (data) {                  
+      }, function (err) {
+        console.log(err)
+      })
+    var confirmPopup = $ionicPopup.confirm({
+      title: '保存成功！',
+      cancelText: '取消',
+      okText: '确定'
+    })
+  }
+
+
+
+  $scope.changeWorkStatus = function (index) {
+    // console.log("changeWorkStatus"+index)
+    var text = ''
+    // $scope.dat = {t:"123"}
+    if ($scope.workStatus[index].status == 0 && $scope.doctorinfo.status5) {
+      text = '请输入加号人数<input type="text" ng-model="inp.num">出诊医院<input type="text" ng-model="inp.pla">'
+    } else if ($scope.workStatus[index].status == 0) {
+      text = '出诊医院<input type="text" ng-model="inp.pla">'
+    } else {
+      text = '此时间段将更改为空闲状态！'
+    }
+    //var myPopup = "";
+    $ionicPopup.show({
+        template: text,
+        title: '修改工作状态',
+        scope: $scope,
+        buttons: [
+          
+          {
+            text: '<b>确定</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              console.log($scope.inp)
+              var param = {
+                    //userId: Storage.get('UID'),
+                    token: Storage.get('TOKEN'),
+                    day: index.toString(),
+                    time: '0',
+                    total: $scope.inp.num
+                  }
+                  if (index > 6) {
+                    param.time = '1'
+                    param.day = (index - 7).toString()
+                  }
+                  // console.log(param)
+                  if ($scope.workStatus[index].status == 0) {        
+                    services. setSchedules(param).then(function (data) {
+                      // console.log(data)
+                      $scope.workStatus[index].status = 1
+                      $scope.workStatus[index].style = {'background-color': 'red'}
+                      $scope.workStatus[index].place = $scope.inp.pla
+                      if ($scope.doctorinfo.status5) {
+                        $scope.workStatus[index].number = $scope.inp.num
+                      }
+                      
+                    }, function (err) {
+                      console.log(err)
+                    })
+                  } else {
+                    services. deleteSchedules(param).then(function (data) {
+                                  // console.log(data)
+                      $scope.workStatus[index].status = 0
+                      $scope.workStatus[index].style = {'background-color': 'white'}
+                      $scope.workStatus[index].number = 0
+                    }, function (err) {
+                      console.log(err)
+                    })
+                  }
+            }
+          },
+          { text: '取消' }
+        ]
+      });
+
+    // confirmPopup.then(function (res) {
+    //   if (res) {
+    //     // console.log('You are sure');
+    //     var param = {
+    //       userId: Storage.get('UID'),
+    //       day: index.toString(),
+    //       time: '0'
+    //     }
+    //     if (index > 6) {
+    //       param.time = '1'
+    //       param.day = (index - 7).toString()
+    //     }
+    //     // console.log(param)
+    //     if ($scope.workStatus[index].status == 0) {        
+    //       Doctor.insertSchedule(param).then(function (data) {
+    //         // console.log(data)
+    //         $scope.workStatus[index].status = 1
+    //         $scope.workStatus[index].style = {'background-color': 'red'}
+    //         $scope.workStatus[index].number = $scope.num
+    //       }, function (err) {
+    //         console.log(err)
+    //       })
+    //     } else {
+    //       Doctor.deleteSchedule(param).then(function (data) {
+    //                     // console.log(data)
+    //         $scope.workStatus[index].status = 0
+    //         $scope.workStatus[index].style = {'background-color': 'white'}
+    //         $scope.workStatus[index].number = 0
+    //       }, function (err) {
+    //         console.log(err)
+    //       })
+    //     }
+    //   } else {
+    //   // console.log('You are not sure');
+    //   }
+    //   console.log($scope.num)
+    //   console.log("changeWorkStatus", $scope.workStatus, "num", $scope.num)
+    // })
+  }
 }])
 
 // 账户详情-zxf

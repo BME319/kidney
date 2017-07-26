@@ -1,0 +1,31 @@
+<ion-view view-title="自动转发">
+    <ion-nav-bar class="bar-positive " align-title="center">
+        <ion-nav-buttons side="left">
+            <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-content overflow-scroll="false">
+
+    <div class="list;content has-header">
+
+        <ion-item>
+            <ion-toggle toggle-class="toggle-positive"  ng-model="forwardinginfo.autoRelay" ng-change="forwardingChange()">是否自动转发</ion-toggle>
+        </ion-item>
+
+      <div class="list" ng-show="forwardinginfo.autoRelay" style="display:inline-block;width:100%;">
+
+
+        <ion-radio ng-repeat="item in teams" ng-model="initial.item" ng-value="item.teamId" collection-item-height="94px" class="item item-avatar" ng-click="pickgroup(item.teamId)">
+          <img ng-src="{{team.photoUrl|imgUrl:'group'}}">
+               {{item.name}}  {{item.teamId}} <br />
+          <div style="display:inline-block;margin-top: 5px"><span style="font-size: 12px;border-radius: 3px;display:inline-block;margin:0 0.2em 0 0.5em ;background-color:#f15124;color:#FFF">创建者</span>{{item.sponsorName}}
+          </div>
+        </ion-radio>
+      </div>
+
+    </div>
+<!--     <button style="margin-top:0 ;background: #6ac4f8;width: 80%;margin: 0 auto" class="button button-block button-positive mt-40" ng-click="saveChoose()">保存</button> -->
+    </ion-content>
+    
+</ion-view>

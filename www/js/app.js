@@ -749,6 +749,43 @@ angular.module('kidney', [
         }
       }
     })
+
+    //我的服务
+    .state('tab.myservice', {
+        // cache: false,
+        url: '/myservice',
+        views: {
+            'tab-me':{
+                controller: 'myserviceCtrl',
+                templateUrl: 'partials/me/myservice.html'
+            }
+        }
+    })
+
+    //自动转发页
+    .state('tab.forwarding', {
+        // cache: false,
+        url: '/me/forwarding',
+        views: {
+            'tab-me':{
+                controller: 'forwardingCtrl',
+                templateUrl: 'partials/me/forwarding.html'
+            }
+        }
+    })
+    
+    //面诊服务页面
+    .state('tab.faceconsult', {
+        // cache: false,
+        url: '/me/faceconsult',
+        views: {
+            'tab-me':{
+                controller: 'faceconsultCtrl',
+                templateUrl: 'partials/me/faceconsult.html'
+            }
+        }
+    })
+
     // 设置
     .state('tab.set', {
         // cache: false,
@@ -814,7 +851,7 @@ angular.module('kidney', [
     }, 20)
   }
   $scope.destroy = function () {
-    console.log('destroy')
+    //console.log('destroy')
     if (RefreshUnread) {
       $interval.cancel(RefreshUnread)
     }
