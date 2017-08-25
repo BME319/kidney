@@ -236,26 +236,23 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
     Wechat.auth(wxscope, wxstate, function (response) {
       // you may use response.code to get the access token.
       // alert(JSON.stringify(response));
-      alert(response.code)
-
+      // alert(response.code)
       Mywechat.getUserInfo({role: 'appDoctor', code: response.code, state: ''}).then(function (persondata) {
-        alert(JSON.stringify(persondata))
+        // alert(JSON.stringify(persondata))
         // alert(persondata.headimgurl)
         Storage.set('wechatheadimgurl', persondata.results.headimgurl)
-
         $scope.unionid = persondata.results.unionid
-        alert($scope.unionid)
-
+        // alert($scope.unionid)
         User.getUserId({username: $scope.unionid}).then(function (ret) {
-          alert(JSON.stringify(ret))
-                // 用户已经存在id 说明公众号注册过
+          // alert(JSON.stringify(ret))
+          // 用户已经存在id 说明公众号注册过
           if (ret.results == 0 && ret.roles.indexOf('doctor') != -1) { // 直接登录
             ionicLoadingshow()
-            alert(1)
+            // alert(1)
             User2.logIn({username: $scope.unionid, password: '112233', role: 'doctor'}).then(function (data) {
               alert(JSON.stringify(data))
               if (data.results.mesg == 'login success!') {
-                alert(2)
+                // alert(2)
                 Storage.set('isSignIn', 'Yes')
                 Storage.set('UID', ret.UserId)// 后续页面必要uid
                 Storage.set('TOKEN', data.results.token)
@@ -276,7 +273,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
               }
             })
           } else {
-            alert(3)
+            // alert(3)
             Storage.set('doctorunionid', $scope.unionid)// 自动登录使用
             $state.go('phonevalid', {last: 'wechatsignin'})
           }
@@ -317,8 +314,6 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
     }, function (reason) {
       alert('Failed: ' + reason)
     })
-
-        // }
   }
 }])
 
