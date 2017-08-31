@@ -18,6 +18,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
         Storage.set('bindingsucc', 'yes')
         Storage.set('TOKEN', data.results.token)
         Storage.set('refreshToken', data.results.refreshToken)
+        Storage.set('reviewStatus', data.results.reviewStatus)
         Doctor.getDoctorInfo({userId: data.results.userId}).then(function (response) {
           thisDoctor = response.results
           mySocket.newUser(response.results.userId)
@@ -50,6 +51,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
         // Storage.set('bindingsucc','yes')
         Storage.set('TOKEN', data.results.token)
         Storage.set('refreshToken', data.results.refreshToken)
+        Storage.set('reviewStatus', data.results.reviewStatus)
         Doctor.getDoctorInfo({userId: data.results.userId}).then(function (response) {
           thisDoctor = response.results
           mySocket.newUser(response.results.userId)
@@ -114,6 +116,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
             Storage.set('USERNAME', $scope.logOn.username)
             Storage.set('TOKEN', data.results.token)
             Storage.set('refreshToken', data.results.refreshToken)
+            Storage.set('reviewStatus', data.results.reviewStatus)
             Storage.set('isSignIn', true)
             Storage.set('UID', data.results.userId)
             /**
@@ -257,6 +260,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
                 Storage.set('UID', data.results.UserId)// 后续页面必要uid
                 Storage.set('TOKEN', data.results.token)
                 Storage.set('refreshToken', data.results.refreshToken)
+                Storage.set('reviewStatus', data.results.reviewStatus)
                 Storage.set('doctorunionid', $scope.unionid)// 自动登录使用
                 Storage.set('bindingsucc', 'yes')
                 Storage.set('USERNAME', ret.phoneNo)
@@ -932,6 +936,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
       $scope.doctor.userId = data.results.userId
       Storage.set('TOKEN', data.results.token)
       Storage.set('refreshToken', data.results.refreshToken)
+      Storage.set('reviewStatus', data.results.reviewStatus)
     }
   }, function (err) {
     console.log(err)
@@ -2183,7 +2188,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
 }])
 
 // "我”页-zy,mzb,zxf
-.controller('meCtrl', ['CONFIG', 'Camera', 'Doctor', '$scope', '$state', '$interval', '$rootScope', 'Storage', '$ionicPopover', '$http', function (CONFIG, Camera, Doctor, $scope, $state, $interval, $rootScope, Storage, $ionicPopover, $http) {
+.controller('meCtrl', ['CONFIG', 'Camera', 'Doctor', '$scope', '$state', '$interval', '$rootScope', 'Storage', '$ionicPopover', '$http', '$ionicPopup', function (CONFIG, Camera, Doctor, $scope, $state, $interval, $rootScope, Storage, $ionicPopover, $http, $ionicPopup) {
   $scope.barwidth = 'width:0%'
     // $scope.$on('$ionicView.beforeEnter', function() {
     //     $scope.doRefresh();
@@ -2196,6 +2201,58 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
    * @return   data.results(医生详细信息)
    */
   // console.log(Storage.get('TOKEN'))
+
+  var myPopup = function () {
+    $ionicPopup.show({
+      title: '您暂未通过审核，您可前往“我的资料”修改个人信息，其他操作没有权限，请耐心等待！',
+      buttons: [
+        {
+          text: '確定',
+          type: 'button-positive',
+          onTap: function (e) {
+            // $state.go('signin')
+          }
+        }
+      ]
+    })
+  }
+
+  $scope.goSchedual = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $state.go('tab.schedual')
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      myPopup()
+    }
+  }
+  $scope.goFee = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $state.go('tab.myfee')
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      myPopup()
+    }
+  }
+  $scope.goFeedback = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $state.go('tab.feedback')
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      myPopup()
+    }
+  }
+  $scope.goAdvice = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $state.go('tab.advice')
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      myPopup()
+    }
+  }
+  $scope.goNocounsel = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $state.go('tab.nocounsel')
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      myPopup()
+    }
+  }
+
   Doctor.getDoctorInfo({
     // token: Storage.get('TOKEN')
   }).then(function (data) {
@@ -2337,7 +2394,9 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
   //     // groupId:$state.params.groupId
   //     userId:Storage.get('UID')
   // }
-
+  if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+    $state.go('tab.workplace')
+  }
   $scope.doctor = ''
   /**
    * [获取医生详细信息]
@@ -2992,7 +3051,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
 }])
 
 // "我”设置内容修改密码页-mzb,zy
-.controller('set-contentCtrl', ['$timeout', '$scope', '$ionicPopup', '$state', '$stateParams', 'Storage', 'User', function ($timeout, $scope, $ionicPopup, $state, $stateParams, Storage, User) {
+.controller('set-contentCtrl', ['$timeout', '$scope', '$ionicPopup', '$state', '$stateParams', 'Storage', 'User', 'User2', function ($timeout, $scope, $ionicPopup, $state, $stateParams, Storage, User, User2) {
   $scope.hideTabs = true
   $scope.type = $stateParams.type
   /**

@@ -965,7 +965,7 @@ angular.module('kidney', [
 
   $urlRouterProvider.otherwise('/signin')
 })
-.controller('tabCtrl', ['$state', '$scope', '$interval', function ($state, $scope, $interval) {
+.controller('tabCtrl', ['$state', '$scope', '$interval', 'Storage', '$ionicPopup', function ($state, $scope, $interval, Storage, $ionicPopup) {
   $scope.goWorkplace = function () {
     setTimeout(function () {
       $state.go('tab.workplace', {})
@@ -978,19 +978,77 @@ angular.module('kidney', [
   // }
   $scope.destroy = function () {
     // console.log('destroy')
-    if (RefreshUnread) {
-      $interval.cancel(RefreshUnread)
+    if (Storage.get('reviewStatus') == 1) {
+      if (RefreshUnread) {
+        $interval.cancel(RefreshUnread)
+      }
     }
   }
-  // $scope.goConsult = function () {
-  //   setTimeout(function () {
-  //     $state.go('tab.consult', {})
-  //   }, 20)
-  // }
+  $scope.goForum = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $ionicPopup.show({
+        title: '论坛还没做好呀！',
+        buttons: [
+          {
+            text: '確定',
+            type: 'button-positive'
+          }
+        ]
+      })
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      $ionicPopup.show({
+        title: '您暂未通过审核，您可前往“我的资料”修改个人信息，其他操作没有权限，请耐心等待！',
+        buttons: [
+          {
+            text: '確定',
+            type: 'button-positive',
+            onTap: function (e) {
+              // $state.go('signin')
+            }
+          }
+        ]
+      })
+    } else {
+      $ionicPopup.show({
+        title: '数据异常！',
+        buttons: [
+          {
+            text: '確定',
+            type: 'button-positive'
+          }
+        ]
+      })
+    }
+  }
   $scope.goGroups = function () {
-    setTimeout(function () {
-      $state.go('tab.groups', {type: '0'})
-    }, 20)
+    if (Storage.get('reviewStatus') == 1) {
+      setTimeout(function () {
+        $state.go('tab.groups', {type: '0'})
+      }, 20)
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      $ionicPopup.show({
+        title: '您暂未通过审核，您可前往“我的资料”修改个人信息，其他操作没有权限，请耐心等待！',
+        buttons: [
+          {
+            text: '確定',
+            type: 'button-positive',
+            onTap: function (e) {
+              // $state.go('signin')
+            }
+          }
+        ]
+      })
+    } else {
+      $ionicPopup.show({
+        title: '数据异常！',
+        buttons: [
+          {
+            text: '確定',
+            type: 'button-positive'
+          }
+        ]
+      })
+    }
   }
   // $scope.goPatient = function () {
   //   setTimeout(function () {

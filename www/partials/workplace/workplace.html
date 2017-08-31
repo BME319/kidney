@@ -9,32 +9,32 @@
         <div class="me-massage-box">
             <div class="me-avatar-box">
                 <div class="img-cen me-avatar">
-                    <img ng-src="{{doctor.photoUrl}}" name="Photo" ng-click="onClickCamera($event)">
+                    <img ng-src="{{doctor.photoUrl}}" name="Photo">
                 </div>
 
-                <!-- <div class="me-edit-btn">更换头像</div> -->
+                <div class="me-edit-btn" ng-if="!review"><a href="#/tab/myinfo">立即认证</a></div>
             </div>
             <div class="me-massage">
                 <p class="f16 m-b5 fc-2b">{{doctor.name}}</p>
-                <p class="fc-66">{{doctor.workUnit}}</p>
-                <p class="fc-66">{{doctor.department}}</p>
+<!--                 <p class="fc-66">{{doctor.workUnit}}</p>
+                <p class="fc-66">{{doctor.department}}</p> -->
             </div>
         </div>
     </div>
     <div class="me-mun bg-wite mt-10">
         <div class="row ">
-            <a class="col col-50 text-center br-e9" href="#/tab/qrcode"><i class="iconfont icon-erweima"></i><span style="margin-left: -8px;">我的二维码</span><!-- <em class="me-dic iconfont  icon-dian"></em> --></a>
-            <a class="col col-50 text-center" href="#/messages" head-red-point='hasUnreadMessages'><i class="iconfont icon-luntan"></i><span style="margin-left: -8px;">消息提醒</span></a>
+            <a class="col col-50 text-center br-e9" ng-click="goQrcode()"><i class="iconfont icon-erweima"></i><span style="margin-left: -8px;">我的二维码</span><!-- <em class="me-dic iconfont  icon-dian"></em> --></a>
+            <a class="col col-50 text-center" ng-click="goMessage()"><i class="iconfont icon-luntan"></i><span style="margin-left: -8px;">消息提醒</span><em class="me-dic iconfont  icon-dian" ng-if="hasUnreadMessages"></em></a>
         </div>
     </div>
     <div class="me-mun bg-wite mt-10">
         <div class="row ">
-            <a class="col col-50 text-center br-e9" href="#/tab/consult"><i class="iconfont icon-iconfontconsult"></i><span style="margin-left: -8px;">咨询问诊</span><!-- <em class="me-dic iconfont  icon-dian"></em> --></a>
-            <a class="col col-50 text-center" href="#/tab/myreserve"><i class="iconfont icon-jibenziliao"></i><span style="margin-left: -8px;">我的预约</span></a>
+            <a class="col col-50 text-center br-e9" ng-click="goConsult()"><i class="iconfont icon-iconfontconsult"></i><span style="margin-left: -8px;">咨询问诊</span><!-- <em class="me-dic iconfont  icon-dian"></em> --></a>
+            <a class="col col-50 text-center" ng-click="goReserve()"><i class="iconfont icon-jibenziliao"></i><span style="margin-left: -8px;">我的预约</span></a>
         </div>
         <div class="row">
-            <a class="col col-50 text-center br-e9" href="#/tab/patient"><i class="iconfont icon-wodezhanghu"></i><span style="margin-left: -8px;">我的患者</span><!-- <em class="me-dic iconfont  icon-dian"></em> --></a>
-            <a class="col col-50 text-center" href="#/tab/myservice"><i class="iconfont icon-wujiaoxing"></i><span style="margin-left: -8px;">服务管理</span></a>
+            <a class="col col-50 text-center br-e9" ng-click="goPatient()"><i class="iconfont icon-wodezhanghu"></i><span style="margin-left: -8px;">我的患者</span><!-- <em class="me-dic iconfont  icon-dian"></em> --></a>
+            <a class="col col-50 text-center" ng-click="goService()"><i class="iconfont icon-wujiaoxing"></i><span style="margin-left: -8px;">服务管理</span></a>
         </div>
     </div>
     <!-- <div class="me-list list mt-15">

@@ -1,9 +1,72 @@
 angular.module('fyl.controllers', ['ionic', 'kidney.services'])
 
 // "工作台”页-fyl,zy
-.controller('workplaceCtrl', ['CONFIG', 'Camera', 'Doctor', '$scope', '$state', '$interval', '$rootScope', 'Storage', '$ionicPopover', '$http', 'New', function (CONFIG, Camera, Doctor, $scope, $state, $interval, $rootScope, Storage, $ionicPopover, $http, New) {
+.controller('workplaceCtrl', ['CONFIG', 'Camera', 'Doctor', '$scope', '$state', '$interval', '$rootScope', 'Storage', '$ionicPopover', '$http', 'New', '$ionicPopup', function (CONFIG, Camera, Doctor, $scope, $state, $interval, $rootScope, Storage, $ionicPopover, $http, New, $ionicPopup) {
   $scope.barwidth = 'width:0%'
   $scope.hasUnreadMessages = false
+  $scope.review = false
+  console.log(Storage.get('reviewStatus'))
+  if (Storage.get('reviewStatus') == 1) {
+    $scope.review = true
+  }
+
+  var myPopup = function () {
+    $ionicPopup.show({
+      title: '您暂未通过审核，您可前往“我的资料”修改个人信息，其他操作没有权限，请耐心等待！',
+      buttons: [
+        {
+          text: '確定',
+          type: 'button-positive',
+          onTap: function (e) {
+            // $state.go('signin')
+          }
+        }
+      ]
+    })
+  }
+
+  $scope.goQrcode = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $state.go('tab.QRcode')
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      myPopup()
+    }
+  }
+  $scope.goMessage = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $state.go('messages')
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      myPopup()
+    }
+  }
+  $scope.goConsult = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $state.go('tab.consult')
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      myPopup()
+    }
+  }
+  $scope.goReserve = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $state.go('tab.myreserve')
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      myPopup()
+    }
+  }
+  $scope.goPatient = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $state.go('tab.patient')
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      myPopup()
+    }
+  }
+  $scope.goService = function () {
+    if (Storage.get('reviewStatus') == 1) {
+      $state.go('tab.myservice')
+    } else if (Storage.get('reviewStatus') == 0 || Storage.get('reviewStatus') == 2) {
+      myPopup()
+    }
+  }
   /**
    * [查看是否有未读消息]
    * @Author   ZY
@@ -31,19 +94,23 @@ angular.module('fyl.controllers', ['ionic', 'kidney.services'])
     })
   }
 
-  // 进入页面执行查询是否有未读消息
-  $scope.$on('$ionicView.enter', function () {
-    console.log('enter')
-    RefreshUnread = $interval(GetUnread, 2000)
-  })
+  // 审核通过进入页面执行查询是否有未读消息
+  if (Storage.get('reviewStatus') == 1) {
+    $scope.$on('$ionicView.enter', function () {
+      console.log('enter')
+      RefreshUnread = $interval(GetUnread, 2000)
+    })
+  }
 
-  // 离开页面destroy查询
-  $scope.$on('$ionicView.leave', function () {
-    console.log('destroy')
-    if (RefreshUnread) {
-      $interval.cancel(RefreshUnread)
-    }
-  })
+  // 审核通过离开页面destroy查询
+  if (Storage.get('reviewStatus') == 1) {
+    $scope.$on('$ionicView.leave', function () {
+      console.log('destroy')
+      if (RefreshUnread) {
+        $interval.cancel(RefreshUnread)
+      }
+    })
+  }
   /**
    * [获取医生详细信息]
    * @Author   ZY
@@ -67,109 +134,6 @@ angular.module('fyl.controllers', ['ionic', 'kidney.services'])
   }, function (err) {
     console.log(err)
   })
-
-  // $scope.loadData();
-  $scope.params = {
-    // groupId:$state.params.groupId
-    userId: Storage.get('UID')
-  }
-
-  // 上传头像的点击事件----------------------------
-  $scope.onClickCamera = function ($event) {
-    $scope.openPopover($event)
-  }
-  $scope.reload = function () {
-    var t = $scope.doctor.photoUrl
-    $scope.doctor.photoUrl = ''
-    $scope.$apply(function () {
-      $scope.doctor.photoUrl = t
-    })
-  }
-
-  // 上传照片并将照片读入页面-------------------------
-  var photo_upload_display = function (imgURI) {
-    // 给照片的名字加上时间戳
-    var temp_photoaddress = Storage.get('UID') + '_' + 'doctor.photoUrl.jpg'
-    console.log(temp_photoaddress)
-    Camera.uploadPicture(imgURI, temp_photoaddress).then(function (res) {
-      var data = angular.fromJson(res)
-      // res.path_resized
-      // 图片路径
-      $scope.doctor.photoUrl = CONFIG.mediaUrl + String(data.path_resized) + '?' + new Date().getTime()
-      console.log($scope.doctor.photoUrl)
-      // $state.reload("tab.mine")
-      // Storage.set('doctor.photoUrlpath',$scope.doctor.photoUrl);
-      Doctor.editDoctorDetail({userId: Storage.get('UID'), photoUrl: $scope.doctor.photoUrl}).then(function (r) {
-        console.log(r)
-      })
-    }, function (err) {
-      console.log(err)
-      reject(err)
-    })
-  }
-  // -----------------------上传头像---------------------
-  // ionicPopover functions 弹出框的预定义
-  // --------------------------------------------
-  // .fromTemplateUrl() method
-  $ionicPopover.fromTemplateUrl('partials/pop/cameraPopover.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function (popover) {
-    $scope.popover = popover
-  })
-  $scope.openPopover = function ($event) {
-    $scope.popover.show($event)
-  }
-  $scope.closePopover = function () {
-    $scope.popover.hide()
-  }
-    // Cleanup the popover when we're done with it!
-  $scope.$on('$destroy', function () {
-    $scope.popover.remove()
-  })
-    // Execute action on hide popover
-  $scope.$on('popover.hidden', function () {
-        // Execute action
-  })
-    // Execute action on remove popover
-  $scope.$on('popover.removed', function () {
-        // Execute action
-  })
-
-    // 相册键的点击事件---------------------------------
-  $scope.onClickCameraPhotos = function () {
-        // console.log("选个照片");
-    $scope.choosePhotos()
-    $scope.closePopover()
-  }
-  $scope.choosePhotos = function () {
-    Camera.getPictureFromPhotos('gallery').then(function (data) {
-            // data里存的是图像的地址
-            // console.log(data);
-      var imgURI = data
-      photo_upload_display(imgURI)
-    }, function (err) {
-            // console.err(err);
-      var imgURI
-    })// 从相册获取照片结束
-  } // function结束
-
-    // 照相机的点击事件----------------------------------
-  $scope.getPhoto = function () {
-        // console.log("要拍照了！");
-    $scope.takePicture()
-    $scope.closePopover()
-  }
-  $scope.isShow = true
-  $scope.takePicture = function () {
-    Camera.getPicture('cam').then(function (data) {
-      console.log(data)
-      photo_upload_display(data)
-    }, function (err) {
-            // console.err(err);
-      var imgURI
-    })// 照相结束
-  } // function结束
 }])
 
 // 病情报告--fyl
