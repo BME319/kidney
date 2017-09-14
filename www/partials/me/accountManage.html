@@ -1,0 +1,19 @@
+<ion-view view-title="账户管理">
+  <ion-nav-bar class="bar-positive " align-title="center">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+    </ion-nav-buttons>
+ </ion-nav-bar>
+
+ <ion-content>
+        <ion-item style="text-align:center">
+            <span class="input-label" >  <img class="icon_charge" ng-src="{{wechatIcon}}"/><span ng-show=wechat!="">已</span>绑定微信账号</span>
+            <p ng-if=wechat=="">使用微信登录即可自动绑定</p>
+        </ion-item>
+
+        <ion-item style="text-align:center" ng-click="bindAliPay()">
+            <span class="input-label" >  <img class="icon_charge" ng-src="{{alipayIcon}}" /><span ng-show=alipay!="">已</span>绑定支付宝账号</span>
+            <p>{{alipay}}</p>
+        </ion-item>
+ </ion-content>
+</ion-view>

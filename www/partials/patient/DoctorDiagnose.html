@@ -4,27 +4,30 @@
     <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="BacktoPD()"></button>
   </ion-nav-buttons>
   <ion-nav-buttons side="right">
-    <button class="button button-clear icon ion-compose" ng-click="canEdit()"></button>
+    <button class="button button-clear icon ion-compose" ng-click="canEdit()" ng-if = "(charge||follow)"></button>
   </ion-nav-buttons>
 </ion-nav-bar>
 
 
 <!--   <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2.5px;background-color: #33cd5f;{{barwidth}}" ></div> -->
-    <div class="button-bar bar-positive" style="margin-top: 40px">
+  <div class="button-bar bar-positive" ng-style="barStyle">
+      <a class="button" href="#/tab/patientDetail">
+      <span class="br-e9" style="vertical-align: sub">患者详情</span>
+    </a>
     <a class="button" href="#/tab/DoctorDiagnose">
       <span class="br-e9" style="vertical-align: sub">医生诊断</span>
     </a>
     <a class="button" href="#/tab/TaskSet">
       <span class="br-e9" style="vertical-align: sub">治疗方案</span>
     </a>
-    <a class="button" href="#/tab/TestRecord" >
+    <a class="button" href="#/tab/Report">
       <span class="br-e9" style="vertical-align: sub">测量记录</span>
     </a>
     <a class="button" href="#/tab/HealthInfo">
         <span class="br-e9" style="vertical-align: sub">健康信息</span>
     </a>
   </div>
-  <ion-content  style="margin-top: 42px;">
+  <ion-content  ng-style="barStyle">
     <div  class="list" ng-show="!edit">
         <ion-item>
           肾病类型:{{Diagnose.diagname|diagname}}
@@ -33,13 +36,13 @@
           {{showDateTitle(Diagnose.diagname)}}:{{Diagnose.diagoperationTime|dateFormat:"YYYY-MM-DD"}}
         </ion-item>
         <ion-item ng-if="Diagnose.diagname == 2||Diagnose.diagname == 3">
-          疾病进程:{{Diagnose.diagprogress}}
+          疾病进程:{{Diagnose.diagProgress}}
         </ion-item>
         <ion-item>
           是否高血压:{{Diagnose.diaghypertension|hypertension}}
         </ion-item>
         <ion-item>
-          诊断:{{Diagnose.diagcontent}}
+          诊断:{{Diagnose.diagContent}}
         </ion-item>
     </div>
     <div  class="list" ng-show="edit">
@@ -66,7 +69,7 @@
           <i class="icon ion-asterisk" style="color:red;font-size:6px"></i>
           疾病进程
         </div>
-        <select ng-model="Diagnose.diagprogress">
+        <select ng-model="Diagnose.diagProgress">
           <option ng-repeat="x in progressSelect[0]" value="{{x}}">{{x}}</option>
         </select>
       </label>
@@ -76,7 +79,7 @@
           <i class="icon ion-asterisk" style="color:red;font-size:6px"></i>
           疾病进程
         </div>
-        <select ng-model="Diagnose.diagprogress">
+        <select ng-model="Diagnose.diagProgress">
           <option ng-repeat="x in progressSelect[1]" value="{{x}}">{{x}}</option>
         </select>
       </label>
@@ -91,10 +94,10 @@
 
       <label class="item item-input">
         <span class="input-label" style="margin-left:8px ">诊断</span>
-        <input  ng-model="Diagnose.diagcontent"  type="text">
+        <input  ng-model="Diagnose.diagContent"  type="text">
       </label>
 
-      <button style="margin:0 auto;width: 80%" class="button button-block button-balanced bg-63 mt-40" ng-click ="saveDiagnose()">
+      <button style="margin:0 auto;width: 80%" class="button button-block button-balanced bg-63 mt-40" ng-click ="saveDiagnose()" ng-if = "(charge||follow)">
             提交
       </button>
     </div>

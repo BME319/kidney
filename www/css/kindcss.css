@@ -28,9 +28,8 @@
   text-align: center;
 }
 .ion-ios-arrow-left {
-  color: white !important;
+  color: white;
 }
-
 .icon-wujiaoxing1 {
   color: #ff850c;
   font-size: 20px;
@@ -99,7 +98,11 @@
   margin-right: 15px;
   vertical-align: middle;
 }
-
+.icon_mine {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+}
 .ion-ios-close-outline {
   font-size: 20px;
   color: #6ac4f8;

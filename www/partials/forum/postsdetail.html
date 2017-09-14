@@ -1,0 +1,64 @@
+<ion-view cache-view="false" title="帖子内容" show-tabs>
+
+    <ion-nav-buttons side="left">
+    <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="GoBack()"></button>
+  </ion-nav-buttons>
+  <ion-content style="bottom: 44px;">
+
+    <div class="list" style="margin-bottom: 0px;">
+
+           <div class="item item-avatar" style="border-bottom: none;padding-top: 12px;padding-bottom: 0px">
+                <img style="margin-top: 0px" ng-if = "!(anonymous)" ng-src="{{avatar || 'img/DefaultAvatar.jpg'}}">
+                <img style="margin-top: 0px" ng-if = "(anonymous)" ng-src="{{'img/DefaultAvatar.jpg'}}">
+                <span style="font-size: 14px" ng-if = "!(anonymous)">{{name || sponsorId}}</span>
+                <span style="font-size: 14px" ng-if = "(anonymous)">匿名用户</span><br/>
+                <span style="font-size: 12px">{{time|dateFormat:"YYYY-MM-DD"}}</span>
+           </div>
+           <div class="item item-body" style="border: none; padding-top: 0px;padding-bottom: 10px">
+                <h style="margin-top: 0px; margin-bottom: 0px;font-size: 14px">{{title}}</h>
+                <p style="margin-top: 8px;margin-bottom: 8px;">{{text}}</p>
+                <ion-item class="row row-wrap" style="border:none; text-align:center; height:100%;margin-top:10px" >
+                  <div  class="col col-33" ng-repeat="filepath in image track by $index">
+                    <img ng-src="{{filepath}}"  name="Photo" ng-click="showoriginal(filepath)"  style="height:90%; width:90%"  />
+                  </div>
+                </ion-item>
+                <p style="margin-top: 0px;">
+                   <a class="subdued" style="float: right; font-size: 12px">{{favoritesNum}} 收藏</a>
+                   <a class="subdued" style="float: right; font-size: 12px; padding-right: 8px">{{replyCount}} 评论</a>
+                </p>
+           </div>
+
+    </div>
+
+    <div class="item item-divider">
+        <i class="icon ion-ios-people"></i>
+        全部评论:({{replyCount}})
+    </div>
+    <div ng-repeat="item in comments" class="list" style="margin-bottom: 0px;padding-bottom: 10px;">
+            <div class="item item-avatar" style="border-bottom-width: 0px;padding-top: 8px;padding-bottom: 5px;" ng-click="ReplyOrDelete1(item)">
+                <img style="margin-top: 0px" ng-src="{{item.avatar}}">
+                <span style="font-size: 14px">{{item.userName || item.userId}}</span><br/>
+                <span style="font-size: 12px">{{item.time|dateFormat:"YYYY-MM-DD"}}</span>
+                <p style="padding-top: 5px;white-space: normal;">{{item.content}}</p>
+            </div> 
+            <div ng-if="(item.replies.length)" style="margin-left: 70px;margin-bottom: 0px;background-color: #F0F0F0;margin-right: 10px;padding: 8px">
+            <div ng-repeat="rep in item.replies" class="list" style="margin-bottom: 0px;" ng-click="ReplyOrDelete2(rep,item)">
+                     <p style="margin-bottom: 0px;">{{rep.userName || rep.userId}} : @{{rep.atName}} {{rep.content}}</p>
+            </div>
+            </div>
+    </div>
+  </ion-content>
+
+  <div class="bar item-input-inset text-center bar-footer" style="padding:0;position:absolute;margin-bottom: 0px;height:44px;">
+
+            <a class="item col-50 " style="height: 28px;border: none;font-size: 15px;padding-top: 4px;padding-bottom: 4px;" ng-click="GoToCommentf(postId)">
+                <i class="icon ion-chatbox-working"></i>
+                <span>评论</span>
+            </a>
+            <a class="item col-50 " style="height: 28px; font-size: 15px; border-right-width: 0px;border-bottom-width: 0px;border-top-width: 0px;padding-top: 4px;padding-bottom: 4px;" ng-click="GoToShare() ">
+                <i class="icon ion-share"></i>
+                <span>分享</span>
+            </a>
+    </div>
+
+</ion-view>

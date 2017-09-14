@@ -1,0 +1,102 @@
+<ion-view view-title="面诊服务">
+  <ion-nav-bar class="bar-positive " align-title="center">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+
+    <ion-content>
+    
+    	 <ion-item>
+            <ion-toggle toggle-class="toggle-positive" ng-model="doctorinfo.status5" ng-change="fsdiagnoseChange()" checked="true">面诊服务</ion-toggle>
+            <div ng-show="doctorinfo.status5">     
+                <ion-item>
+                    <span class="input-label">收费</span>
+                    <p class="myinfo-msg-right"><input type=text ng-model="doctorinfo.charge5" style="margin-top:4px;"><button class="button button-small button-positive mine-msg-right" style="font-size:10px;margin-top:-7px;" ng-click="charge5Save()">保存</button></p>
+                </ion-item> 
+            </div>
+        </ion-item>
+
+		<div class="list card">
+
+			<div class="item noborder">
+				<h2>
+					当前状态：{{stausText}}
+					<a class="button button-small button-positive" style="float:right " ng-click="showSch()">
+						{{stausButtontText}}
+					</a>
+				</h2>
+				<div ng-show="stausButtontText=='取消停诊'">
+					<p>当前日期：{{dateC|dateFormat:"YYYY-MM-DD"}}</p>
+					<p>停诊开始：{{begin|dateFormat:"YYYY-MM-DD"}}</p>
+					<p>停诊结束：{{end|dateFormat:"YYYY-MM-DD"}}</p>
+				</div>
+			</div>
+
+			<div class="item" ng-hide="showSchedual">
+				<button class="button button-block button-positive button-outline" ng-click="openDatePicker(1)">
+					开始时间:{{begin|dateFormat:"YYYY-MM-DD"}}
+				</button>
+				<button class="button button-block button-positive button-outline" ng-click="openDatePicker(2)">
+					结束时间:{{end|dateFormat:"YYYY-MM-DD"}}
+				</button>
+				<div class="button-bar">
+					  <a class="button button-positive" ng-click="stopWork(1)">取消</a>
+
+					  <a class="button button-assertive" ng-click="stopWork()">保存</a>
+				</div>
+			</div>
+
+			<div class="item noborder">
+				<div class="row">
+					<div class="col schedual-border" ><span style="opacity:0">上午</span></div>
+					<div class="col schedual-border" >一</div>
+					<div class="col schedual-border" >二</div>
+					<div class="col schedual-border" >三</div>
+					<div class="col schedual-border" >四</div>
+					<div class="col schedual-border">五</div>
+					<div class="col schedual-border" >六</div>
+					<div class="col schedual-border-right">日</div>
+				</div>
+				<div class="row">
+					<div class="col schedual-border" style="text-align: center;">上午</div>
+					<div class="col schedual-border" ng-click="changeWorkStatus(0)" ng-style="workStatus[0].style" >{{workStatus[0].number}}</div>
+					<div class="col schedual-border" ng-click="changeWorkStatus(1)" ng-style="workStatus[1].style" >{{workStatus[1].number}}</div>
+					<div class="col schedual-border" ng-click="changeWorkStatus(2)" ng-style="workStatus[2].style" >{{workStatus[2].number}}</div>
+					<div class="col schedual-border" ng-click="changeWorkStatus(3)" ng-style="workStatus[3].style" >{{workStatus[3].number}}</div>
+					<div class="col schedual-border" ng-click="changeWorkStatus(4)" ng-style="workStatus[4].style" >{{workStatus[4].number}}</div>
+					<div class="col schedual-border" ng-click="changeWorkStatus(5)" ng-style="workStatus[5].style" >{{workStatus[5].number}}</div>
+					<div class="col schedual-border-right" ng-click="changeWorkStatus(6)" ng-style="workStatus[6].style" >{{workStatus[6].number}}</div>
+				</div>
+				<div class="row">
+					<div class="col schedual-border-bottom" style="text-align: center;">下午</div>
+					<div class="col schedual-border-bottom" ng-click="changeWorkStatus(7)" ng-style="workStatus[7].style" >{{workStatus[7].number}}</div>
+					<div class="col schedual-border-bottom" ng-click="changeWorkStatus(8)" ng-style="workStatus[8].style" >{{workStatus[8].number}}</div>
+					<div class="col schedual-border-bottom" ng-click="changeWorkStatus(9)" ng-style="workStatus[9].style" >{{workStatus[9].number}}</div>
+					<div class="col schedual-border-bottom" ng-click="changeWorkStatus(10)" ng-style="workStatus[10].style" >{{workStatus[10].number}}</div>
+					<div class="col schedual-border-bottom" ng-click="changeWorkStatus(11)" ng-style="workStatus[11].style" >{{workStatus[11].number}}</div>
+					<div class="col schedual-border-bottom" ng-click="changeWorkStatus(12)" ng-style="workStatus[12].style" >{{workStatus[12].number}}</div>
+					<div class="col schedual-border-all" ng-click="changeWorkStatus(13)" ng-style="workStatus[13].style" >{{workStatus[13].number}}</div>
+				</div>
+				<p style="padding-left:4px;">点击某一时段以修改状态，数字为该时段加号人数</p>
+				<div class="row" style="padding:0px;">
+					<div class='col'>
+						<div style="width: 20px;height: 20px;background-color: red;border: solid;border-color: #6ac4f8"></div>
+					</div>
+					<div class='col'>
+						
+						<div >值班</div>
+					</div>
+					<div class='col'>
+						<div style="width: 20px;height: 20px;background-color: white;border: solid;border-color: #6ac4f8"></div>
+					</div>
+					<div class='col'>
+						
+						<div>空闲</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+    </ion-content>
+</ion-view>

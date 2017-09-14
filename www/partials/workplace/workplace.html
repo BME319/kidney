@@ -1,0 +1,74 @@
+<ion-view view-title="工作台" show-tabs>
+<ion-nav-bar class="bar-positive " align-title="center"></ion-nav-bar>
+    <ion-content overflow-scroll="false" class="has-tabs bg-f5">
+    <div class="me-top-box2">
+       <!--  <a href="#/tab/qrcode"><i class="me-code iconfont icon-erweima"></i>
+        <qrcode  version=3 error-correction-level="M" size="50" data="{{params.userId}}" style="width:30px;height:30px;position: absolute;right: 30px;top:10px;"></qrcode>
+        </a> -->
+        <div class="me-top-bg1"></div>
+        <div class="me-massage-box">
+                <div class="img-cen me-avatar" style="position: absolute; margin-left: 10px; margin-top: 0px;">
+                    <img ng-src="{{doctor.photoUrl}}" name="Photo">
+                </div>
+                <div class="me-edit-btn" style="text-align: center; position: absolute; margin-left: 5px; margin-top: 65px;" ng-if="!review"><a href="#/tab/myinfo">立即认证</a></div>          
+            <div class="me-massage">
+                <p class="f16 m-b5 fc-2b" style="text-align: center; margin-left: 5px; margin-top: -10px;" ng-if="!review">{{doctor.name}}</p>
+                <p class="f16 m-b5 fc-2b" style="text-align: center; margin-left: 5px; margin-top: -25px;" ng-if="review">{{doctor.name}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="me-mun1 bg-wite mt-10 scroll-left" style="height: 40px;">
+           <p class="ion-volume-high" id="newMes" style="border-right:0px;" ></p>
+    </div>
+
+    <div class="me-mun2 bg-wite mt-10">
+        <div class="row ">
+            <a class="col col-50 text-center br-e9" ng-click="goQrcode()"><i class="iconfont icon-erweima" style="color: #0099FF;" ></i><span style="margin-left: -8px;">我的二维码</span><!-- <em class="me-dic iconfont  icon-dian"></em> --></a>
+            <a class="col col-50 text-center" ng-click="goMessage()"><i class="iconfont icon-luntan" style="color: #0099FF"></i><span style="margin-left: -8px;">消息提醒</span><em class="me-dic iconfont  icon-dian" ng-if="hasUnreadMessages"></em></a>
+        </div>
+    </div>
+
+     <div class="me-mun3 bg-wite mt-10">
+        <div class="row" >
+            <button class="partBtn" ng-click="goConsult()"><img class="icon_mine" ng-src="img/zx.png" style="margin-bottom: 5px"><br>咨询问诊<br><div style="border:1px solid #C0C0C0;border-radius: 10px;width: 70%;margin:0 auto;font-size: 14px"><span style="color: red">{{consultNum}}</span>项任务</div></button>
+            <button class="partBtn" ng-click="goReserve()"><img class="icon_mine" ng-src="img/yy.png" style="margin-bottom: 5px"><br>我的预约<br><div style="border:1px solid #C0C0C0;border-radius: 10px;width: 70%;margin:0 auto;font-size: 14px"><span style="color: red">{{reviewNum + PDNum}}</span>项处理</div></button>
+        </div>
+        <div class="row" style="margin-top: -10px">
+            <button class="partBtn" ng-click="goPatient()"><img class="icon_mine" ng-src="img/hz.png" style="margin-bottom: 5px"><br>我的患者<br><div style="border:1px solid #C0C0C0;border-radius: 10px;width: 70%;margin:0 auto;font-size: 14px"><span style="color: red">{{patNum}}</span>位患者</div></button>
+            <button class="partBtn" ng-click="goService()"><img class="icon_mine" ng-src="img/fw.png" style="margin-bottom: 5px"><br>服务管理<br><div style="border:1px solid #C0C0C0;border-radius: 10px;width: 70%;margin:0 auto;font-size: 14px">立即管理</div></button>
+        </div>
+    </div>
+    <!-- <div class="me-list list mt-15">
+        <a class="item item-icon-left" href="#/tab/myservice">
+            <i class="iconfont ion-plane"></i>
+        我的服务
+        </a>
+        <a class="item item-icon-left" href="#/tab/set">
+            <i class="iconfont icon-shezhi"></i>
+        设置
+        </a>
+        <a class="item item-icon-left" href="#/tab/advice">
+            <i class="iconfont ion-paper-airplane"></i>
+        意见反馈
+        </a>
+        <a class="item item-icon-left" href="#/tab/about">
+            <i class="iconfont icon-jiangpai"></i>
+        关于我们
+        </a>
+        <a class="item item-icon-left" href="#/tab/nocounsel">
+            <i class="iconfont ion-social-skype"></i>
+        科室管理
+        </a>
+    </div> -->
+
+
+<!--         <ion-list>
+            <ion-item class="item-avatar item-icon-right item-button-right" type="item-text-wrap" href="#/tab/qrcode">
+                <qrcode  version=3 error-correction-level="M" size="50" data="{{params.userId}}" style="width:60px;height:60px;position: absolute;right: 30px;top:10px;"></qrcode>
+            </ion-item>
+
+
+        </ion-list> -->
+    </ion-content>
+</ion-view>

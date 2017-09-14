@@ -1,0 +1,145 @@
+<ion-view cache-view="true" title="患者病情报告">
+<ion-nav-bar class="bar-positive" align-title="center">
+    <ion-nav-buttons side="left" >
+        <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="Goback()"></button>
+    </ion-nav-buttons>   
+</ion-nav-bar>
+<div class="button-bar bar-positive" ng-style="barStyle">
+    <a class="button" href="#/tab/patientDetail">
+      <span class="br-e9" style="vertical-align: sub; text-align:center">患者详情</span>
+    </a>
+    <a class="button" href="#/tab/DoctorDiagnose">
+      <span class="br-e9" style="vertical-align: sub; text-align:center">医生诊断</span>
+    </a>
+    <a class="button" href="#/tab/TaskSet">
+      <span class="br-e9" style="vertical-align: sub; text-align:center">健康方案</span>
+    </a>
+    <a class="button" href="#/tab/Report">
+      <span class="br-e9" style="vertical-align: sub; text-align:center">病情报告</span>
+    </a>
+    <a class="button" href="#/tab/HealthInfo">
+        <span class="br-e9" style="vertical-align: sub; text-align:center">健康信息</span>
+    </a>
+  </div>
+  <ion-content ng-style="barStyle">
+<!-- <div class="bar bar-header" style="position:absolute; top:-58px; border: none;"> -->
+    <div class="row">
+      <button id="week" ng-click="toWeekReports()" class="periodBtn">周</button>
+      <button id="month" ng-click="toMonthReports()" class="periodBtn">月</button>
+      <button id="season" ng-click="toSeasonReports()" class="periodBtn">季</button>
+      <button id="year" ng-click="toYearReports()" class="periodBtn">年</button>
+    </div>   
+
+    <div class="row">
+      <button ng-click="last()" class="arrowBtn"><i class="icon ion-ios-arrow-left" style="color: black"></i></button>
+      <!-- <button ng-if="writeReport" ng-click="editReport()" class="arrowBtn">修改报告</button>
+      <button ng-if="!writeReport" ng-click="saveReport()" class="arrowBtn">保存</button> -->
+      <button id="middle" class="arrowBtn" style="width: 70%"></button>
+      <button ng-if="modify" ng-click="next()" class="arrowBtn"><i class="icon ion-ios-arrow-right"></i></button>
+      <button ng-if="!modify" class="arrowBtn"><i class="icon ion-ios-arrow-right"></i></button>
+    </div>
+
+    <div ng-if="outOfTime" class="card">
+      <p style="align-content: center;font-size: 21px">没有更多的记录了!</p>
+    </div>
+    <div ng-if="!outOfTime">
+      <!-- <div ng-if="Temp.flag"> -->
+        <div style="margin-top: -10px; min-width: 300px; " id="container1" ></div><!-- //体温 -->
+        <div ng-if="modify&&Temp.hasdata">
+          <div style="padding: 5px 6px 5px 6px">本{{typeC}}体温记录{{Temp.recordTimes}}次，发热{{Temp.outOfRangeTimes1}}次</div>
+          <div class="doctorAdvice"><span>医生建议：</span><span>体温高于37.3为发热</span></div>
+          <div ng-if="type=='season'||type=='year'" style="margin-top: 15px"><span class="doctorAdvice">小结：</span><textarea id="TempReport" type="text" style="height: 50px;" class="reportArea" ng-disabled="!charge">{{Temp.report}}</textarea></div>
+        </div>
+      <!-- </div> -->
+      
+<!--       <div ng-if="Weight.flag"> -->
+        <div style="margin-top: 50px; min-width: 300px; " id="container2"></div><!-- //体重 -->
+        <div ng-if="modify">
+          <div style="padding: 5px 6px 5px 6px" ng-if="Weight.hasdata">本{{typeC}}体重记录{{Weight.recordDays}}天，{{Weight.recordTimes}}次，平均体重{{Weight.average1}}kg,最高值{{Weight.max1}}kg，最低值{{Weight.min1}}kg</div>
+          <div class="doctorAdvice"><span>医生建议：建议下{{typeC}}体重控制在</span><input ng-model="Weight.Low" type="number" class="MeasureData" ng-disabled="!charge"><span>-</span><input ng-model="Weight.High" type="number" class="MeasureData" ng-disabled="!charge"></div>
+          <div ng-if="(type=='season'||type=='year')&&Weight.hasdata" style="margin-top: 15px"><span class="doctorAdvice">小结：</span><textarea id="WeightReport" type="text" style="height: 50px;" class="reportArea" ng-disabled="!charge">{{Weight.report}}</textarea></div>
+        </div>
+        <!-- <div class="doctorAdvice" ng-if="(!modify==-1)&&Weight.hasAdvice"><span>医生建议：建议下{{typeC}}体重控制在{{Weight.recommendValue11}}-{{Weight.recommendValue12}}</div>  -->       
+    <!--   </div> -->
+
+<!--       <div ng-if="BP.flag"> -->
+        <div style="margin-top: 50px; min-width: 300px; " id="container3"></div><!-- //血压 -->
+        <div ng-if="modify">
+          <div style="padding: 5px 6px 5px 6px" ng-if="BP.hasdata">本{{typeC}}血压记录{{BP.recordDays}}天，{{BP.recordTimes}}次，平均血压{{BP.average1}}/{{BP.average2}}mmHg,最高血压{{BP.max1}}/{{BP.max2}}mmHg，最低血压{{BP.min1}}/{{BP.min2}}mmHg，建议控制血压在{{BP.recommendValue2}}-{{BP.recommendValue1}}/{{BP.recommendValue4}}-{{BP.recommendValue3}}mmHg，超出范围{{BP.outOfRangeTimes1}}次</div>
+          <div class="doctorAdvice"><span>医生建议：建议下{{typeC}}血压控制在</span><input ng-model="BP.BPH1" type="number" class="MeasureData" ng-disabled="!charge"><span>-</span><input ng-model="BP.BPH2" type="number" class="MeasureData" ng-disabled="!charge"><span>/</span><input ng-model="BP.BPL1" type="number" class="MeasureData" ng-disabled="!charge"><span>-</span><input ng-model="BP.BPL2" type="number" class="MeasureData" ng-disabled="!charge"></div>
+          <div ng-if="(type=='season'||type=='year')&&BP.hasdata" style="margin-top: 15px"><span class="doctorAdvice">小结：</span><textarea id="BPReport" type="text" style="height: 50px;" class="reportArea" ng-disabled="!charge">{{BP.report}}</textarea></div>
+        </div>
+        <!-- </div> -->
+        <!-- <div class="doctorAdvice" ng-if="(!modify==-1)&&BP.hasAdvice">医生建议：建议下{{typeC}}血压控制在{{BP.recommendValue11}}-{{BP.recommendValue11}}/{{BP.recommendValue13}}-{{BP.recommendValue14}}</div> -->
+
+     <!--  <div ng-if="Vol.flag"> -->
+        <div style="margin-top: 50px; min-width: 300px; " id="container4"></div><!-- //尿量 -->
+        <div ng-if="modify&&Vol.hasdata">
+          <div style="padding: 5px 6px 5px 6px">本{{typeC}}尿量记录{{Vol.recordDays}}天，尿量最少{{Vol.min1}}mL，最多{{Vol.max1}}mL，平均尿量{{Vol.average1}}mL，发生少尿{{Vol.outOfRangeTimes1}}次</div>
+        
+          <div class="doctorAdvice"><span>医生建议：少尿为小于500mL（腹透、血透病人除外）</span></div>
+          <div ng-if="type=='season'||type=='year'" style="margin-top: 15px"><span class="doctorAdvice">小结：</span><textarea id="VolReport" type="text" style="height: 50px;" class="reportArea" ng-disabled="!charge">{{Vol.report}}</textarea></div>
+        </div>
+    <!--   </div> -->
+
+      <!-- <div ng-if="HR.flag"> -->
+        <div style="margin-top: 50px; min-width: 300px; " id="container5"></div><!-- //心率 -->
+        <div ng-if="modify">
+          <div style="padding: 5px 6px 5px 6px" ng-if="HR.hasdata">本{{typeC}}心率记录{{HR.recordDays}}天，{{HR.recordTimes}}次，平均心率{{HR.average1}}次/分，最高心率{{HR.max1}}次/分，最低心率{{HR.min1}}次/分，建议控制心率{{HR.recommendValue2}}-{{HR.recommendValue1}}次/分，超出范围{{HR.outOfRangeTimes1}}次</div>
+          <div class="doctorAdvice"><span>医生建议：建议下{{typeC}}心率控制在</span><input ng-model="HR.HRL" type="number" class="MeasureData" ng-disabled="!charge"><span>-</span><input ng-model="HR.HRH" type="number" class="MeasureData" ng-disabled="!charge"></div>
+          <div ng-if="(type=='season'||type=='year')&&HR.hasdata" style="margin-top: 15px"><span class="doctorAdvice">小结：</span><textarea id="HRReport" type="text" style="height: 50px;" class="reportArea" ng-disabled="!charge">{{HR.report}}</textarea></div>
+        <!-- <div class="doctorAdvice" ng-if="(!modify==-1)&&HR.hasAdvice">医生建议：建议下{{typeC}}心率控制在{{HR.recommendValue11}}-{{HR.recommendValue12}}</div> -->
+        </div>
+      <!-- </div> -->
+
+      <!-- <div ng-if="PD.flag"> -->
+        <div style="margin-top: 50px; min-width: 300px; " id="container6"></div><!-- //腹透 -->
+        <div ng-if="modify">
+          <div style="padding: 5px 6px 5px 6px" ng-if="PD.hasdata">本{{typeC}}记录腹透超滤量{{PD.recordDays}}天，腹透超滤量平均{{PD.average1}}mL，最高{{PD.max1}}mL，最低{{PD.min1}}mL，出量平均{{PD.average2}}mL，最高{{PD.max2}}mL，最低{{PD.min2}}mL</div>
+          <div class="doctorAdvice"><span>医生建议：建议下{{typeC}}超滤量控制在</span><input ng-model="PD.PDL" type="number" class="MeasureData" ng-disabled="!charge"><span>-</span><input ng-model="PD.PDH" type="number" class="MeasureData" ng-disabled="!charge"></div>
+          <div ng-if="(type=='season'||type=='year')&&PD.hasdata" style="margin-top: 15px"><span class="doctorAdvice">小结：</span><textarea id="PDReport" type="text" style="height: 50px;" class="reportArea" ng-disabled="!charge">{{PD.report}}</textarea></div>
+        <!-- <div class="doctorAdvice" ng-if="(!modify==-1)&&PD.hasAdvice">医生建议：建议下{{typeC}}超滤量控制在{{PD.recommendValue11}}-{{PD.recommendValue12}}</div> -->
+        </div>
+      <!-- </div> -->
+
+      <div style="margin-top: 30px; min-width: 300px; " id="container7"></div><!-- //化验 -->
+      <div style="margin-top: 30px; min-width: 300px; " id="container8"></div>
+      <div style="margin-top: 30px; min-width: 300px; " id="container9"></div>
+      <div style="margin-top: 30px; min-width: 300px; " id="container10"></div>
+      <div style="margin-top: 30px; min-width: 300px; " id="container11"></div>
+      <br>
+      <div  ng-if="modify">
+      <div ng-if="type=='week'||type=='month'">
+        <div>化验（必填）：<select class="reportSelect" ng-model="labTestData" ng-options="Option for Option in Options" style="float: right;margin-right: 20px" ng-disabled="!charge"></select><span style="float: right;margin-right: 10px">模版</span></div>
+        <div ng-if="labTestData=='正常'"><textarea id="labTestReport" type="text" class="reportArea" ng-disabled="!charge">本{{typeC}}行血常规、尿常规、肝肾功能、血脂等检查未见明显异常</textarea></div> 
+        <div ng-if="labTestData=='信息缺失'"><textarea id="labTestReport" type="text" class="reportArea" ng-disabled="!charge">本{{typeC}}未行血常规、尿常规、肾肝功能、血脂等检查</textarea></div>
+        <div ng-if="labTestData==undefined"><textarea id="labTestReport" type="text" class="reportArea" ng-disabled="!charge">{{LTreport}}</textarea></div>
+      </div>
+      <div ng-if="type=='season'||type=='year'">
+        <!-- <p>本{{typeC}}肌酐范围{{LT.lab.SCr.min}}-{{LT.lab.SCr.max}}，GFR范围{{LT.lab.GFR.min}}-{{LT.lab.GFR.max}}，尿蛋白范围{{LT.lab.PRO.min}}-{{LT.lab.PRO.max}}，血白蛋白范围{{LT.lab.ALB.min}}-{{LT.lab.ALB.max}}，血红蛋白范围{{LT.lab.HB.min}}-{{LT.lab.HB.max}}</p> -->
+        <p ng-if="!LT==''">化验报告：本{{typeC}}{{LT}}</p>
+        <span>医生建议（必填）：</span>
+        <textarea id="labTestReport" type="text" class="reportArea" ng-disabled="!charge">{{LTreport}}</textarea>
+      </div>
+
+      <div ng-if="type=='season'||type=='year'" style="margin-top: 30px">
+         <span>医生报告（必填）：</span>
+         <textarea id="doctorReport" type="text" class="reportArea" ng-disabled="!charge">{{DoctorReport}}</textarea>
+      </div>
+      <div ng-if="type=='week'||type=='month'" style="margin-top: 30px">
+        <div>医生报告（必填）：<select ng-model="ReportModel" class="reportSelect" ng-options="Option for Option in Options" style="float: right;margin-right: 10px" ng-change="DModelChange()" ng-disabled="!charge"></select><span style="float: right;margin-right: 10px">模版</span></div>
+        <div>
+          <textarea id="doctorReport" type="text" class="reportArea" ng-if="ReportModel=='正常'" ng-disabled="!charge">本{{typeC}}血压、体重、尿量、体温、血糖等控制良好，记录完整。定时记录生命体征及用药情况。下次门诊就诊时间建议为****-**-**</textarea> 
+          <textarea id="doctorReport" type="text" class="reportArea" ng-if="ReportModel=='信息缺失'" ng-disabled="!charge">本{{typeC}}血压、体重、尿量、体温、血糖记录不完整（低于一周2天），请及时记录。请定时记录生命体征及用药情况。下次门诊就诊时间建议为****-**-**-**</textarea>  
+          <textarea id="doctorReport" type="text" class="reportArea" ng-if="ReportModel==undefined" ng-disabled="!charge">{{DoctorReport}}</textarea>
+        </div>
+      </div>
+      <button style="margin-top:0 ;background: #6ac4f8;width: 80%;margin: 0 auto" class="button button-block button-positive mt-40" type="submit" ng-click="saveReport()" ng-if="charge">提交</button>
+      </div>
+    </div>
+
+  <!-- <div style="margin-top: 50px; min-width: 300px; height: 450px;" id="container"></div> -->
+
+  </ion-content>
+
+</ion-view>

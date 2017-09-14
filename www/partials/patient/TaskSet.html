@@ -5,21 +5,24 @@
           <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="BacktoPD()"></button>
         </ion-nav-buttons>
     </ion-nav-bar>
-    <div class="button-bar bar-positive" style="margin-top: 40px">
+  <div class="button-bar bar-positive" ng-style="barStyle">
+    <a class="button" href="#/tab/patientDetail">
+      <span class="br-e9" style="vertical-align: sub; text-align:center">患者详情</span>
+    </a>
     <a class="button" href="#/tab/DoctorDiagnose">
-      <span class="br-e9" style="vertical-align: sub">医生诊断</span>
+      <span class="br-e9" style="vertical-align: sub; text-align:center">医生诊断</span>
     </a>
     <a class="button" href="#/tab/TaskSet">
-      <span class="br-e9" style="vertical-align: sub">治疗方案</span>
+      <span class="br-e9" style="vertical-align: sub; text-align:center">健康方案</span>
     </a>
-    <a class="button" href="#/tab/TestRecord" >
-      <span class="br-e9" style="vertical-align: sub">测量记录</span>
+    <a class="button" href="#/tab/Report">
+      <span class="br-e9" style="vertical-align: sub; text-align:center">病情报告</span>
     </a>
     <a class="button" href="#/tab/HealthInfo">
-        <span class="br-e9" style="vertical-align: sub">健康信息</span>
+        <span class="br-e9" style="vertical-align: sub; text-align:center">健康信息</span>
     </a>
   </div>
-      <ion-content class="has-header" style="margin-top: 42px;">
+      <ion-content class="has-header" ng-style="barStyle">
         <div class="list task-list">
             <a class="task-item fc-33" ng-repeat="item in Tasks.Measure">
             <img ng-src="{{item.Name | icon_filter}}" alt="">
@@ -31,7 +34,7 @@
                 <select class="br-e9" ng-model="item.times" ng-options="item1 for item1 in Times" ng-change = "ChangeFreq(item)"></select>
                 <i class="br-e9">次</i>
               </i>
-              <i class="icon ion-edit" style="font-size:20px;margin-left: 10px" ng-click="showPopup(item)"></i>
+              <i ng-if ="(charge)" class="icon ion-edit" style="font-size:20px;margin-left: 10px" ng-click="showPopup(item)"></i>
             </section>
             <p>{{item.content}}</p>
           </a>
@@ -45,14 +48,14 @@
                 <select class="br-e9" ng-model="item.times" ng-options="item1 for item1 in Times" ng-change = "ChangeFreq(item)"></select>
                 <i class="br-e9">次</i>
               </i>
-              <i ng-if ="item.flag" class="icon ion-edit" style="font-size:20px;margin-left: 10px" ng-click="showPopup(item)"></i>
-              <i ng-if ="!item.flag" class="icon ion-edit" style="font-size:20px;margin-left: 10px" ></i>
+              <i ng-if ="(item.flag&&charge)" class="icon ion-edit" style="font-size:20px;margin-left: 10px" ng-click="showPopup(item)"></i>
+              <i ng-if ="!item.flag&&charge" class="icon ion-edit" style="font-size:20px;margin-left: 10px" ></i>
 
             </section>
             <p>{{item.content}}</p>
           </a>
         </div>
-        <button style="margin:0 auto;width: 80%" class="button button-block button-balanced bg-6a" class="button button-clear" ng-click="OkClick()">确定
+        <button style="margin:0 auto;width: 80%" class="button button-block button-balanced bg-6a" class="button button-clear" ng-click="OkClick()" ng-if = "(charge)">确定
         </button>
     </ion-content>
 </ion-view>

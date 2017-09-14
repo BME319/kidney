@@ -1,0 +1,29 @@
+<ion-view hide-tabs view-title="群发消息">
+    <ion-nav-bar class="bar-positive" align-title="center">
+        <ion-nav-buttons side="left" >
+        <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+        </ion-nav-buttons>
+  <ion-content>
+		<div class="list">
+  			<label class="item item-input item-select">
+    		<div class="input-label">
+     			 患者群体
+    		</div>
+    			<select id="MyPatient">
+      				<option>我的主管患者</option>
+      				<option selected>我的全部患者</option>
+      				<option>我的关注患者</option>
+    			</select>
+  			</label>
+			</div>
+    
+          <label class="item item-input" style="border:1px solid #6ac4f8; border-radius: 5px;margin-top: 10px; margin-right: 10px; margin-left: 10px;">
+              <textarea  id='123' type="text" placeholder="群发内容请写在这里......" rows="8" style="line-height: 25px" ></textarea>
+          </label>
+        
+    	  <div align="center">
+            <button ng-click="sendMassMsg()"  class="messageBtn"><i class="icon ion-android-send"></i>发送消息</button>
+        </div>
+  </ion-content>
+    
+</ion-view>

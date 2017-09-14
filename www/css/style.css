@@ -79,7 +79,7 @@ display: inline-block;
 }
 
 /*搜索*/
-.item-input-inset {
+/*.item-input-inset {
   background: #fafafa;
 
 }
@@ -88,7 +88,7 @@ display: inline-block;
   background: #FFFFFF;
   border-radius: 5px;
   margin-top: 10px;
-}
+}*/
 /*筛选*/
 .checkbox input, .checkbox-icon{
   width: 18px;
@@ -119,6 +119,14 @@ display: inline-block;
   height: 200px;
   width: 100%;
 }
+.me-top-box2{
+  height: 150px;
+  width: 100%;
+}
+.me-top-box3{
+  height: 175px;
+  width: 100%;
+}
 .me-top-bg{
   height: 100%;
   width: 100%;
@@ -128,6 +136,16 @@ display: inline-block;
   -ms-filter: blur(5px);
   filter: blur(5px);
   filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=5, MakeShadow=false);
+}
+.me-top-bg1{
+  height: 100%;
+  width: 100%;
+  background: url(../img/blue3.jpg);
+}
+.me-top-bg2{
+  height: 100%;
+  width: 100%;
+  background: url(../img/blue4.jpg);
 }
 .me-avatar-box{
   width: 80px;
@@ -200,9 +218,50 @@ display: inline-block;
 .me-massage p{
   margin-bottom: 0px;
 }
+/*.row{
+  text-align: center;
+  height: 44px;
+}*/
+.me-mun3 .row{
+  /*border-bottom: 1px solid #e9e9e9;*/
+  /*height: 70px;*/
+  line-height: 27px;
+  margin-top: 0;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.me-mun3 .row a{
+  color: #6e6e6e;
+  text-decoration: none;
+  font-size: 16px;
+}
+.me-mun3 .row .iconfont{
+  color: #242424;
+  font-size: 32px;
+  margin-right: 15px;
+  vertical-align: middle;
+}
+.me-mun2 .row{
+  /*border-bottom: 1px solid #e9e9e9;*/
+  /*height: 70px;*/
+  line-height: 27px;
+  margin-top: 0;
+  /*padding: 15px;*/
+}
+.me-mun2 .row a{
+  color: #6e6e6e;
+  text-decoration: none;
+  font-size: 16px;
+}
+.me-mun2 .row .iconfont{
+  color: #242424;
+  font-size: 32px;
+  margin-right: 15px;
+  vertical-align: middle;
+}
 .me-mun .row{
-  border-bottom: 1px solid #e9e9e9;
-  height: 70px;
+  /*border-bottom: 1px solid #e9e9e9;*/
+  /*height: 70px;*/
   line-height: 27px;
   margin-top: 0;
   padding: 15px;
@@ -276,6 +335,81 @@ display: inline-block;
   font-size: 40px!important;
   margin-left: -13px;
 }
+
+/*患者病情报告*/
+button.periodBtn{
+  width:25%;
+  border-color: #ddd;
+  color: #444;
+  height: 30px;
+  font-size:14px;
+  margin: 1px;
+  border-radius: 2px;
+  text-align: center;
+  background-color: transparent;
+  border-width: thin;
+  border-style: solid;
+}
+button.arrowBtn{
+  width:15%;
+  border-color: #FFF;
+  color: #444;
+  height: 30px;
+  font-size:20px;
+  margin: 1px;
+  border-radius: 2px;
+  text-align: center;
+  background-color: transparent;
+  border-width: thin;
+  border-style: solid;
+}
+
+button.partBtn{
+    width: 50%;
+    border-color: rgba(221, 221, 221, 0.62);
+    color: #444;
+    height: 135px;
+    font-size: 16px;
+    margin: 8px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: transparent;
+    border-width: thin;
+    border-style: solid;
+}
+
+.doctorAdvice span{
+  float: left;
+  border: 0px;
+}
+.doctorAdvice{
+  height: 25px;
+  padding: 5px 6px 5px 6px;
+}
+input.MeasureData{
+  width: 30px;
+  height: 18px;
+  float: left;
+  border: 1px solid #6CABE7;
+}
+.reportSelect{
+  width: 30%;
+  border-style: solid;
+  height: 25px;
+  float: right;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.reportArea{
+  width: 98%;
+  height: 60px;
+  border: 1px solid #6CABE7;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
 /*患者信息*/
 .patient-active {
   width: 50px;
@@ -304,6 +438,12 @@ display: inline-block;
 .pat-ts {
   position: absolute;
   top: 80px;
+  left: 16px;
+
+}
+.pat-ts2 {
+  position: absolute;
+  top: 120px;
   left: 16px;
 
 }
@@ -378,8 +518,20 @@ display: inline-block;
 }
 /**/
 
-
-
+/*发送消息按钮*/
+button.messageBtn{
+  width:95%;
+  border-color: #ddd;
+  color: #84C1FF;
+  height: 35px;
+  font-size:14px;
+  margin: 5px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: transparent;
+  border-width: thin;
+  border-style: solid;
+}
 
 /*未读消息小红点*/
 
@@ -619,6 +771,26 @@ display: inline-block;
   word-wrap: break-word;
 }
 
+.msgbox-send .msg-name {
+  float: right;
+  text-align:right;
+}
+
+.msgbox-receive .msg-name {
+  float: left;
+}
+
+.msgbox .msg-name {
+  position: relative;
+  display: table;
+  margin: 0px 0.7em; 
+  font-size: 0.9em;
+  color: #aaa;
+  width: -webkit-calc(100% - 5em);
+  width:    -moz-calc(100% - 5em);
+  width:         calc(100% - 5em);
+}
+
 .msgbox-receive .msg-body {
   float: left;
   background: #FFF;
@@ -791,6 +963,12 @@ display: inline-block;
     border-width:1px 0px 0px 0px;
     /*margin: 3px 0px 2px 0px;*/
 }
+.small-text {
+  font-size: 0.75em;
+  padding-left:0.2em;
+  color:#aaa;
+  margin-bottom:0 !important;
+}
 
 .media-endl {
   /*float: center;*/
@@ -952,14 +1130,15 @@ display: inline-block;
 /*group member avatar list div -----------------------------------*/
 .avatar-item {
   display: inline-block;
-  width: 20%;
-  padding: 3px 7px;
+  width: 4.5em;
+  padding: 3px 6px;
   text-align: center;
 }
 
 .avatar-item img {
-  height: 100%;
+  height: 3.5em;
   width: 100%;
+  object-fit：cover;
 }
 
 .avatar-item div {
@@ -995,7 +1174,6 @@ display: inline-block;
 
 .qr-code .title {
   font-size: 1.1em;
-  padding-left: 0.5em;
   display: inline-block;
   vertical-align: middle;
 }
@@ -1087,4 +1265,55 @@ display: inline-block;
   background-color:transparent !important;
   background-image: none !important;
   border:0px !important;
+}
+
+.ios-sub{
+  top:64px !important;
+}
+.scroll-left {
+ height: 50px;  
+ overflow: hidden;
+ text-overflow: ellipsis ;
+ position: relative;
+ background: transparent;
+ color: orange;
+ border: 1px none orange;
+}
+.scroll-left p {
+ position: absolute;
+ min-width: 100%;
+ width: 200%;
+ height: 100%;
+ margin: 0;
+ line-height: 35px;
+ text-align: left;
+ /* Starting position */
+ -moz-transform:translateX(-100%);
+ -webkit-transform:translateX(-100%);  
+ transform:translateX(-100%);
+ /* Apply animation to this element */  
+ -moz-animation: scroll-left 15s linear infinite;
+ -webkit-animation: scroll-left 15s linear infinite;
+ animation: scroll-left 15s linear infinite;
+}
+/* Move it (define the animation) */
+@-moz-keyframes scroll-left {
+ 0%   { -moz-transform: translateX(100%); }
+ 100% { -moz-transform: translateX(-100%); }
+}
+@-webkit-keyframes scroll-left {
+ 0%   { -webkit-transform: translateX(100%); }
+ 100% { -webkit-transform: translateX(-100%); }
+}
+@keyframes scroll-left {
+ 0%   { 
+ -moz-transform: translateX(100%); /* Browser bug fix */
+ -webkit-transform: translateX(100%); /* Browser bug fix */
+ transform: translateX(100%);     
+ }
+ 100% { 
+ -moz-transform: translateX(-100%); /* Browser bug fix */
+ -webkit-transform: translateX(-100%); /* Browser bug fix */
+ transform: translateX(-100%); 
+ }
 }

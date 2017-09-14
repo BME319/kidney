@@ -7,27 +7,60 @@
     <ion-content>
         <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
         <div class="blank-h12"></div>
-        <ion-item ng-click="getBill()">
-            <span class="iconfont icon-yue01 icon-yue011"></span>
-            <span >我的余额<span style="padding-left:10px;">{{account.money | numberPrecision}}</span></span>
-            <i class="icon ion-chevron-right mine-msg-right" style="color:#6ac4f8;"></i>
+        <!-- <p style="color: #6ac4f8;margin-left: 10px;margin-top:5px">目前为试运行期间，患者均为免费，该费用仅供参考</p> -->
+        <ion-item style="background-color: #6ac4f8;border: none;">
+            <div style="color: white">我的余额</div>
+            <div style="padding-left:10px;color: white;font-size: 30px;margin-top: 10px;">{{account.money | numberPrecision}}</div>
         </ion-item>
-        <ion-item>
-        <span class="input-label" >  <img class="icon_charge" src="img/icon_charge.png"><i></i>收费定制</span>
+        <ion-item style="font-size: 20px;padding-top: 8px;padding-bottom: 8px;" ng-click="getBill()">
+            <span class="ion-social-yen-outline" style="color:#f2c006;"></span>
+            <span style="font-size: 15px;padding-left: 5px;">收入明细</span>
+            <i class="ion-ios-arrow-right" style="float: right;"></i>
+        </ion-item>
+<!--         <ion-item style="font-size: 20px;padding-top: 8px;padding-bottom: 8px;">
+            <span class="ion-clipboard" style="color: green;"></span>
+            <span style="font-size: 15px;padding-left: 5px;">提现记录</span>
+            <i class="ion-ios-arrow-right" style="float: right;"></i>
+        </ion-item> -->
+        <ion-item style="font-size: 20px;padding-top: 8px;padding-bottom: 8px;" ng-click="goAccountManage()">
+            <span class="ion-ios-bookmarks-outline" style="color:#980ca0;"></span>
+            <span style="font-size: 15px;padding-left: 5px;">账户管理</span>
+            <i class="ion-ios-arrow-right" style="float: right;"></i>
+        </ion-item>
+<!--         <ion-item style="font-size: 20px;padding-top: 8px;padding-bottom: 8px;">
+            <span class="ion-ios-star-outline" style="color:#f9e700;"></span>
+            <span style="font-size: 15px;padding-left: 5px;">信誉评分</span>
+            <i class="ion-ios-arrow-right" style="float: right;"></i>
+        </ion-item> -->
+<!--         <button style="margin-top:0 ;background: #6ac4f8;width: 65%;margin: 0 auto" class="button button-block button-positive mt-40">
+            提现
+        </button> -->
+        <!-- <ion-item>
+            <span class="input-label" >  <img class="icon_charge" src="img/icon_charge.png"><i></i>收费定制</span> -->
+            <!--<button style="margin-top:0; background: #6ac4f8" class="button button-block button-positive login_outbtn" ng-click="savefee()">保存修改</button>-->
+            <!--<i class="icon ion-chevron-right mine-msg-right" style="color:#6ac4f8;" ng-click="savefee()">保存</i>-->
+            <!-- <button class="button button-small button-positive mine-msg-right" style="font-size:15px;margin-top:5px;background-color:#6ac4f8;" ng-click="savefee()">保存</button>
         </ion-item>
         <ion-item>
             <span class="msg">咨询收费</span>
             <p class="myinfo-msg-right"><input type=text ng-model="doctor.charge1"></p>
-            <i class="icon ion-ios-close-outline mine-msg-right"></i>
         </ion-item>
         <ion-item>
             <span class="msg">问诊收费</span>
             <p class="myinfo-msg-right"><input type=text ng-model="doctor.charge2"></p>
-            <i class="icon ion-ios-close-outline mine-msg-right"></i>            
+        </ion-item> -->
+
+     <!--    <ion-item style="text-align:center">
+            <span class="input-label" >  <img class="icon_charge" ng-src="{{wechatIcon}}"/><span ng-show=wechat!="">已</span>绑定微信账号</span>
+            <p ng-if=wechat=="">使用微信登录即可自动绑定</p>
         </ion-item>
+
+        <ion-item style="text-align:center" ng-click="bindAliPay()">
+            <span class="input-label" >  <img class="icon_charge" ng-src="{{alipayIcon}}" /><span ng-show=alipay!="">已</span>绑定支付宝账号</span>
+            <p>{{alipay}}</p>
+        </ion-item> -->
         <span style="margin-left:15px;">{{SaveStatus}}</span>
         <div class="blank-h12"></div>
-        <button style="margin-top:0; background: #6ac4f8" class="button button-block button-positive login_outbtn" ng-click="savefee()">保存修改</button>
 
       
     </ion-content>

@@ -1,13 +1,16 @@
 <ion-tabs class="tabs-icon-top tabs-positive {{$root.hideTabs}} no-animation">
 
-  <ion-tab title="首页" icon="iconfont icon-index home" ng-click="goHome()">
+<!--   <ion-tab title="首页" icon="iconfont icon-index home" ng-click="goHome()"  on-deselect="destroy()">
     <ion-nav-view name="tab-home"></ion-nav-view>
+  </ion-tab> -->
+  <ion-tab title="工作台" icon="iconfont icon-index home" ng-click="goWorkplace()" on-deselect="destroy()">
+    <ion-nav-view name="tab-workplace"></ion-nav-view>
   </ion-tab>
-  <ion-tab title="咨询" icon="iconfont icon-zixun home" ng-click="goConsult()">
+<!--   <ion-tab title="咨询" icon="iconfont icon-zixun home" ng-click="goConsult()">
     <ion-nav-view name="tab-consult"></ion-nav-view>
-  </ion-tab>
-  <ion-tab title="患者" icon="iconfont icon-huanzhe home" ng-click="goPatient()">
-    <ion-nav-view name="tab-patient"></ion-nav-view>
+  </ion-tab> -->
+  <ion-tab title="论坛" icon="iconfont icon-huanzhe home" ng-click="goForum()">
+    <ion-nav-view name="tab-forum"></ion-nav-view>
   </ion-tab>
   <ion-tab title="团队" icon="iconfont icon-tuandui1 home" ng-click="goGroups()">
     <ion-nav-view name="tab-groups"></ion-nav-view>

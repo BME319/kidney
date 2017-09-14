@@ -1,63 +1,152 @@
 <ion-view show-tabs view-title="患者列表">
-    <ion-nav-bar class="bar-positive" align-title="center">
+  <ion-nav-bar class="bar-positive " align-title="center">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="GoBack()"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons class="bar-dark nav-title-slide-ios7" side="right">
+      <button class="button button-clear" ng-click="openPopover($event)"><i class="iconfont icon-menu pat-mun-icon"></i></button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content>
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
+    <!-- <div class="list task-list">
+          <div class="item item-divider bg-f0">
+            <p style="color: #6ac4f8;font-size: 18px;text-align: center;">我的事项</p>
+          </div>        
+          <a href="#/tab/doing" class="task-item fc-33 subdued">
+            <img src="img/waiting.png" alt="">
+            <span>{{consultNum}}位 患者等待咨询</span>
+            <i class="icon ion-ios-arrow-right mine-msg-right"></i>
+          </a>
+          <a href="#/tab/did" class="task-item fc-33 subdued">
+            <img src="img/face.png" alt="">
+            <span>{{didconsultNum}}位 患者完成咨询</span>
+            <i class="icon ion-ios-arrow-right mine-msg-right"></i>
+          </a>          
+          <a href="#/tab/review" class="task-item fc-33 subdued">
+            <img src="img/checking.png" alt="">
+            <span>{{reviewNum}}位 主管患者等待审核</span>
+            <i class="icon ion-ios-arrow-right mine-msg-right"></i>
+          </a>
 
-     <ion-nav-buttons class="bar-dark nav-title-slide-ios7" side="right" >
-         <button class="button button-clear"  ng-click="openPopover($event)"><i class="iconfont icon-menu pat-mun-icon"></i></button>
-      </ion-nav-buttons>
-    </ion-nav-bar>
 
+          <a href="#/tab/face" class="task-item fc-33 subdued">
+            <img src="img/booking.png" alt="">
+            <span>{{PDNum}}位 预约面诊等待核销</span>
+            <i class="icon ion-ios-arrow-right mine-msg-right"></i>
+          </a>
 
-    <ion-content>
-        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
-        <div class="bar bar-header item-input-inset" style="height:60px;">
-            <div class="item-input-wrapper">
-                <i class="icon ion-ios-search placeholder-icon f-24"></i>
-                <input type="search" ng-model="search.name" placeholder="搜索患者姓名">
-                <!-- <i style="color:#EF473A;font-size:1.6em" class="icon ion-android-close placeholder-icon ng-hide" ng-show="search.name" ng-click="clearSearch()"></i> -->
-                <button-clear-input input = "search.name" origin = "allpatients" curr = "patients" ng-click="clearSearch()"></button-clear-input>
-            </div>
-            <button  class="button button-clear button-positive" ng-click="goSearch()">
-                搜索
-            </button>
-        </div>
+        </div> -->
+    <div class="item item-divider bg-f0">
+        <p style="color: #6ac4f8;font-size: 18px;text-align: center;">我的患者({{patients.length}})</p>
+        <a href="#/tab/GroupMessage"><button class="button button-small"  style="position: absolute; right: 8px; top: 2px;color: #6ac4f8">群发</button></a>
+    </div> 
 
-        <div class="bar bar-subheader item-input-inset text-center" style="padding:0;position: 0px;top:0px">
+    <div class="bar bar-header item-input-inset" style="height:44px;border-top:1px #ccc solid;">
+      <div class="item-input-wrapper">
+        <i class="icon ion-ios-search placeholder-icon f-24"></i>
+        <input type="search" ng-model="search.name" placeholder="搜索患者姓名">
+        <!-- <i style="color:#EF473A;font-size:1.6em" class="icon ion-android-close placeholder-icon ng-hide" ng-show="search.name" ng-click="clearSearch()"></i> -->
+        <button-clear-input input="search.name" origin="allpatients" curr="patients" ng-click="clearSearch()"></button-clear-input>
+      </div>
+      <button class="button button-clear button-positive" ng-click="goSearch()">
+        搜索
+      </button>
+    </div>
 
-            <a ng-class="{'high-light':params.isPatients}" class="item col-50 " ng-click="ShowPatients()">
+    <div class="row" style="text-align:center;height:44px; border:0px;">
+      <select class="col" style=" border:0px;border-right:1px #ccc solid;color:RGBA(102,102,102,0.7);"  ng-model="search.vip" ng-change="goSearch()">
+        <option selected value="">VIP</option>
+        <option selected value="1">是</option>
+        <option selected value="0">否</option>
+      </select>
+      <select class="col" style=" border:0px;border-right:1px #ccc solid;color:RGBA(102,102,102,0.7);"  ng-model="search.gender"  ng-change="goSearch()">
+        <option selected value="">性别</option>
+        <option selected value="1">男</option> 
+        <option selected value="2">女</option>       
+      </select>
+      <select class="col" style=" border:0px;border-right:1px #ccc solid;color:RGBA(102,102,102,0.7);" ng-model="search.distype"  ng-change="goSearch()">
+        <option selected value="">疾病类型</option> 
+        <option selected value="class_1">肾移植</option> 
+        <option selected value="class_5">血透</option> 
+        <option selected value="class_6">腹透</option> 
+        <option selected value="class_2">ckd1-2期</option> 
+        <option selected value="class_3">ckd3-4期</option> 
+        <option selected value="class_4">ckd5期</option> 
+      </select>
+      <select class="col" style=" border:0px;color:RGBA(102,102,102,0.7);" ng-model="search.value" ng-change="goSearch()">
+        <option selected value="">排序方式</option> 
+        <option selected value="1">年龄</option>    
+      </select>
+    </div>
+    <div class="bar bar-subheader item-input-inset text-center" style="padding:0;position: 0px;top:0px;border-bottom: 1px #ccc solid;border-top: 1px #ccc solid">
+      <a ng-class="{'high-light':params.isPatients}" class="item col-50 " ng-click="ShowPatients()">
                 <span>全部患者：{{patients.length}}</span>
             </a>
-            <a ng-class="{'high-light':!params.isPatients}" class="item col-50 " style="border-right:0px" ng-click="ShowTodays()">
+      <a ng-class="{'high-light':!params.isPatients}" class="item col-50 " style="border-right:0px" ng-click="ShowTodays()">
                 <span>今日新增：{{Todays.length}}</span>
             </a>
+    </div>
+
+<!--     <div class="bar bar-header item-input-inset" style="background-color:White;height:44px;border-bottom: 1px #ccc solid;border-top: 1px #ccc solid;padding-top: 22px">
+      <p style="text-align: center">当前患者为：{{patients.length + patientsInCharge.length}}位</p>
+      <a href="#/tab/GroupMessage">
+        <button class="button button-small" style="position: absolute; right: 8px; top: 2px;color: #6ac4f8">群发</button>
+      </a>
+    </div> -->
+
+    <div ng-if="params.isPatients" class="list">
+<!--       <div ng-repeat="pi in patientsInCharge |orderBy:filter.propertyName" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" ng-click="getPatientDetail(pi.patientId.userId)" ng-show="pi.show">
+        <img ng-src="{{pi.patientId.photoUrl||'img/patient.png'}}">
+        <div style="">
+          <span>{{pi.patientId.name}}</span>
+          <span>{{pi.patientId.gender | filterGender}}</span>
+          <span ng-if="(pi.patientId.birthday)">{{pi.patientId.birthday | filterAge}}岁</span>
+          <span ng-if="!(pi.patientId.birthday)">年龄未知</span>
+          <span style="float: right">{{pi.dpRelationTime |dateFormat:"YYYY-MM-DD"}}</span>
+          <p>
+            <i class="y-message bg-6a">主管</i>
+            <img ng-src="img/vip.png" style="width: 20px;height: 20px;position: relative;top: 5px" ng-if="pi.patientId.VIP==1" alt="">
+            <img ng-src="img/adr.png" style='width: 20px;height: 20px;position: relative;top: 5px' ng-if="pi.patientId.group==1" alt="">
+            <i class="y-message bg-12" ng-if="pi.patientId.class=='class_2'">CKD1-2期</i>
+            <i class="y-message bg-12" ng-if="pi.patientId.class=='class_3'">CKD3-4期</i>
+            <i class="y-message bg-12" ng-if="pi.patientId.class=='class_4'">CDK5期</i>
+            <i class="y-message bg-12" ng-if="pi.patientId.class=='class_6'">腹透</i>
+            <i class="y-message bg-12" ng-if="pi.patientId.class=='class_5'">血透</i>
+            <i class="y-message bg-12" ng-if="pi.patientId.class=='class_1'">肾移植</i>
+            <i class="y-message bg-f7" ng-if="pi.patientId.hypertension==1">高血压</i>
+            <i class="y-message bg-a2" ng-if="pi.patientId.VIP==1">保险</i>
+          </p>
         </div>
-        <div ng-if="params.isPatients" class="list">
-            <div ng-repeat="p in patients |orderBy:filter.propertyName" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" ng-click="getPatientDetail(p.patientId.userId)" ng-show="p.show">
-                <img ng-src="{{p.patientId.photoUrl||'img/patient.png'}}">
-                    <div style="">
-                        <span>{{p.patientId.name}}</span>
-                        <span>{{p.patientId.gender | filterGender}}</span>
-                        <span ng-if = "(p.patientId.birthday)">{{p.patientId.birthday | filterAge}}岁</span>
-                        <span ng-if = "!(p.patientId.birthday)">年龄未知</span>
-                        <span style="float: right">{{p.dpRelationTime |dateFormat:"YYYY-MM-DD"}}</span>
-                        <!-- <span class="mine-msg-right">{{p.patientId.diagnosisInfo[p.patientId.diagnosisInfo.length-1].name| classname}}</span> -->
-<!--                         <div style="display:inline-block;color:#d81e06;">
+      </div> -->
+      <div ng-repeat="p in patients |orderBy:filter.propertyName" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" ng-click="getPatientDetail(p.patientId.userId)" ng-show="p.show">
+        <img ng-src="{{p.patientId.photoUrl||'img/patient.png'}}">
+        <div style="">
+          <span>{{p.patientId.name}}</span>
+          <span>{{p.patientId.gender | filterGender}}</span>
+          <span ng-if="(p.patientId.birthday)">{{p.patientId.birthday | filterAge}}岁</span>
+          <span ng-if="!(p.patientId.birthday)">年龄未知</span>
+          <span style="float: right">{{p.dpRelationTime |dateFormat:"YYYY-MM-DD"}}</span>
+          <!-- <span class="mine-msg-right">{{p.patientId.diagnosisInfo[p.patientId.diagnosisInfo.length-1].name| classname}}</span> -->
+          <!--                         <div style="display:inline-block;color:#d81e06;">
                             <i style="" class="iconfont icon-vip f-24" ng-if="p.patientId.VIP==1"></i>
                         </div> -->
-                        <p>
-                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_2'">CKD1-2期</i>
-                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_3'">CKD3-4期</i>
-                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_4'">CDK5期</i>
-                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_6'">腹透</i>
-                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_5'">血透</i>
-                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_1'">肾移植</i>
-                        <i class="y-message bg-f7" ng-if="p.patientId.hypertension==1">高血压</i>
-                        <i class="y-message bg-a2" ng-if="p.patientId.VIP==1">保险</i>                        
-                        </p>
-                        <!-- <i class="y-message bg-a2">过敏史</i> -->
-                        <!-- <i class="y-message bg-f7">警报</i> -->
-                         
-
-                        <!-- <div style="display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon ion-ios-flame"></i>
+          <p>
+            <i class="y-message bg-6a" ng-if="p.invalidFlag==1">主管</i>
+            <img ng-src="img/vip.png" style="width: 20px;height: 20px;position: relative;top: 5px" ng-if="p.patientId.VIP==1" alt="">
+            <img ng-src="img/adr.png" style='width: 20px;height: 20px;position: relative;top: 5px' ng-if="p.patientId.group==1" alt="">
+            <i class="y-message bg-12" ng-if="p.patientId.class=='class_2'">CKD1-2期</i>
+            <i class="y-message bg-12" ng-if="p.patientId.class=='class_3'">CKD3-4期</i>
+            <i class="y-message bg-12" ng-if="p.patientId.class=='class_4'">CDK5期</i>
+            <i class="y-message bg-12" ng-if="p.patientId.class=='class_6'">腹透</i>
+            <i class="y-message bg-12" ng-if="p.patientId.class=='class_5'">血透</i>
+            <i class="y-message bg-12" ng-if="p.patientId.class=='class_1'">肾移植</i>
+            <i class="y-message bg-f7" ng-if="p.patientId.hypertension==1">高血压</i>
+            <!-- <i class="y-message bg-a2" ng-if="p.patientId.VIP==1">保险</i>                         -->
+          </p>
+          <!-- <i class="y-message bg-a2">过敏史</i> -->
+          <!-- <i class="y-message bg-f7">警报</i> -->
+          <!-- <div style="display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon ion-ios-flame"></i>
                         </div>
                         <div style="display:inline-block;background-color: #0288D1;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon ion-android-hand"></i>
                         </div>
@@ -65,34 +154,57 @@
                         </div>
                         <div style="display:inline-block;background-color: #FF0000;border-radius: 0.3em;color:#FFF;padding:0 3px"><i style="font-size:1em" class="icon icon ion-android-favorite"></i>
                         </div>    -->
-                    </div>
-            </div>
         </div>
-
-
-        <div ng-if="!params.isPatients" class="list">
-            <div ng-repeat="t in Todays |orderBy:filter.propertyName" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" ng-click="getPatientDetail(t.patientId.userId)" ng-show="t.show">
-                <img ng-src="{{t.patientId.photoUrl||'img/patient.png'}}">
-                    <div style="">
-                        <span>{{t.patientId.name}}</span>
-                        <span>{{t.patientId.gender | filterGender}}</span>
-                        <span ng-if = "(t.patientId.birthday)">{{t.patientId.birthday | filterAge}}岁</span>
-                        <span ng-if = "!(t.patientId.birthday)">年龄未知</span>
-                        <span style="float: right">{{t.dpRelationTime |dateFormat:"YYYY-MM-DD"}}</span>
-                        <p>
-                        <i class="y-message bg-12" ng-if="t.patientId.class=='class_2'">CKD1-2期</i>
-                        <i class="y-message bg-12" ng-if="t.patientId.class=='class_3'">CKD3-4期</i>
-                        <i class="y-message bg-12" ng-if="t.patientId.class=='class_4'">CDK5期</i>
-                        <i class="y-message bg-12" ng-if="t.patientId.class=='class_6'">腹透</i>
-                        <i class="y-message bg-12" ng-if="t.patientId.class=='class_5'">血透</i>
-                        <i class="y-message bg-12" ng-if="t.patientId.class=='class_1'">肾移植</i>
-                        <i class="y-message bg-f7" ng-if="t.patientId.hypertension==1">高血压</i>
-                        <i class="y-message bg-a2" ng-if="t.patientId.VIP==1">保险</i>                        
-                        </p>
-                    </div>
-            </div>
+      </div>
+    </div>
+    <!-- 今日新增 -->
+    <div ng-if="!params.isPatients" class="list">
+<!--       <div ng-repeat="ti in TodaysInCharge |orderBy:filter.propertyName" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" ng-click="getPatientDetail(ti.patientId.userId)" ng-show="ti.show">
+        <img ng-src="{{ti.patientId.photoUrl||'img/patient.png'}}">
+        <div style="">
+          <span>{{ti.patientId.name}}</span>
+          <span>{{ti.patientId.gender | filterGender}}</span>
+          <span ng-if="(ti.patientId.birthday)">{{ti.patientId.birthday | filterAge}}岁</span>
+          <span ng-if="!(ti.patientId.birthday)">年龄未知</span>
+          <span style="float: right">{{ti.dpRelationTime |dateFormat:"YYYY-MM-DD"}}</span>
+          <p>
+            <i class="y-message bg-6a">主管</i>
+            <img ng-src="img/vip.png" style="width: 20px;height: 20px;position: relative;top: 5px" ng-if="ti.patientId.VIP==1" alt="">
+            <img ng-src="img/adr.png" style='width: 20px;height: 20px;position: relative;top: 5px' ng-if="ti.patientId.group==1" alt="">
+            <i class="y-message bg-12" ng-if="ti.patientId.class=='class_2'">CKD1-2期</i>
+            <i class="y-message bg-12" ng-if="ti.patientId.class=='class_3'">CKD3-4期</i>
+            <i class="y-message bg-12" ng-if="ti.patientId.class=='class_4'">CDK5期</i>
+            <i class="y-message bg-12" ng-if="ti.patientId.class=='class_6'">腹透</i>
+            <i class="y-message bg-12" ng-if="ti.patientId.class=='class_5'">血透</i>
+            <i class="y-message bg-12" ng-if="ti.patientId.class=='class_1'">肾移植</i>
+            <i class="y-message bg-f7" ng-if="ti.patientId.hypertension==1">高血压</i>
+            <i class="y-message bg-a2" ng-if="ti.patientId.VIP==1">保险</i>
+          </p>
         </div>
-
-
-    </ion-content>
+      </div> -->
+      <div ng-repeat="t in Todays |orderBy:filter.propertyName" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" ng-click="getPatientDetail(t.patientId.userId)" ng-show="t.show">
+        <img ng-src="{{t.patientId.photoUrl||'img/patient.png'}}">
+        <div style="">
+          <span>{{t.patientId.name}}</span>
+          <span>{{t.patientId.gender | filterGender}}</span>
+          <span ng-if="(t.patientId.birthday)">{{t.patientId.birthday | filterAge}}岁</span>
+          <span ng-if="!(t.patientId.birthday)">年龄未知</span>
+          <span style="float: right">{{t.dpRelationTime |dateFormat:"YYYY-MM-DD"}}</span>
+          <p>
+            <i class="y-message bg-6a" ng-if="t.invalidFlag==1">主管</i>
+            <img ng-src="img/vip.png" style="width: 20px;height: 20px;position: relative;top: 5px" ng-if="t.patientId.VIP==1" alt="">
+            <img ng-src="img/adr.png" style='width: 20px;height: 20px;position: relative;top: 5px' ng-if="t.patientId.group==1" alt="">
+            <i class="y-message bg-12" ng-if="t.patientId.class=='class_2'">CKD1-2期</i>
+            <i class="y-message bg-12" ng-if="t.patientId.class=='class_3'">CKD3-4期</i>
+            <i class="y-message bg-12" ng-if="t.patientId.class=='class_4'">CDK5期</i>
+            <i class="y-message bg-12" ng-if="t.patientId.class=='class_6'">腹透</i>
+            <i class="y-message bg-12" ng-if="t.patientId.class=='class_5'">血透</i>
+            <i class="y-message bg-12" ng-if="t.patientId.class=='class_1'">肾移植</i>
+            <i class="y-message bg-f7" ng-if="t.patientId.hypertension==1">高血压</i>
+<!--             <i class="y-message bg-a2" ng-if="t.patientId.VIP==1">保险</i> -->
+          </p>
+        </div>
+      </div>
+    </div>
+  </ion-content>
 </ion-view>

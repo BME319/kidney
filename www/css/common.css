@@ -40,10 +40,10 @@
   color: #6c6c6c!important;
 }
 .fc-66{
-  color: #666666;
+  color: rgba(248, 248, 248, 0.87);
 }
 .fc-2b{
-  color: #2b7633;
+  color: #f8f8f8;
 }
 .fc-8c{
   color: #8c8c8c;
@@ -93,7 +93,7 @@
   font-size: 14px!important;
 }
 .f16{
-  font-size: 16px!important;
+  font-size: 18px!important;
 }
 .f-18{
   font-size: 18px;
@@ -139,7 +139,7 @@
   color: #fff;
 }
 .bar-positive .button span{
-  padding: 0 12px;
+  /*padding: 0 12px;*/
   font-size: 14px;
 }
 .bar-positive .button:last-child span{
@@ -193,4 +193,8 @@
 
 .right15{
   right: 15px
+}
+
+.popupWithKeyboard{
+  margin-top: -190px;
 }

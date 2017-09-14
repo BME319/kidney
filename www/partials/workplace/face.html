@@ -1,0 +1,67 @@
+<ion-view hide-tabs view-title="预约面诊">
+    <ion-nav-bar class="bar-positive" align-title="center">
+        <ion-nav-buttons side="left" >
+        <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+        </ion-nav-buttons>
+
+    <ion-content style="background: #fafafa">
+        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
+        <div class="bar bar-subheader item-input-inset text-center" style="padding:0;position: 0px;top:0px">
+
+            <a ng-class="{'high-light':params.Confirming}" class="item col-50 " ng-click="ShowConfirming()">
+                <span>待核销：{{confirmNum}}</span>
+            </a>
+            <a ng-class="{'high-light':!params.Confirming}" class="item col-50 " style="border-right:0px" ng-click="ShowHistory()">
+                <span>已核销：{{historyNum}}</span>
+            </a>
+        </div>
+        <div ng-if="params.Confirming" class="list">
+            <div ng-repeat="p in confirmFace" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" >
+                <img class="avatar-icon" ng-src="{{p.patientId.photoUrl||'img/patient.png'}}">
+                    <div style="">
+                        <span>{{p.patientId.name}}</span>
+                        <span>{{p.patientId.gender | filterGender}}</span>
+                        <span ng-if = "(p.patientId.birthday)">{{p.patientId.birthday | filterAge}}岁</span>
+                        <span ng-if = "!(p.patientId.birthday)">年龄未知</span>
+                        <br/>
+                        <div>
+                           <i class="ion-android-time y-message bg-12">预约时间</i>
+                           <span>[{{p.bookingDay |dateFormat:"YYYY-MM-DD"}}</span>
+                           <span>{{p.bookingTime |filterDayPeriod}}]</span>
+                        </div>
+<!--                         <span>                        
+                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_2'">CKD1-2期</i>
+                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_3'">CKD3-4期</i>
+                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_4'">CDK5期</i>
+                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_6'">腹透</i>
+                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_5'">血透</i>
+                        <i class="y-message bg-12" ng-if="p.patientId.class=='class_1'">肾移植</i>
+                        <i class="y-message bg-f7" ng-if="p.patientId.hypertension==1">高血压</i>
+                        <i class="y-message bg-a2" ng-if="p.patientId.VIP==1">保险</i>            
+                        </span> -->
+
+                        <button class="button button-positive button-small" style="position: absolute;right: 18px;top:22px;border-radius: 5px" ng-click="confirm(p.diagId)">核销</button>
+                    </div>
+            </div>
+        </div>
+
+        <div ng-if="!params.Confirming" class="list">
+            <div ng-repeat="h in history" collection-item-height="94px" class="item item-avatar" type="item-text-wrap" >
+                <img class="avatar-icon" ng-src="{{h.patientId.photoUrl||'img/patient.png'}}">
+                    <div style="">
+                        <span>{{h.patientId.name}}</span>
+                        <span>{{h.patientId.gender | filterGender}}</span>
+                        <span ng-if = "(h.patientId.birthday)">{{h.patientId.birthday | filterAge}}岁</span>
+                        <span ng-if = "!(h.patientId.birthday)">年龄未知</span>
+                        <br/>
+                        <div>
+                           <i class="ion-android-time y-message bg-12">预约时间</i>
+                           <span>[{{h.bookingDay |dateFormat:"YYYY-MM-DD"}}</span>
+                           <span>{{h.bookingTime |filterDayPeriod}}]</span>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
