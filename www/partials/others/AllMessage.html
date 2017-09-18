@@ -6,15 +6,43 @@
     </ion-nav-buttons>
   </ion-nav-bar>
 
-
-  <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2.5px;background-color: #33cd5f;{{barwidth}}" ></div>
   <ion-content >
-    <div class="card" ng-if="!(chats.length)">
+    <div class="card" ng-if="(!chats)&&(noCounsels.length==0)&&(changingTasks.length==0)&&(patientAlerts.length==0)">
         <div class="item item-text-wrap">
             暂时没有消息
         </div>
     </div>
     <ion-list>
+      <!-- 聊天消息 -->
+      <ion-item  ng-repeat="chat in chats"  class="item item-avatar card" ng-click="getChatDetail(chat)">
+        <img ng-src="{{chat.Photo}}" image-red-point="!chat.readOrNot">
+        <div class="row">
+            <h2 class="col">{{chat.Name}}</h2>
+            <span class="col" style="font-size: 12px">{{chat.time|dateFormat:"YYYY-MM-DD h:m"}}</span>
+        </div>
+        <span class="row" style="margin-left:5px;">{{chat.description}}</span>
+      </ion-item>
+
+      <!-- 未及时咨询报告推送 -->
+      <ion-item class="item item-avatar card" ng-if="(!noCounsels.length==0)" style="padding-top: 25px;padding-bottom: 25px;" ng-repeat="noCounsel in noCounsels" ng-click="getChatDetail(noCounsel)">
+        <img ng-src="img/time.png" image-red-point="true">
+        <h2>未及时咨询报告</h2>
+        <i class="icon ion-ios-arrow-right mine-msg-right" style="top:24px"></i>
+      </ion-item>
+
+       <!-- 未及时修改患者治疗方案的提醒 -->
+      <ion-item class="item item-avatar card" ng-if="(!changingTasks.length==0)" style="padding-top:25px; padding-bottom:25px;" ng-repeat="changingTask in changingTasks" ng-click="getChatDetail(changingTask)">
+        <img ng-src="img/xx.png" image-red-point="true">
+        <h2>修改治疗方案的提醒</h2>
+        <i class="icon ion-ios-arrow-right mine-msg-right" style="top:24px"></i>
+      </ion-item>
+
+       <!-- 警报消息 -->
+      <ion-item class="item item-avatar card" ng-if="(!patientAlerts.length==0)" style="padding-top:25px; padding-bottom:25px;" ng-repeat="patientAlert in patientAlerts" ng-click="getChatDetail(patientAlert)">
+        <img ng-src="img/bj.png" image-red-point="true">
+        <h2>警报消息</h2>
+        <i class="icon ion-ios-arrow-right mine-msg-right" style="top:24px"></i>
+      </ion-item>
 
       <!-- 支付消息 -->
 <!--       <ion-item class="item message-item item-avatar right message-new" ng-click="getMessageDetail('ZF')">
@@ -79,15 +107,6 @@
         </div>
         <span class="row" style="margin-left:5px;">{{chat.description}}</span>
       </ion-item> -->
-
-      <ion-item  ng-repeat="chat in chats"  class="item item-avatar card" ng-click="getChatDetail(chat)">
-        <img ng-src="{{chat.Photo}}" image-red-point="!chat.readOrNot">
-        <div class="row">
-            <h2 class="col">{{chat.Name}}</h2>
-            <span class="col" style="font-size: 12px">{{chat.time|dateFormat:"YYYY-MM-DD h:m"}}</span>
-        </div>
-        <span class="row" style="margin-left:5px;">{{chat.description}}</span>
-      </ion-item>
 
     </ion-list>
     <ion-refresher pulling-text="下拉刷新..." on-refresh="do_refresher()"></ion-refresher>

@@ -1,86 +1,60 @@
-<ion-view view-title="我">
+<ion-view view-title="我的" show-tabs>
 <!-- <ion-nav-bar class="bar-positive nav-title-slide-ios7">
           <ion-nav-back-button class="button-clear">
             <i class="ion-chevron-left"></i>
         </ion-nav-back-button>
 </ion-nav-bar> -->
     <ion-content overflow-scroll="false" class="has-tabs bg-f5">
-    <div class="me-top-box">
-        <a href="#/tab/qrcode"><i class="me-code iconfont icon-erweima"></i>
+    <div class="me-top-box2">
+        <!-- <a href="#/tab/qrcode"><i class="me-code iconfont icon-erweima"></i>
         <qrcode  version=3 error-correction-level="M" size="50" data="{{params.userId}}" style="width:30px;height:30px;position: absolute;right: 30px;top:10px;"></qrcode>
-        </a>
-        <div class="me-top-bg"></div>
+        </a> -->
+        <div class="me-top-bg2"></div>
         <div class="me-massage-box">
-            <div class="me-avatar-box">
-                <div class="img-cen me-avatar">
+                <div class="img-cen me-avatar" style="position: absolute; margin-left: -100px; margin-top: 20px;" >
                     <img ng-src="{{doctor.photoUrl}}" name="Photo" ng-click="onClickCamera($event)">
                 </div>
-
-                <!-- 上传照片的弹出框 -->
-                <script id="my-popover.html" type="text/ng-template">
-                    <ion-popover-view>
-                        <ion-header-bar class="bar-calm">
-                            <h1 class="title">上传图片</h1>
-                        </ion-header-bar>
-                        <ion-content>
-                            <ion-list> 
-                                <div class = "padding">
-                                    <button class="button button-block button-primary " ng-click="getPhoto()"><i class="icon ion-camera"></i>
-                                  拍照
-                                    </button>
-                            
-                                    <button class="button button-block button-primary " ng-click="onClickCameraPhotos()"><i class="icon ion-image"></i>
-                                  相册
-                                    </button>
-                             
-                                </div>
-                            </ion-list>
-                        </ion-content>
-                    </ion-popover-view>
-                </script>
-                <!-- 上传照片的弹出框 -->
-
-                <div class="me-edit-btn">更换头像</div>
-            </div>
             <div class="me-massage">
-                <p class="f16 m-b5 fc-2b">{{doctor.name}}</p>
-                <p class="fc-66">{{doctor.workUnit}}</p>
-                <p class="fc-66">{{doctor.department}}</p>
+                <p class="f16 m-b5 fc-2b" style="position: absolute; margin-left: 20px; margin-top: -75px;">{{doctor.name}}</p>
+                <p class="fc-66" style="position: absolute; margin-left: 8px; margin-top: -45px;width: 100%">账号：{{doctor.phoneNo}}</p>
             </div>
         </div>
     </div>
+
     <div class="me-mun bg-wite mt-10">
         <div class="row ">
-            <a class="col col-50 text-center br-e9" href="#/tab/schedual"><i class="iconfont icon-paibanguanli"></i>排班 <em class="me-dic iconfont  icon-dian"></em></a>
-            <a class="col col-50 text-center" href="#/tab/myinfo"><i class="iconfont icon-jibenziliao"></i>我的资料</a>
-        </div>
-        <div class="row">
-            <a class="col col-50 text-center br-e9" href="#/tab/myfee"><i class="iconfont icon-wodezhanghu"></i>我的账户<em class="me-dic iconfont  icon-dian"></em></a>
-            <a class="col col-50 text-center" href="#/tab/feedback"><i class="iconfont icon-wujiaoxing"></i>我的评价</a>
+            <a class="col col-34 text-center br-e9" href="#/tab/myinfo"><img class="icon_mine" ng-src="img/ziliao.png"><br>我的资料</a>
+            <a class="col col-34 text-center br-e9" ng-click="goFee()"><img class="icon_mine" ng-src="img/zhanghu.png"><br>账户资金</a>
+            <a class="col col-34 text-center" href="#/tab/myservice"><img class="icon_mine" ng-src="img/fuwu.png"><br>服务管理</a>    
         </div>
     </div>
+
     <div class="me-list list mt-15">
-        <a class="item item-icon-left" href="#/tab/set">
-            <i class="iconfont icon-shezhi"></i>
-        设置
-        </a>
-        <a class="item item-icon-left" href="#/tab/advice">
-            <i class="iconfont ion-paper-airplane"></i>
-        意见反馈
+        <a class="item item-icon-left" ng-click="goAdvice()">
+            <i class="iconfont ion-paper-airplane" style="color: #0080ff"></i>
+        意见反馈与投诉
         </a>
         <a class="item item-icon-left" href="#/tab/about">
-            <i class="iconfont icon-jiangpai"></i>
+            <i class="iconfont icon-jiangpai" style="color: #ff8000"></i>
         关于我们
+        </a>  
+        <a class="item item-icon-left" href="#/tab/set">
+            <i class="iconfont icon-shezhi" style="color: #73bf00"></i>
+        设置
+        </a>
+<!--         <a class="item item-icon-left" ng-click="goSchedual()">
+            <i class="iconfont icon-paibanguanli" style="color: #ff8040"></i>
+        排班表
+        </a> -->
+        <a class="item item-icon-left" ng-click="goFeedback()">
+            <i class="iconfont icon-wujiaoxing" style="color: #00aeae"></i>
+        我的评价
+        </a>
+        <a class="item item-icon-left" ng-click="goNocounsel()" ng-if="master">
+            <i class="iconfont ion-social-skype" style="color: #8600ff"></i>
+        科室管理
         </a>
     </div>
 
-
-<!--         <ion-list>
-            <ion-item class="item-avatar item-icon-right item-button-right" type="item-text-wrap" href="#/tab/qrcode">
-                <qrcode  version=3 error-correction-level="M" size="50" data="{{params.userId}}" style="width:60px;height:60px;position: absolute;right: 30px;top:10px;"></qrcode>
-            </ion-item>
-
-
-        </ion-list> -->
     </ion-content>
 </ion-view>

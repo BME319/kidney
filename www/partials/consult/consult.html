@@ -1,4 +1,10 @@
 <ion-view show-tabs view-title="咨询">
+    <ion-nav-bar class="bar-positive " align-title="center">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="GoBack()"></button>
+    </ion-nav-buttons>
+    </ion-nav-bar>
+  </ion-nav-bar>
 <!--     <ion-nav-bar class="bar-positive">
         <ion-nav-buttons side="left">
             <a class="button button-icon icon ion-qr-scanner" ng-click="qrscan()"></a>
@@ -9,8 +15,6 @@
     </ion-nav-bar> -->
     <ion-content has-bouncing="true" overflow-scroll="false">  
         <div class="blank-h12"></div>
-        <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">           
-        </ion-refresher>
         <div class="card">
           <a href="#/tab/doing" class="subdued">
             <div class="item item-text-wrap item-avatar-left bg-f0">

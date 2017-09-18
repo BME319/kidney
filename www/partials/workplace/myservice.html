@@ -1,0 +1,97 @@
+<ion-view view-title="我的服务">
+  <ion-nav-bar class="bar-positive " align-title="center">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+    </ion-nav-buttons>
+ </ion-nav-bar>
+
+   <ion-content overflow-scroll="false" class="has-tabs bg-f5">
+    <div class="list;content has-header">
+
+      <div class="me-mun bg-wite mt-10 row" style="padding-bottom: 0px; padding-top: 0px;height: 54px;">
+          <div class="col col-30" style="padding-top: 18px;padding-left: 20px;font-size: 15px;"><i class="icon iconfont icon-zixun2" style="color:#daf603;font-size: 20px;"></i>&nbsp;&nbsp;咨询&nbsp;&nbsp;<a class="ion-ios-help-outline" on-tap="illustration1()"></a>
+          </div>
+          <div class="col col-70" style="padding-top: 4px;padding-right: 0px;">   
+               <ion-toggle toggle-class="toggle-positive" style=" border: none;padding-bottom: 14px;" ng-model="doctorinfo.status1" ng-change="consultChange()"><span>&nbsp;</span></ion-toggle>
+          </div>    
+      </div>
+      <ion-item ng-show="doctorinfo.status1" style="border-left-width: 0px;border-bottom-width: 0px;border-right-width: 0px;border-top-width: 1px; padding-left: 29px;padding-top: 10px;padding-bottom: 10px;height: 54px;">
+                <span class="input-label" style="font-size: 15px;"><i class="ion-social-yen-outline" style="color:#f2c006;font-size: 19px;"></i>&nbsp;&nbsp;&nbsp;咨询收费
+                </span> 
+                <i class="myinfo-msg-right"><p style="margin-top:8px;margin-right: 100px;">{{doctorinfo.charge1}}</p><button class="button button-small button-positive mine-msg-right" style="font-size:10px;margin-top:-12px;right: 2px;" ng-click="charge1Save()">修改</button>
+                </i>   
+      </ion-item> 
+
+       <div class="me-mun bg-wite mt-10 row" style="padding-bottom: 0px; padding-top: 0px;height: 54px;">
+          <div class="col col-30" style="padding-top: 18px;padding-left: 20px;font-size: 15px;"><i class="icon iconfont icon-baojifuben" style="color: #3ef63d;font-size: 20px;"></i>&nbsp;&nbsp;问诊&nbsp;&nbsp;<a class="ion-ios-help-outline" on-tap="illustration2()"></a>
+          </div>
+          <div class="col col-70" style="padding-top: 4px;padding-right: 0px;">   
+               <ion-toggle toggle-class="toggle-positive" style=" border: none;padding-bottom: 14px;" ng-model="doctorinfo.status2" ng-change="inquiryChange()"><span>&nbsp;</span></ion-toggle>
+          </div>    
+      </div>
+      <ion-item ng-show="doctorinfo.status2" style="border-left-width: 0px;border-bottom-width: 0px;border-right-width: 0px;border-top-width: 1px; padding-left: 29px;padding-top: 10px;padding-bottom: 10px;height: 54px;">
+                <span class="input-label" style="font-size: 15px;"><i class="ion-social-yen-outline" style="color:#f2c006;font-size: 19px;"></i>&nbsp;&nbsp;&nbsp;问诊收费
+                </span> 
+                <i class="myinfo-msg-right"><p style="margin-top:8px;margin-right: 100px;">{{doctorinfo.charge2}}</p><button class="button button-small button-positive mine-msg-right" style="font-size:10px;margin-top:-12px;right: 2px;" ng-click="charge2Save()">修改</button>
+                </i>   
+      </ion-item> 
+
+
+      <div class="me-mun bg-wite mt-10 row" style="padding-bottom: 0px; padding-top: 0px;height: 54px;">
+          <div class="col col-30" style="padding-top: 18px;padding-left: 20px;font-size: 15px;"><i class="icon ion-speakerphone" style="color: #ff00dd;font-size: 20px;"></i>&nbsp;&nbsp;加急咨询&nbsp;&nbsp;<a class="ion-ios-help-outline" on-tap="illustration3()"></a>
+          </div>
+          <div class="col col-70" style="padding-top: 4px;padding-right: 0px;">   
+               <ion-toggle toggle-class="toggle-positive" style=" border: none;padding-bottom: 14px;" ng-model="doctorinfo.status3" ng-change="fastconsultChange()"><span>&nbsp;</span></ion-toggle>
+          </div>    
+      </div>
+      <ion-item ng-show="doctorinfo.status3" style="border-left-width: 0px;border-bottom-width: 0px;border-right-width: 0px;border-top-width: 1px; padding-left: 28px;padding-top: 10px;padding-bottom: 10px;height: 54px;">
+                <span class="input-label" style="font-size: 15px;"><i class="ion-social-yen-outline" style="color:#f2c006;font-size: 19px;"></i>&nbsp;&nbsp;加急咨询收费
+                </span> 
+                <i class="myinfo-msg-right"><p style="margin-top:8px;margin-right: 100px;">{{doctorinfo.charge3}}</p><button class="button button-small button-positive mine-msg-right" style="font-size:10px;margin-top:-12px;right: 2px;" ng-click="charge3Save()">修改</button>
+                </i>   
+      </ion-item> 
+      
+      <div class="me-mun bg-wite mt-10 row" style="padding-bottom: 0px; padding-top: 0px;height: 54px;">
+          <div class="col col-30" style="padding-top: 18px;padding-left: 20px;font-size: 15px;"><i class="icon ion-person" style="color: #00c2ff;font-size: 20px;"></i>&nbsp;&nbsp;主管医生&nbsp;&nbsp;<a class="ion-ios-help-outline" on-tap="illustration4()"></a>
+          </div>
+          <div class="col col-70" style="padding-top: 4px;padding-right: 0px;">   
+               <ion-toggle toggle-class="toggle-positive" style=" border: none;padding-bottom: 14px;" ng-model="doctorinfo.status4" ng-change="maindoctorChange()"><span>&nbsp;</span></ion-toggle>
+          </div>    
+      </div>
+      <ion-item ng-show="doctorinfo.status4" style="border-left-width: 0px;border-bottom-width: 0px;border-right-width: 0px;border-top-width: 1px; padding-left: 28px;padding-top: 10px;padding-bottom: 10px;height: 54px;">
+                <span class="input-label" style="font-size: 15px;"><i class="ion-social-yen-outline" style="color:#f2c006;font-size: 19px;"></i>&nbsp;&nbsp;服务费用
+                </span> 
+                <i class="myinfo-msg-right"><p style="margin-top:8px;margin-right: 100px;">{{doctorinfo.charge4}}</p><button class="button button-small button-positive mine-msg-right" style="font-size:10px;margin-top:-12px;right: 2px;" ng-click="charge4Save()">修改</button>
+                </i>   
+      </ion-item> 
+        
+      <div class="me-mun bg-wite mt-10 row" style="padding-bottom: 0px; padding-top: 0px;height: 54px;">
+          <div class="col col-30" style="padding-top: 18px;padding-left: 20px;font-size: 15px;"><i class="icon ion-person-stalker" style="color: #ff8000;font-size: 20px;"></i>&nbsp;&nbsp;面诊服务&nbsp;&nbsp;<a class="ion-ios-help-outline" on-tap="illustration5()"></a>
+          </div>
+          <div class="col col-70" style="padding-top: 4px;padding-right: 0px;">   
+               <ion-toggle toggle-class="toggle-positive" style=" border: none;padding-bottom: 14px;" ng-model="doctorinfo.status5" ng-change="fsdiagnoseChange()"><span>&nbsp;</span></ion-toggle>
+          </div>    
+      </div>
+      <ion-item  href="#/tab/me/faceconsult" style="border-left-width: 0px;border-bottom-width: 0px;border-right-width: 0px;border-top-width: 1px;">
+                <span class="msg" style="margin-left: 10px;"><i class="icon ion-ios-calendar-outline" style="color: #73bf00;font-size: 20px;"></i>&nbsp;&nbsp;排班管理</span>
+                <i class="icon ion-ios-arrow-right mine-msg-right"></i>
+      </ion-item>
+      <ion-item ng-show="doctorinfo.status5" style="border-left-width: 0px;border-bottom-width: 0px;border-right-width: 0px;border-top-width: 1px; padding-left: 28px;padding-top: 10px;padding-bottom: 10px;height: 54px;">
+                <span class="input-label" style="font-size: 15px;"><i class="ion-social-yen-outline" style="color:#f2c006;font-size: 19px;"></i>&nbsp;&nbsp;面诊收费
+                </span> 
+                <i class="myinfo-msg-right"><p style="margin-top:8px;margin-right: 100px;">{{doctorinfo.charge5}}</p><button class="button button-small button-positive mine-msg-right" style="font-size:10px;margin-top:-12px;right: 2px;" ng-click="charge5Save()">修改</button>
+                </i>   
+      </ion-item> 
+
+        <div class="me-mun bg-wite mt-10">
+             <ion-item href="#/tab/me/forwarding" style="border: none;">
+                <span class="msg" style="margin-left: 12px;"><i class="icon ion-forward" style="color: #8600ff;font-size: 20px;"></i>&nbsp;&nbsp;自动转发</span>
+                <i class="icon ion-ios-arrow-right mine-msg-right"></i>
+             </ion-item>
+        </div>
+
+    </div>
+
+  </ion-content>
+
+</ion-view>

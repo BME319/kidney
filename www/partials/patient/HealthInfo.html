@@ -9,33 +9,67 @@
     </ion-nav-buttons>
   </ion-nav-bar>
 <!--   <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2.5px;background-color: #33cd5f;{{barwidth}}" ></div> -->
-    <div class="button-bar bar-positive" style="margin-top: 40px">
+  <div class="button-bar bar-positive" ng-style="barStyle">
+    <a class="button" href="#/tab/patientDetail">
+      <span class="br-e9" style="vertical-align: sub; text-align:center">患者详情</span>
+    </a>
     <a class="button" href="#/tab/DoctorDiagnose">
-      <span class="br-e9" style="vertical-align: sub">医生诊断</span>
+      <span class="br-e9" style="vertical-align: sub; text-align:center">医生诊断</span>
     </a>
     <a class="button" href="#/tab/TaskSet">
-      <span class="br-e9" style="vertical-align: sub">治疗方案</span>
+      <span class="br-e9" style="vertical-align: sub; text-align:center">健康方案</span>
     </a>
-    <a class="button" href="#/tab/TestRecord" >
-      <span class="br-e9" style="vertical-align: sub">测量记录</span>
+    <a class="button" href="#/tab/Report">
+      <span class="br-e9" style="vertical-align: sub; text-align:center">病情报告</span>
     </a>
     <a class="button" href="#/tab/HealthInfo">
-        <span class="br-e9" style="vertical-align: sub">健康信息</span>
+        <span class="br-e9" style="vertical-align: sub; text-align:center">健康信息</span>
     </a>
   </div>
-  <ion-content class="has-header"  style="margin-top: 42px;">
-  <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
-    <div class="list">
-      <div class="item" ng-repeat="item in items " ng-click="gotoHealthDetail($event,item)">
-        <div class="clearfix"><span class="f-fl f-w-5">{{item.label}}</span><span class="f-fr f-w-5">{{item.time|dateFormat:"YYYY-MM-DD"}}</span></div>
-        <p class="mt-5 fc-6c">{{item.description}}</p>
-        <div class="health-img-box clearfix">
-          <div class="health-img" ng-repeat = "img in item.url"><img ng-src="{{img}}"></div>
-        </div>
-        <div class="text-right "> <i class="iconfont icon-del f-24"></i> <i class="iconfont icon-bianji f-32 ml-10"></i></div>
-      </div>
 
-    </div>
+  <ion-content class="has-header"  ng-style="barStyle" style="background-color: #f0f0f0;">
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh(type)"></ion-refresher>
+    <select class="col" style="margin:5px 1%;width: 98%;color:RGBA(102,102,102,0.7);border: aliceblue;" ng-model="type"  ng-change="doRefresh(type)">
+          <option selected value="">类型</option> 
+          <option selected value="Health_001">检查</option> 
+          <option selected value="Health_002">化验</option> 
+          <option selected value="Health_003">用药</option> 
+          <option selected value="Health_004">病历</option> 
+    </select>
+
+<!--     <div class="list">
+      <div class="item" ng-repeat="item in items ">
+        <div ng-click="gotoHealthDetail($event,item)">
+          <div class="clearfix"><span class="f-fl f-w-5">{{item.label}}</span><span class="f-fr f-w-5">{{item.time|dateFormat:"YYYY-MM-DD"}}</span></div>
+           <p class="mt-5 fc-6c">{{item.description}}</p>
+        </div>
+        <div class="health-img-box clearfix">
+          <div class="health-img" ng-repeat = "img in item.url"><img ng-src="{{img}}" ng-click="showbigger(img)"></div>
+        </div>
+        <div class="text-right "> <i class="iconfont icon-del f-24"></i> </div>
+      </div>
+    </div> -->
+
+    <ion-list>
+      <div class="item" ng-repeat="item in items ">
+        <div ng-click="gotoHealthDetail($event,item)">
+          <div class="row">
+            <p class="col" style="text-align: left;font-weight: bold;">{{item.label}}</p>
+            <p class="col" style="text-align:center;">{{item.time|dateFormat:"YYYY-MM-DD"}}</p>
+            <span class="col" style="text-align:right;"><i class="iconfont icon-del f-24"></i></span>
+          </div>
+          <div class="row">
+            <p style="margin-left:2%">{{item.description}}</p>
+          </div>
+        </div>
+        <ion-item class="row row-wrap" style="border:none; text-align:center; height:100%;">
+          <div class="col col-33" ng-repeat="img in item.url">
+            <img ng-src="{{img}}" style="height:100%; width:100%;max-height: 87px;max-height: 119px" ng-click="showbigger(img)" >
+          </div>
+        </ion-item>
+      </div>
+    </ion-list>
+
     <!--<ion-list>
       <ion-item ng-repeat="item in items | orderBy:'-time'" ng-click="gotoHealthDetail($event,item)">
         <div class="row">

@@ -18,6 +18,11 @@
             <p class="myinfo-msg-right"><input type=text ng-model="doctor.gender">{{doctor.gender}}</p>
             <i class="icon ion-edit mine-msg-right"></i>
         </ion-item> -->
+        <ion-item class="item item-input item-select">
+            <span class="input-label"><i class="icon ion-asterisk" style="color:red;font-size:6px"></i>职称</span>
+            <select class="myinfo-msg-right" ng-model="doctor.title" ng-options="Title.Name for Title in Titles track by Title.Type" style="width:100%">
+            </select>               
+        </ion-item>
         <ion-item  class="item item-input item-select">
             <span class="input-label"><i class="icon ion-asterisk" style="color:red;font-size:6px"></i>省份</span>
                 <select class="myinfo-msg-right" ng-model="ProvinceObject" ng-options="Province.name for Province in Provinces track by Province.province" style="width:100%" ng-change="getCity(ProvinceObject.province)">
@@ -32,11 +37,6 @@
             <span class="input-label"><i class="icon ion-asterisk" style="color:red;font-size:6px"></i>医院</span>
                 <select class="myinfo-msg-right" ng-model="HosObject" ng-options="Hospital.hospitalName for Hospital in Hospitals track by Hospital._id" style="width:100%" ng-change="test(HosObject)">
                 </select>
-        </ion-item>
-        <ion-item class="item item-input item-select">
-            <span class="input-label"><i class="icon ion-asterisk" style="color:red;font-size:6px"></i>职称</span>
-            <select class="myinfo-msg-right" ng-model="doctor.title" ng-options="Title.Name for Title in Titles track by Title.Type" style="width:100%">
-            </select>               
         </ion-item>
         <ion-item class="item item-input">
             <span class="input-label"><i class="icon ion-asterisk" style="color:red;font-size:6px"></i>科室</span>

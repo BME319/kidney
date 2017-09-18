@@ -51,6 +51,10 @@
 		            <span class="msg">科室</span>
 					<p class="myinfo-msg-right top16 right15">{{doctor.department}}</p>
 		        </ion-item>
+				<ion-item>
+		            <span class="msg">身份证号</span>
+					<p class="myinfo-msg-right top16 right15">{{doctor.IDNo}}</p>
+		        </ion-item>
 				<ion-item class="item-text-wrap">
 		            <span class="msg" style="position: absolute;">擅长</span>
 					<p class="myinfo-msg-right top16 right15" style="position: absolute;">
@@ -147,6 +151,10 @@
 				<span class="input-label">科室</span>
 				<input type=text ng-model="doctor.department" style="width:100%;text-align: right;">
 			</ion-item>
+			<ion-item class="item item-input">
+				<span class="input-label">身份证号</span>
+				<input type=text ng-model="doctor.IDNo" style="width:100%;text-align: right;">
+			</ion-item>	
 <!-- 			<ion-item class="item item-input">
 				<span style="position: absolute;top:15px;">擅长</span>
 				<div contenteditable="true" ng-model="doctor.major" style="font-size: 15px;position: relative;left:55px;padding: 9px;width:80%; max-height:120px;overflow-y:auto;overflow-x:hidden;">
@@ -176,27 +184,7 @@
 				<img ng-src="{{doctor.practisingPhotoUrl}}"  name="Photo2" ng-click="showoriginal(doctor.practisingPhotoUrl)" ng-click="onClickCamera($event,1)" style="height:30%; width:30%"  />
 	        </ion-item>
 
-			<script id="my-popover1.html" type="text/ng-template">
-            <ion-popover-view>
-              <ion-header-bar class="bar-calm">
-                  <h1 class="title">上传图片</h1>
-              </ion-header-bar>
-            <ion-content>
-              <ion-list> 
-                <div class = "padding">
-                  <button class="button button-block button-primary " ng-click="getPhoto()"><i class="icon ion-camera"></i>
-                      拍照
-                  </button>
-                
-                  <button class="button button-block button-primary " ng-click="onClickCameraPhotos()"><i class="icon ion-image"></i>
-                      相册
-                  </button>
-                 
-                </div>
-              </ion-list>
-            </ion-content>
-          </ion-popover-view>
-        </script>
+			
 			<button ng-click="editinfo()" style="margin-top:0 ;background: #6ac4f8;width: 80%;margin: 0 auto" class="button button-block button-positive mt-40">保存</button>
 
         </div>

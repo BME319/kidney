@@ -1,4 +1,4 @@
-<ion-view title="测量记录">
+<ion-view cache-view="true" title="测量记录">
   <ion-nav-bar class="bar-positive " align-title="center">
     <ion-nav-buttons side="left">
       <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="BacktoPD()"></button>
@@ -8,80 +8,101 @@
     <ion-nav-back-button class="button-icon ion-arrow-left-c">
     </ion-nav-back-button>
   </ion-nav-bar>  -->
-    <div class="button-bar bar-positive" style="margin-top: 40px">
+  <div class="button-bar bar-positive" ng-style="barStyle">
+    <a class="button" href="#/tab/patientDetail">
+      <span class="br-e9" style="vertical-align: sub; text-align:center">患者详情</span>
+    </a>
     <a class="button" href="#/tab/DoctorDiagnose">
-      <span class="br-e9" style="vertical-align: sub">医生诊断</span>
+      <span class="br-e9" style="vertical-align: sub; text-align:center">医生诊断</span>
     </a>
     <a class="button" href="#/tab/TaskSet">
-      <span class="br-e9" style="vertical-align: sub">治疗方案</span>
+      <span class="br-e9" style="vertical-align: sub; text-align:center">健康方案</span>
     </a>
-    <a class="button" href="#/tab/TestRecord">
-      <span class="br-e9" style="vertical-align: sub">测量记录</span>
+    <a class="button" href="#/tab/Report">
+      <span class="br-e9" style="vertical-align: sub; text-align:center">病情报告</span>
     </a>
     <a class="button" href="#/tab/HealthInfo">
-        <span class="br-e9" style="vertical-align: sub">健康信息</span>
+        <span class="br-e9" style="vertical-align: sub; text-align:center">健康信息</span>
     </a>
   </div>
-  <ion-content padding="true" class="has-header" style="margin-top: 42px;">
+  <ion-content padding="true" class="has-header" ng-style="barStyle">
   <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
+       
+  <div class="bar bar-subheader item-input-inset text-center" style="padding:0;position: 0px;top:0px;">
+      <div class="row">
+          <div class="col">
+              <a ng-class="{'high-light':params.isTests}" class="consult-tab" style="" ng-click="showTests()">测量记录（待转移）</a>
+          </div>
+          <div class="col">
+              <a ng-class="{'high-light':!params.isTests}" class="consult-tab" style="" ng-click="showAssays()">化验信息</a>
+          </div>
+      </div>
+  </div>
+
   <!-- <select ng-model="vitalInfo" ng-change="changeVitalInfo(vitalInfo)" ng-controller="TestRecordCtrl">
       <option ng-repeat="option in options" >{{option.SignName}}</option>
   </select>   -->
-<!-- <div ng-show="chartdiv1" > -->
-   <div  id="chartdiv1" style="width: 100%;height:400px;"></div>
+  <!-- <div ng-show="chartdiv1" > -->
+  <div ng-if="params.isTests">
+     <div  id="chartdiv1" style="width: 100%;height:400px;"></div>
+      <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
+      </br>
+
+    <!-- </div> -->
+    <!-- <div ng-show="chartdiv2"> -->
+      <div  id="chartdiv2" style="width: 100%;height:400px;"></div>
+      <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
+        </br>
+    <!-- </div> -->
+    <!-- <div ng-show="chartdiv3"> -->
+      <div  id="chartdiv3" style="width: 100%;height:400px;"></div>
+      <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
+        </br>
+    <!-- </div> -->
+    <!-- <div ng-show="chartdiv4"> -->
+      <div  id="chartdiv4" style="width: 100%;height:400px;"></div>
+      <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
+        </br>
+    <!-- </div> -->
+    <!-- <div ng-show="chartdiv5"> -->
+      <div  id="chartdiv5" style="width: 100%;height:400px;"></div>
+      <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
+        </br>
+  </div>
+  <!-- </div> -->
+  <!--   <div ng-show="chartdiv">
+      <p> 舒张压 ：mmg </p>
+      <div id="chartdiv" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+    </div> -->
+  <!--   <div ng-show="chartdiv1">
+      <p> 收缩压 ：mmg </p>
+      <div id="chartdiv1" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+    </div> -->
+  <!--   <div ng-show="chartdiv2">
+      <p> 体温 ：℃ </p>
+      <div id="chartdiv2" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+    </div>
+    <div ng-show="chartdiv3">
+      <p> 体重 ：kg </p>
+      <div id="chartdiv3" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+    </div>
+    <div ng-show="chartdiv4">
+      <p> 尿量 ：ml </p>
+      <div id="chartdiv4" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+    </div>
+    <div ng-show="chartdiv5">
+      <p> 心率 ：次/分钟 </p>
+      <div id="chartdiv5" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+    </div> -->
+
+
+  <div ng-if="!params.isTests">
+    <div  id="chartdiv11" style="width: 100%;height:400px;"></div>
     <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
     </br>
-
-  <!-- </div> -->
-  <!-- <div ng-show="chartdiv2"> -->
-    <div  id="chartdiv2" style="width: 100%;height:400px;"></div>
-    <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
-      </br>
-  <!-- </div> -->
-  <!-- <div ng-show="chartdiv3"> -->
-    <div  id="chartdiv3" style="width: 100%;height:400px;"></div>
-    <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
-      </br>
-  <!-- </div> -->
-  <!-- <div ng-show="chartdiv4"> -->
-    <div  id="chartdiv4" style="width: 100%;height:400px;"></div>
-    <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
-      </br>
-  <!-- </div> -->
-  <!-- <div ng-show="chartdiv5"> -->
-    <div  id="chartdiv5" style="width: 100%;height:400px;"></div>
-    <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
-      </br>
-
-<!-- </div> -->
-<!--   <div ng-show="chartdiv">
-    <p> 舒张压 ：mmg </p>
-    <div id="chartdiv" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
-  </div> -->
-<!--   <div ng-show="chartdiv1">
-    <p> 收缩压 ：mmg </p>
-    <div id="chartdiv1" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
-  </div> -->
-<!--   <div ng-show="chartdiv2">
-    <p> 体温 ：℃ </p>
-    <div id="chartdiv2" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+<!--     <p ng-click="test()" >test</p> -->
   </div>
-  <div ng-show="chartdiv3">
-    <p> 体重 ：kg </p>
-    <div id="chartdiv3" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
-  </div>
-  <div ng-show="chartdiv4">
-    <p> 尿量 ：ml </p>
-    <div id="chartdiv4" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
-  </div>
-  <div ng-show="chartdiv5">
-    <p> 心率 ：次/分钟 </p>
-    <div id="chartdiv5" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
-  </div> -->
-
-
 
   </ion-content>
 
 </ion-view>
-

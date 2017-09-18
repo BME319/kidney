@@ -36,7 +36,7 @@
                 <img ng-repeat="member in group.members |limitTo:3" ng-src="{{member.photoUrl || 'img/DefaultAvatar.jpg'}}" />
             </div>
         </div>
-        <a style="width:120px;text-align:center;box-shadow: 1px 1.5px 3px #aaa;font-size:1.1em;padding:10px 16px;margin:20px auto" class="item ng-hide" ng-click="request()" ng-show="imnotin">
+        <a style="width:120px;text-align:center;box-shadow: 1px 1.5px 3px #aaa;font-size:1.1em;padding:10px 16px;margin:20px auto" class="item ng-hide" ng-click="request()" ng-hide="alreadyIn">
             立即加入
         </a>
     </ion-content>

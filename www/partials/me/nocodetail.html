@@ -1,0 +1,30 @@
+<ion-view view-title="未及时回复咨询报告">
+    <ion-nav-bar class="bar-positive " align-title="center">
+        <ion-nav-buttons side="left">
+            <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-content>
+        <ion-refresher
+            pulling-text="下拉刷新..."
+            on-refresh="doRefresh()">
+        </ion-refresher>
+
+        <div class="card" ng-repeat="d in details">
+            <div class="item item-text-wrap">
+                <p>医生姓名：{{d.doctorname}}</p>
+                <p>患者姓名：{{d.patientname}}</p>
+                <p>咨询类型：{{d.type | chargeType}} </p>
+                <p>超时类型：{{d.timeouttype | timeType}}</p>
+            </div>
+        </div>
+
+        <ion-infinite-scroll
+            ng-if="doc.hasMore"
+            on-infinite="loadMore()"
+            immediate-check="false"
+            distance="1%">
+        </ion-infinite-scroll>
+    </ion-content>
+</ion-view>

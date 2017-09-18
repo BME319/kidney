@@ -4,32 +4,38 @@
         <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="goback()"></button>
       </ion-nav-buttons>
     </ion-nav-bar>
-    <div class="button-bar bar-positive" style="margin-top: 40px">
+    <div class="button-bar bar-positive" ng-style="barStyle">
+    	<a class="button" href="#/tab/patientDetail">
+			<span class="br-e9" style="vertical-align: sub; text-align:center">患者详情</span>
+		</a>
 		<a class="button" href="#/tab/DoctorDiagnose">
-			<span class="br-e9" style="vertical-align: sub">医生诊断</span>
+			<span class="br-e9" style="vertical-align: sub; text-align:center">医生诊断</span>
 		</a>
 		<a class="button" href="#/tab/TaskSet">
-			<span class="br-e9" style="vertical-align: sub">治疗方案</span>
+			<span class="br-e9" style="vertical-align: sub; text-align:center">健康方案</span>
 		</a>
-		<a class="button" ng-click="gototestrecord()" >
-			<span class="br-e9" style="vertical-align: sub">测量记录</span>
+		<a class="button" href="#/tab/Report">
+			<span class="br-e9" style="vertical-align: sub; text-align:center">病情报告</span>
 		</a>
 		<a class="button" href="#/tab/HealthInfo">
-		    <span class="br-e9" style="vertical-align: sub">健康信息</span>
+		    <span class="br-e9" style="vertical-align: sub; text-align:center">健康信息</span>
 		</a>
 	</div>
-    <ion-content class="has-header" style="margin-top: 42px;">
+    <ion-content class="has-header" ng-style="barStyle">
         <div class="list">  
             <ion-item class="item item-avatar pati-message">
-	        <div class="patient-active img-cen">
+	        <div class="patient-active">
 	          <div>            
-				<img ng-src="{{patient.photoUrl||'img/patient.png'}}">
+				<img ng-src="{{patient.photoUrl||'img/patient.png'}}"  style="width: 50px;height: 50px">
 			  </div>
 			</div>
 				<button class="button button-small button-positive pat-ts bg-f7" ng-click="SendInsMsg()">推送保险</button>
+				<button class="button button-small button-positive pat-ts2 bg-f7" ng-click="sendtoGroup()" ng-if = "(charge||follow)">推荐入组</button>
 	        <div class="row pd-0">
 	          <div class="col pd-0">				
-				<p class="m-b10 "><span class="f16 fc-33 f-w-5">{{patient.name}}</span><span class="f16 fc-33 f-w-5">&nbsp;&nbsp;&nbsp;{{patient.gender | filterGender}}</span>&nbsp;&nbsp;&nbsp;<span class="f16 fc-33 f-w-5">{{patient.birthday | filterAge}}岁</span>
+				<p class="m-b10 ">
+				<span class="f16 fc-33 f-w-5">{{patient.name}}</span><span class="f16 fc-33 f-w-5">&nbsp;&nbsp;&nbsp;{{patient.gender | filterGender}}</span>&nbsp;&nbsp;&nbsp;<span class="f16 fc-33 f-w-5" ng-if = "(patient.birthday)">
+				{{patient.birthday | filterAge}}岁</span><span class="f16 fc-33 f-w-5" ng-if = "!(patient.birthday)">年龄未知</span></p>
 				<p>身份证号：{{patient.IDNo}}</p>
 <!-- 				<p>地区：{{patient.address.province}} {{patient.address.city}}</p> -->
 				<p>是否VIP：{{patient.VIP | filterVIP}}</p>

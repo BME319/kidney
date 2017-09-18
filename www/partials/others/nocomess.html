@@ -1,0 +1,23 @@
+<ion-view view-title="未及时咨询报告推送">
+    <ion-nav-bar class="bar-positive " align-title="center">
+        <ion-nav-buttons side="left">
+            <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+  <ion-content>
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()"></ion-refresher>
+    <ion-list>
+      <ion-item  ng-repeat="c in noCounsels"  ng-if="(c.readOrNot==0)" class="item item-avatar card" ng-click="getDetail(c)">
+        <!-- <img ng-src="{{chat.Photo}}" image-red-point="!chat.readOrNot"> -->
+        <img src="img/time.png" image-red-point="true">
+        <h2 class="groud-d row" style="margin-top: 3px">{{c.title}}</h2>
+        <span class="row" style="margin-top: 2px">{{c.description}}</span>
+        <i class="icon ion-ios-arrow-right mine-msg-right" style="top:24px"></i>
+      </ion-item>
+
+    </ion-list>
+    
+  </ion-content>
+
+</ion-view>

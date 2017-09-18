@@ -1,17 +1,17 @@
 <ion-view title="登录">
-  <ion-nav-bar class="bar-positive bar-calm" style="background: #6ac4f8" align-title="center" >
-     
+  <ion-nav-bar class="bar-positive bar-calm" style="background: #6ac4f8" align-title="center" >     
   </ion-nav-bar>
-  <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2px;background-color: #6ac4f8;{{barwidth}}" ></div>
   <ion-content padding="true"  style=" padding-left:10%;padding-right:10%;background : #ffffff;">
           <div class="list list-inset mt-40" style="margin-bottom:0">
-            <label class="item item-input" style="border:1px solid #6ac4f8;border-radius: 5px">
+            <label class="item item-input" style="border:1px solid #6ac4f8;border-radius: 5px;width: 98%">
               <span class="input" style="margin-right:16px"><i class="icon ion-iphone"></i></span>
               <input type="tel"  ng-model="logOn.username" placeholder="手机号" >
+              <button-clear-input input="logOn.username"></button-clear-input>
             </label>
-            <label class="item item-input" style="margin-top: 10px;border:1px solid #6ac4f8;border-radius: 5px">
+            <label class="item item-input" style="margin-top: 16px;border:1px solid #6ac4f8;border-radius: 5px;width: 98%">
               <span class="input" style="margin-right:16px"><i class="icon ion-ios-locked-outline"></i></span>
               <input type="password" ng-model="logOn.password" placeholder="密 码" >
+              <button-clear-input input="logOn.password"></button-clear-input>              
             </label>
           </div>
           <div class="row" style="padding:0" >
