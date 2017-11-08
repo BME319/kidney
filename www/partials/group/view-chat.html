@@ -24,7 +24,7 @@
                     <textarea style="resize:none;width:100%;min-height:1.4em;height:1.6em;font-size:1.2em;line-height:20px;border-bottom:1px #AAA solid" ng-model="input.text" ng-focus="showMore=false;showVoice=false;scrollBottom()" minlength="1" maxlength="500" dynamic-height placeholder="病历讨论总结"></textarea>
              
                 <!-- <button style="width:2.6em;position:absolute;right:50px;padding:0"  class="button button-icon  iconfont icon-biaoqing" type="submit" ></button> -->
-                <button style="width:2.6em;position:absolute;right:4px;bottom:0px;padding:0" class="button button-icon  iconfont icon-add" type="submit" ng-show="!input.text || input.text === ''" ng-init="showMore=false;" ng-click="showMore==false?showMore=true:showMore=false;showVoice=false;" ng-model="showMore"></button>
+                <!-- <button style="width:2.6em;position:absolute;right:4px;bottom:0px;padding:0" class="button button-icon  iconfont icon-add" type="submit" ng-show="!input.text || input.text === ''" ng-init="showMore=false;" ng-click="showMore==false?showMore=true:showMore=false;showVoice=false;" ng-model="showMore"></button> -->
                 <button style="width:2.6em;position:absolute;bottom:0px;right:9px;padding:0;font-size: 12px;min-height: 30px;height: 30px" class="button button-positive" type="submit" ng-hide="!input.text || input.text === ''" ng-click="save()">保存</button>
                    </div>
             </div>
