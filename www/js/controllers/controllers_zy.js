@@ -977,17 +977,7 @@ angular.module('zy.controllers', ['ionic', 'kidney.services'])
 // 上传资质证书-zxf
 .controller('uploadcertificateCtrl', ['CONFIG', 'Dict', 'Doctor', '$scope', '$state', '$timeout', 'Storage', '$ionicPopup', '$ionicLoading', '$ionicPopover', '$ionicScrollDelegate', 'User', 'Camera', '$ionicModal', '$stateParams', 'socket', 'mySocket', function (CONFIG, Dict, Doctor, $scope, $state, $timeout, Storage, $ionicPopup, $ionicLoading, $ionicPopover, $ionicScrollDelegate, User, Camera, $ionicModal, $stateParams, socket, mySocket) {
   $scope.doctor = {}
-  User.logIn({username: Storage.get('phoneNumber'), password: Storage.get('password'), role: 'doctor'}).then(function (data) {
-    console.log(data)
-    if (data.results.mesg == 'login success!') {
-      $scope.doctor.userId = data.results.userId
-      Storage.set('TOKEN', data.results.token)
-      Storage.set('refreshToken', data.results.refreshToken)
-      Storage.set('reviewStatus', data.results.reviewStatus)
-    }
-  }, function (err) {
-    console.log(err)
-  })
+  $scope.doctor.userId = Storage.get('UID')
 
   $scope.uploadcetify = function () {
     if ($scope.doctor.userId && $scope.doctor.certificatePhotoUrl && $scope.doctor.practisingPhotoUrl) {
